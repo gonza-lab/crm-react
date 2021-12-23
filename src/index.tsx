@@ -5,11 +5,32 @@ import App from './App';
 import { store } from './app/store';
 import { Provider } from 'react-redux';
 import * as serviceWorker from './serviceWorker';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+
+const Home = () => {
+  return <div>home</div>;
+};
+
+const Help = () => {
+  return <div>home</div>;
+};
+
+const Page404 = () => {
+  return <div>404</div>;
+};
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<App />}>
+            <Route path="/home" element={<Home />} />
+            <Route path="/help" element={<Help />} />
+          </Route>
+          <Route path="/404" element={<Page404 />} />
+        </Routes>
+      </BrowserRouter>
     </Provider>
   </React.StrictMode>,
   document.getElementById('root')
