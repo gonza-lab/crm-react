@@ -6,9 +6,11 @@ import { store } from './app/store';
 import { Provider } from 'react-redux';
 import * as serviceWorker from './serviceWorker';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { ThemeProvider } from '@emotion/react';
+import { theme } from './theme';
 
 const Home = () => {
-  return <div>home</div>;
+  return <div>home s</div>;
 };
 
 const Help = () => {
@@ -22,15 +24,17 @@ const Page404 = () => {
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<App />}>
-            <Route path="/home" element={<Home />} />
-            <Route path="/help" element={<Help />} />
-          </Route>
-          <Route path="/404" element={<Page404 />} />
-        </Routes>
-      </BrowserRouter>
+      <ThemeProvider theme={theme}>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<App />}>
+              <Route path="/home" element={<Home />} />
+              <Route path="/help" element={<Help />} />
+            </Route>
+            <Route path="/404" element={<Page404 />} />
+          </Routes>
+        </BrowserRouter>
+      </ThemeProvider>
     </Provider>
   </React.StrictMode>,
   document.getElementById('root')
