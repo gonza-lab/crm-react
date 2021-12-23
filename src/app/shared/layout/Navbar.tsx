@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import {
   AppBar,
@@ -16,17 +15,17 @@ import { Bell as BellIcon } from '../icons/bell';
 import { UserCircle as UserCircleIcon } from '../icons/user-circle';
 import { Users as UsersIcon } from '../icons/users';
 
-const DashboardNavbarRoot = styled(AppBar)(({ theme }: { theme: Theme }) => ({
+const NavbarRoot = styled(AppBar)(({ theme }: { theme: Theme }) => ({
   backgroundColor: theme.palette.background.paper,
   boxShadow: theme.shadows[3],
 }));
 
-export const DashboardNavbar = (props: any) => {
+export const Navbar = (props: any) => {
   const { onSidebarOpen, ...other } = props;
 
   return (
     <>
-      <DashboardNavbarRoot
+      <NavbarRoot
         sx={{
           left: {
             lg: 280,
@@ -85,11 +84,7 @@ export const DashboardNavbar = (props: any) => {
             <UserCircleIcon fontSize="small" />
           </Avatar>
         </Toolbar>
-      </DashboardNavbarRoot>
+      </NavbarRoot>
     </>
   );
-};
-
-DashboardNavbar.propTypes = {
-  onSidebarOpen: PropTypes.func,
 };

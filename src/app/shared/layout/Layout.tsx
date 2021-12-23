@@ -1,10 +1,10 @@
-import { useState } from 'react';
+import { FunctionComponent, useState } from 'react';
 import { Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { DashboardNavbar } from './dashboard-navbar';
-import { DashboardSidebar } from './dashboard-sidebar';
+import { Navbar } from './Navbar';
+import { Sidebar } from './Sidebar';
 
-const DashboardLayoutRoot = styled('div')(({ theme }) => ({
+const LayoutRoot = styled('div')(({ theme }) => ({
   display: 'flex',
   flex: '1 1 auto',
   maxWidth: '100%',
@@ -14,13 +14,13 @@ const DashboardLayoutRoot = styled('div')(({ theme }) => ({
   },
 }));
 
-export const DashboardLayout = (props: { children: JSX.Element }) => {
+export const Layout: FunctionComponent = (props) => {
   const { children } = props;
   const [isSidebarOpen, setSidebarOpen] = useState(true);
 
   return (
     <>
-      <DashboardLayoutRoot>
+      <LayoutRoot>
         <Box
           sx={{
             display: 'flex',
@@ -31,12 +31,9 @@ export const DashboardLayout = (props: { children: JSX.Element }) => {
         >
           {children}
         </Box>
-      </DashboardLayoutRoot>
-      <DashboardNavbar onSidebarOpen={() => setSidebarOpen(true)} />
-      <DashboardSidebar
-        onClose={() => setSidebarOpen(false)}
-        open={isSidebarOpen}
-      />
+      </LayoutRoot>
+      <Navbar onSidebarOpen={() => setSidebarOpen(true)} />
+      <Sidebar onClose={() => setSidebarOpen(false)} open={isSidebarOpen} />
     </>
   );
 };

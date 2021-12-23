@@ -1,11 +1,9 @@
-import { useEffect } from 'react';
-import PropTypes from 'prop-types';
+import { FunctionComponent, useEffect } from 'react';
 import {
   Box,
   Button,
   Divider,
   Drawer,
-  Theme,
   Typography,
   useMediaQuery,
   useTheme,
@@ -21,7 +19,7 @@ import { UserAdd as UserAddIcon } from '../icons/user-add';
 import { Users as UsersIcon } from '../icons/users';
 import { XCircle as XCircleIcon } from '../icons/x-circle';
 import { Logo } from './logo';
-import { NavItem } from './nav-item';
+import { NavItem } from './NavItem';
 
 const items = [
   // {
@@ -30,12 +28,12 @@ const items = [
   //   title: 'Dashboard'
   // },
   {
-    href: '/customers',
+    href: '/home',
     icon: <UsersIcon fontSize="small" />,
     title: 'Customers',
   },
   {
-    href: '/products',
+    href: '/help',
     icon: <ShoppingBagIcon fontSize="small" />,
     title: 'Products',
   },
@@ -66,7 +64,10 @@ const items = [
   },
 ];
 
-export const DashboardSidebar = (props: any) => {
+export const Sidebar: FunctionComponent<{
+  open: boolean;
+  onClose: () => void;
+}> = (props) => {
   const { open, onClose } = props;
   const theme = useTheme();
   const lgUp = useMediaQuery(theme.breakpoints.up('lg'), {
@@ -225,9 +226,4 @@ export const DashboardSidebar = (props: any) => {
       {content}
     </Drawer>
   );
-};
-
-DashboardSidebar.propTypes = {
-  onClose: PropTypes.func,
-  open: PropTypes.bool,
 };
