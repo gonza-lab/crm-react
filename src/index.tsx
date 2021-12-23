@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
 import App from './App';
 import { store } from './app/store';
 import { Provider } from 'react-redux';
@@ -8,18 +7,9 @@ import * as serviceWorker from './serviceWorker';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { ThemeProvider } from '@emotion/react';
 import { theme } from './theme';
-
-const Home = () => {
-  return <div>home s</div>;
-};
-
-const Help = () => {
-  return <div>home</div>;
-};
-
-const Page404 = () => {
-  return <div>404</div>;
-};
+import Orders from './app/orders';
+import Page404 from './app/404/Page404';
+import './app/styles/index.scss';
 
 ReactDOM.render(
   <React.StrictMode>
@@ -28,10 +18,9 @@ ReactDOM.render(
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<App />}>
-              <Route path="/home" element={<Home />} />
-              <Route path="/help" element={<Help />} />
+              <Route path="orders" element={<Orders />} />
             </Route>
-            <Route path="/404" element={<Page404 />} />
+            <Route path="*" element={<Page404 />} />
           </Routes>
         </BrowserRouter>
       </ThemeProvider>
