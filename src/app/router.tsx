@@ -1,6 +1,7 @@
-import { useRoutes } from 'react-router-dom';
-import App from '../App';
-import Page404 from './404/Page404';
+import { Navigate, useRoutes } from 'react-router-dom';
+
+import App from './App';
+import Page404 from './404';
 import Orders from './orders';
 
 const Router = () => {
@@ -14,7 +15,7 @@ const Router = () => {
           element: <Orders />,
         },
         {
-          element: <Orders />,
+          element: <Navigate to="/orders" />,
           index: true,
         },
       ],

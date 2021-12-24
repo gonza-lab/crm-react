@@ -1,19 +1,10 @@
 import { FunctionComponent, useEffect } from 'react';
-import {
-  Box,
-  Button,
-  Divider,
-  Drawer,
-  Typography,
-  useMediaQuery,
-  useTheme,
-} from '@mui/material';
+import { Box, Divider, Drawer, useMediaQuery, useTheme } from '@mui/material';
 
-import { ShoppingCart, OpenInNew } from '@mui/icons-material';
+import { ShoppingCart } from '@mui/icons-material';
 
 import { Logo } from './logo';
 import { NavItem } from './NavItem';
-import { Selector as SelectorIcon } from '../icons/selector';
 
 const items = [
   {
@@ -76,43 +67,6 @@ export const Sidebar: FunctionComponent<{
               title={item.title}
             />
           ))}
-        </Box>
-        <Divider sx={{ borderColor: '#2D3748' }} />
-        <Box
-          sx={{
-            px: 2,
-            py: 3,
-          }}
-        >
-          <Typography color="neutral.100" variant="subtitle2">
-            Need more features?
-          </Typography>
-          <Typography color="neutral.500" variant="body2">
-            Check out our Pro solution template.
-          </Typography>
-          <Box
-            sx={{
-              display: 'flex',
-              mt: 2,
-              mx: 'auto',
-              width: '160px',
-              '& img': {
-                width: '100%',
-              },
-            }}
-          >
-            <img alt="Go to pro" src="/static/images/sidebar_pro.png" />
-          </Box>
-          <Button
-            color="secondary"
-            component="a"
-            endIcon={<OpenInNew />}
-            fullWidth
-            sx={{ mt: 2 }}
-            variant="contained"
-          >
-            Pro Live Preview
-          </Button>
         </Box>
       </Box>
     </>
