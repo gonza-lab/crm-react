@@ -3,6 +3,7 @@ import { Navigate, useRoutes } from 'react-router-dom';
 import App from './App';
 import Page404 from './404';
 import Orders from './orders';
+import Login from './auth/login';
 
 const Router = () => {
   const element = useRoutes([
@@ -19,6 +20,10 @@ const Router = () => {
           index: true,
         },
       ],
+    },
+    {
+      path: '/login',
+      element: <Login />,
     },
     {
       path: '*',

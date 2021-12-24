@@ -5,6 +5,7 @@ import { ShoppingCart } from '@mui/icons-material';
 
 import { Logo } from './logo';
 import { NavItem } from './NavItem';
+import { Link } from 'react-router-dom';
 
 const items = [
   {
@@ -42,14 +43,14 @@ export const Sidebar: FunctionComponent<{
       >
         <div>
           <Box sx={{ p: 3, pb: 0 }}>
-            <a>
+            <Link to="/">
               <Logo
                 sx={{
                   height: 42,
                   width: 42,
                 }}
               />
-            </a>
+            </Link>
           </Box>
         </div>
         <Divider
