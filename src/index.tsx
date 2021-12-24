@@ -1,14 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
-import { store } from './app/store';
-import { Provider } from 'react-redux';
 import * as serviceWorker from './serviceWorker';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+
+import { BrowserRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
 import { ThemeProvider } from '@emotion/react';
+
 import { theme } from './theme';
-import Orders from './app/orders';
-import Page404 from './app/404/Page404';
+import { store } from './app/store';
+import Router from './app/router';
 import './app/styles/index.scss';
 
 ReactDOM.render(
@@ -16,12 +16,7 @@ ReactDOM.render(
     <Provider store={store}>
       <ThemeProvider theme={theme}>
         <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<App />}>
-              <Route path="orders" element={<Orders />} />
-            </Route>
-            <Route path="*" element={<Page404 />} />
-          </Routes>
+          <Router />
         </BrowserRouter>
       </ThemeProvider>
     </Provider>
