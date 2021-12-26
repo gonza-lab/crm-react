@@ -8,7 +8,9 @@ import { ThemeProvider } from '@emotion/react';
 
 import { theme } from './theme';
 import { store } from './app/store';
+
 import Router from './app/router';
+
 import './app/styles/index.scss';
 
 ReactDOM.render(
