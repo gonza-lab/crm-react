@@ -7,7 +7,7 @@ import { Provider } from 'react-redux';
 import { ThemeProvider } from '@emotion/react';
 
 import { theme } from './theme';
-import { store } from './app/store';
+import { store } from './state/store';
 
 import Router from './app/router';
 
