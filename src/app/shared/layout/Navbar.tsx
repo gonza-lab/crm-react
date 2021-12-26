@@ -1,4 +1,4 @@
-import styled from '@emotion/styled';
+import { FunctionComponent } from 'react';
 import {
   AppBar,
   Avatar,
@@ -9,8 +9,12 @@ import {
   Toolbar,
   Tooltip,
 } from '@mui/material';
+
+import { styled } from '@mui/material/styles';
+
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
+
 import { Bell as BellIcon } from '../icons/bell';
 import { UserCircle as UserCircleIcon } from '../icons/user-circle';
 import { Users as UsersIcon } from '../icons/users';
@@ -20,8 +24,10 @@ const NavbarRoot = styled(AppBar)(({ theme }: { theme: Theme }) => ({
   boxShadow: theme.shadows[3],
 }));
 
-export const Navbar = (props: any) => {
-  const { onSidebarOpen, ...other } = props;
+export const Navbar: FunctionComponent<{ onSidebarOpen: () => void }> = (
+  props
+) => {
+  const { onSidebarOpen } = props;
 
   return (
     <>
@@ -34,7 +40,6 @@ export const Navbar = (props: any) => {
             lg: 'calc(100% - 280px)',
           },
         }}
-        {...other}
       >
         <Toolbar
           disableGutters

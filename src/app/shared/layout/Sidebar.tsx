@@ -1,5 +1,6 @@
 import { FunctionComponent, useEffect } from 'react';
-import { Box, Divider, Drawer, useMediaQuery, useTheme } from '@mui/material';
+import { Box, Divider, Drawer, useMediaQuery } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 
 import { ShoppingCart } from '@mui/icons-material';
 

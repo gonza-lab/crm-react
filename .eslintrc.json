@@ -21,7 +21,13 @@
   },
   "plugins": ["react", "@typescript-eslint"],
   "rules": {
-    "@typescript-eslint/explicit-function-return-type": "error"
+    "@typescript-eslint/explicit-function-return-type": "error",
+    "no-restricted-imports": [
+      "error",
+      {
+        "patterns": ["@mui/*/*/*", "!@mui/material/test-utils/*"]
+      }
+    ]
   },
   "overrides": [
     {
