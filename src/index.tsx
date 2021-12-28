@@ -9,7 +9,7 @@ import { ThemeProvider } from '@emotion/react';
 import { theme } from './theme';
 import { store } from './state/store';
 
-import Router from './app/router';
+import App from './app/App';
 
 import './app/styles/index.scss';
 
@@ -18,7 +18,7 @@ ReactDOM.render(
     <Provider store={store}>
       <ThemeProvider theme={theme}>
         <BrowserRouter>
-          <Router />
+          <App />
         </BrowserRouter>
       </ThemeProvider>
     </Provider>

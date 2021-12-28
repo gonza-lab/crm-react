@@ -1,22 +1,14 @@
 import { useEffect } from 'react';
 
-import {
-  Alert,
-  Box,
-  Container,
-  Paper,
-  TextField,
-  Typography,
-} from '@mui/material';
+import { Box, Container, Paper } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import LoadingButton from '@mui/lab/LoadingButton';
 
 import { useNavigate } from 'react-router-dom';
-import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { RootState } from '../../../state/store';
 import { login, UserState, UserStoreStatus } from '../../../state/user/slice';
+import LoginForm from './form/Form';
 
 const codeErrors: {
   [key: number]: string;
@@ -29,29 +21,15 @@ const LoginRoot = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.background.default,
 }));
 
-interface Inputs {
-  email: string;
-  password: string;
-}
-
-interface stateType {
-  from: { pathname: string };
-}
-
 const Login = () => {
-  const { handleSubmit, control } = useForm<Inputs>({
-    defaultValues: {
-      email: '',
-      password: '',
-    },
-  });
   const dispatch = useDispatch();
   const { status, error, data } = useSelector<RootState, UserState>(
     (state) => state.user
   );
   const navigate = useNavigate();
 
-  const onSubmit: SubmitHandler<Inputs> = (data) => dispatch(login(data));
+  const onSubmit = (data: { email: string; password: string }) =>
+    dispatch(login(data));
 
   useEffect(() => {
     if (data) navigate('/', { replace: true });
@@ -77,85 +55,17 @@ const Login = () => {
         }}
       >
         <Container maxWidth="sm">
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <Box sx={{ my: 3 }}>
-              <Typography color="textPrimary" variant="h4">
-                Ingresar
-              </Typography>
-            </Box>
-            <Controller
-              control={control}
-              name="email"
-              rules={{
-                required: 'Debe ingresar su email.',
-                pattern: {
-                  value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                  message: 'Debe ingresar un email válido.',
-                },
-              }}
-              render={({
-                field: { onChange, onBlur, value },
-                fieldState: { error },
-              }) => (
-                <TextField
-                  onChange={onChange}
-                  onBlur={onBlur}
-                  value={value}
-                  fullWidth
-                  label="Email"
-                  margin="normal"
-                  type="email"
-                  variant="outlined"
-                  error={!!error}
-                  helperText={error ? error.message : null}
-                />
-              )}
-            />
-            <Controller
-              control={control}
-              name="password"
-              rules={{ required: 'Debe ingresar su contraseña.' }}
-              render={({
-                field: { onChange, onBlur, value },
-                fieldState: { error },
-              }) => (
-                <TextField
-                  onChange={onChange}
-                  onBlur={onBlur}
-                  value={value}
-                  fullWidth
-                  label="Contraseña"
-                  margin="normal"
-                  type="password"
-                  variant="outlined"
-                  error={!!error}
-                  helperText={error ? error.message : null}
-                />
-              )}
-            />
-            <Box sx={{ py: 2 }}>
-              <LoadingButton
-                color="primary"
-                fullWidth
-                size="large"
-                type="submit"
-                variant="contained"
-                loadingPosition="start"
-                loading={status === UserStoreStatus.loading}
-              >
-                Ingresar
-              </LoadingButton>
-            </Box>
-            {error &&
-              (codeErrors[error] ? (
-                <Alert severity="error">{codeErrors[error]}</Alert>
-              ) : (
-                <Alert severity="error">
-                  Ha ocurrido un error en el servidor. Porfavor, contacte al
-                  administrador e informeselo. Intente ingresar nuevamente.
-                </Alert>
-              ))}
-          </form>
+          <LoginForm
+            onSubmit={onSubmit}
+            isLoadingButton={status === UserStoreStatus.loading}
+            error={
+              error
+                ? codeErrors[error]
+                  ? codeErrors[error]
+                  : 'Ha ocurrido un error en el servidor. Porfavor, contacte al administrador e informeselo. Intente ingresar nuevamente.'
+                : undefined
+            }
+          />
         </Container>
       </Paper>
     </LoginRoot>

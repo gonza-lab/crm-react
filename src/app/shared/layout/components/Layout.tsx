@@ -3,6 +3,7 @@ import { Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { Navbar } from './Navbar';
 import { Sidebar } from './Sidebar';
+import { Outlet } from 'react-router-dom';
 
 const LayoutRoot = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -14,8 +15,7 @@ const LayoutRoot = styled('div')(({ theme }) => ({
   },
 }));
 
-export const Layout: FunctionComponent = (props) => {
-  const { children } = props;
+export const Layout: FunctionComponent = () => {
   const [isSidebarOpen, setSidebarOpen] = useState(true);
 
   return (
@@ -29,7 +29,7 @@ export const Layout: FunctionComponent = (props) => {
             width: '100%',
           }}
         >
-          {children}
+          <Outlet />
         </Box>
       </LayoutRoot>
       <Navbar onSidebarOpen={() => setSidebarOpen(true)} />

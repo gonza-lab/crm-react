@@ -3,6 +3,7 @@ import { UserDB } from '../../interfaces/User';
 import AuthService from '../../service/AuthService';
 
 enum Status {
+  renew = 'renew token',
   idle = 'idle',
   loading = 'loading',
   succeeded = 'succeeded',
@@ -15,7 +16,7 @@ export interface UserState {
 }
 
 const defaultState: UserState = {
-  status: Status.idle,
+  status: Status.renew,
 };
 
 export const login = createAsyncThunk(
@@ -34,11 +35,23 @@ export const login = createAsyncThunk(
   }
 );
 
+export const renew = createAsyncThunk('user/renew', async () => {
+  const authService = new AuthService();
+
+  const response = await authService.renew();
+  return response;
+});
+
 const slice = createSlice({
   name: 'user',
   initialState: defaultState,
-  reducers: {},
+  reducers: {
+    setStatus: (state, { payload }: { payload: Status }) => {
+      state.status = payload;
+    },
+  },
   extraReducers: (builder) => {
+    //LOGIN
     builder.addCase(login.pending, (state) => {
       state.status = Status.loading;
     });
@@ -52,9 +65,28 @@ const slice = createSlice({
       state.status = Status.succeeded;
       state.data = action.payload.data;
       state.error = undefined;
+
+      localStorage.setItem('x-token', action.payload.data.jwt);
+    });
+
+    //RENEW
+    builder.addCase(renew.pending, (state) => {
+      state.status = Status.renew;
+    });
+
+    builder.addCase(renew.rejected, (state) => {
+      state.status = Status.idle;
+    });
+
+    builder.addCase(renew.fulfilled, (state, action) => {
+      state.status = Status.succeeded;
+      state.data = action.payload.data;
+      localStorage.setItem('x-token', action.payload.data.jwt);
     });
   },
 });
+
+export const { setStatus } = slice.actions;
 
 export { Status as UserStoreStatus };
 
