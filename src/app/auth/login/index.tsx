@@ -1,21 +1,48 @@
 import {
+  Alert,
   Box,
-  Button,
   Container,
-  Link,
   Paper,
   TextField,
   Typography,
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { Link as LinkRouter } from 'react-router-dom';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { useDispatch, useSelector } from 'react-redux';
+import { login, UserState, UserStoreStatus } from '../../../state/user/slice';
+import LoadingButton from '@mui/lab/LoadingButton';
+import { RootState } from '../../../state/store';
+
+const codeErrors: {
+  [key: number]: string;
+} = {
+  404: 'El email que ha ingresado no se encuentra registrado.',
+  401: 'La contraseña que ha ingresado es incorrecta.',
+};
 
 const LoginRoot = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.background.default,
 }));
 
+interface Inputs {
+  email: string;
+  password: string;
+}
+
 const Login = () => {
+  const { handleSubmit, control } = useForm<Inputs>({
+    defaultValues: {
+      email: '',
+      password: '',
+    },
+  });
+  const dispatch = useDispatch();
+  const { status, error } = useSelector<RootState, UserState>(
+    (state) => state.user
+  );
+
+  const onSubmit: SubmitHandler<Inputs> = (data) => dispatch(login(data));
+
   return (
     <LoginRoot
       component="main"
@@ -36,62 +63,84 @@ const Login = () => {
         }}
       >
         <Container maxWidth="sm">
-          <LinkRouter to="/">
-            <Button
-              component="a"
-              startIcon={<ArrowBackIcon fontSize="small" />}
-            >
-              Inicio
-            </Button>
-          </LinkRouter>
-          <form>
+          <form onSubmit={handleSubmit(onSubmit)}>
             <Box sx={{ my: 3 }}>
               <Typography color="textPrimary" variant="h4">
-                Sign in
+                Ingresar
               </Typography>
             </Box>
-            <TextField
-              fullWidth
-              label="Email Address"
-              margin="normal"
+            <Controller
+              control={control}
               name="email"
-              type="email"
-              variant="outlined"
+              rules={{
+                required: 'Debe ingresar su email.',
+                pattern: {
+                  value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                  message: 'Debe ingresar un email válido.',
+                },
+              }}
+              render={({
+                field: { onChange, onBlur, value },
+                fieldState: { error },
+              }) => (
+                <TextField
+                  onChange={onChange}
+                  onBlur={onBlur}
+                  value={value}
+                  fullWidth
+                  label="Email"
+                  margin="normal"
+                  type="email"
+                  variant="outlined"
+                  error={!!error}
+                  helperText={error ? error.message : null}
+                />
+              )}
             />
-            <TextField
-              fullWidth
-              label="Password"
-              margin="normal"
+            <Controller
+              control={control}
               name="password"
-              type="password"
-              variant="outlined"
+              rules={{ required: 'Debe ingresar su contraseña.' }}
+              render={({
+                field: { onChange, onBlur, value },
+                fieldState: { error },
+              }) => (
+                <TextField
+                  onChange={onChange}
+                  onBlur={onBlur}
+                  value={value}
+                  fullWidth
+                  label="Contraseña"
+                  margin="normal"
+                  type="password"
+                  variant="outlined"
+                  error={!!error}
+                  helperText={error ? error.message : null}
+                />
+              )}
             />
             <Box sx={{ py: 2 }}>
-              <Button
+              <LoadingButton
                 color="primary"
                 fullWidth
                 size="large"
                 type="submit"
                 variant="contained"
+                loadingPosition="start"
+                loading={status === UserStoreStatus.loading}
               >
-                Sign In Now
-              </Button>
+                Ingresar
+              </LoadingButton>
             </Box>
-            <Typography color="textSecondary" variant="body2">
-              Don&apos;t have an account?{' '}
-              <LinkRouter to="/register">
-                <Link
-                  component="span"
-                  variant="subtitle2"
-                  underline="hover"
-                  sx={{
-                    cursor: 'pointer',
-                  }}
-                >
-                  Sign Up
-                </Link>
-              </LinkRouter>
-            </Typography>
+            {error &&
+              (codeErrors[error] ? (
+                <Alert severity="error">{codeErrors[error]}</Alert>
+              ) : (
+                <Alert severity="error">
+                  Ha ocurrido un error en el servidor. Porfavor, contacte al
+                  administrador e informeselo. Intente ingresar nuevamente.
+                </Alert>
+              ))}
           </form>
         </Container>
       </Paper>
