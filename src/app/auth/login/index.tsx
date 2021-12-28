@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+
 import {
   Alert,
   Box,
@@ -7,11 +9,14 @@ import {
   Typography,
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
+import LoadingButton from '@mui/lab/LoadingButton';
+
+import { useNavigate } from 'react-router-dom';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
-import { login, UserState, UserStoreStatus } from '../../../state/user/slice';
-import LoadingButton from '@mui/lab/LoadingButton';
+
 import { RootState } from '../../../state/store';
+import { login, UserState, UserStoreStatus } from '../../../state/user/slice';
 
 const codeErrors: {
   [key: number]: string;
@@ -29,6 +34,10 @@ interface Inputs {
   password: string;
 }
 
+interface stateType {
+  from: { pathname: string };
+}
+
 const Login = () => {
   const { handleSubmit, control } = useForm<Inputs>({
     defaultValues: {
@@ -37,11 +46,16 @@ const Login = () => {
     },
   });
   const dispatch = useDispatch();
-  const { status, error } = useSelector<RootState, UserState>(
+  const { status, error, data } = useSelector<RootState, UserState>(
     (state) => state.user
   );
+  const navigate = useNavigate();
 
   const onSubmit: SubmitHandler<Inputs> = (data) => dispatch(login(data));
+
+  useEffect(() => {
+    if (data) navigate('/', { replace: true });
+  }, [data]);
 
   return (
     <LoginRoot
