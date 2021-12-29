@@ -53,8 +53,11 @@ export const updateData = createAsyncThunk(
   async (changes: UserUpdateRequest) => {
     const authService = new AuthService();
 
+    if (!changes.password) delete changes.password;
+
     await authService.update(changes);
 
+    delete changes.password;
     return changes;
   }
 );

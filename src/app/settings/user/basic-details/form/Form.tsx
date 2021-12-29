@@ -22,7 +22,7 @@ const BasicDetailsForm: FunctionComponent<{
   const { data, status } = useSelector<RootState, UserState>(
     (state) => state.user
   );
-  const { control, handleSubmit } = useForm<InputBasicDetailsForm>({
+  const { control, handleSubmit, setValue } = useForm<InputBasicDetailsForm>({
     defaultValues: {
       first_name: data?.first_name || '',
       last_name: data?.last_name || '',
@@ -34,6 +34,7 @@ const BasicDetailsForm: FunctionComponent<{
   const _onSubmit = (data: InputBasicDetailsForm) => {
     onSubmit && onSubmit(data);
     setDisabled(true);
+    setValue('password', '');
   };
 
   return (
@@ -93,9 +94,6 @@ const BasicDetailsForm: FunctionComponent<{
       <Controller
         control={control}
         name="password"
-        rules={{
-          required: 'Debe ingresar su contraseña.',
-        }}
         render={({
           field: { onChange, onBlur, value },
           fieldState: { error },
@@ -108,7 +106,7 @@ const BasicDetailsForm: FunctionComponent<{
             fullWidth
             label="Contraseña"
             margin="normal"
-            type="text"
+            type="password"
             variant="outlined"
             error={!!error}
             helperText={error ? error.message : null}
