@@ -1,7 +1,7 @@
 import { FunctionComponent, useState } from 'react';
 import { Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { Navbar } from './Navbar';
+import { Navbar } from './navbar/Navbar';
 import { Sidebar } from './Sidebar';
 import { Outlet } from 'react-router-dom';
 
@@ -12,6 +12,9 @@ const LayoutRoot = styled('div')(({ theme }) => ({
   paddingTop: 64,
   [theme.breakpoints.up('lg')]: {
     paddingLeft: 280,
+  },
+  '& > div': {
+    backgroundColor: theme.palette.background.default,
   },
 }));
 
@@ -27,6 +30,7 @@ export const Layout: FunctionComponent = () => {
             flex: '1 1 auto',
             flexDirection: 'column',
             width: '100%',
+            height: '100%',
           }}
         >
           <Outlet />

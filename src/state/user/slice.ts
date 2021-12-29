@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { UserDB } from '../../interfaces/User';
 import AuthService from '../../service/AuthService';
@@ -49,6 +50,11 @@ const slice = createSlice({
     setStatus: (state, { payload }: { payload: Status }) => {
       state.status = payload;
     },
+    logout: (state) => {
+      state.data = undefined;
+      state.error = undefined;
+      localStorage.removeItem('x-token');
+    },
   },
   extraReducers: (builder) => {
     //LOGIN
@@ -86,7 +92,7 @@ const slice = createSlice({
   },
 });
 
-export const { setStatus } = slice.actions;
+export const { setStatus, logout } = slice.actions;
 
 export { Status as UserStoreStatus };
 

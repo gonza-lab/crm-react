@@ -11,17 +11,17 @@ import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import LoadingButton from '@mui/lab/LoadingButton';
 
-interface Inputs {
+interface InputsLoginForm {
   email: string;
   password: string;
 }
 
 const LoginForm: FunctionComponent<{
-  onSubmit?: (data: Inputs) => void;
+  onSubmit?: (data: InputsLoginForm) => void;
   error?: string;
   isLoadingButton?: boolean;
 }> = ({ onSubmit, error, isLoadingButton }) => {
-  const { handleSubmit, control } = useForm<Inputs>({
+  const { handleSubmit, control } = useForm<InputsLoginForm>({
     defaultValues: {
       email: '',
       password: '',
@@ -32,7 +32,7 @@ const LoginForm: FunctionComponent<{
     'password'
   );
 
-  const submitHandler: SubmitHandler<Inputs> = (data) =>
+  const submitHandler: SubmitHandler<InputsLoginForm> = (data) =>
     onSubmit && onSubmit(data);
 
   return (
@@ -97,7 +97,6 @@ const LoginForm: FunctionComponent<{
                       )
                     }
                     onMouseDown={(e) => e.preventDefault()}
-                    edge="end"
                   >
                     {typePassword !== 'password' ? (
                       <VisibilityOff />
@@ -128,15 +127,6 @@ const LoginForm: FunctionComponent<{
         </LoadingButton>
       </Box>
       {error && <Alert severity="error">{error}</Alert>}
-      {/* {error &&
-        (codeErrors[error] ? (
-          <Alert severity="error">{codeErrors[error]}</Alert>
-        ) : (
-          <Alert severity="error">
-            Ha ocurrido un error en el servidor. Porfavor, contacte al
-            administrador e informeselo. Intente ingresar nuevamente.
-          </Alert>
-        ))} */}
     </form>
   );
 };

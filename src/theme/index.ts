@@ -112,7 +112,7 @@ export const theme = createTheme({
           minHeight: '100%',
           width: '100%',
         },
-        '#__next': {
+        '#root': {
           display: 'flex',
           flex: '1 1 auto',
           flexDirection: 'column',
