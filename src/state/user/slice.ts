@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import UserUpdateRequest from '../../interfaces/UserUpdateRequest';
 import { UserDB } from '../../interfaces/User';
 import AuthService from '../../service/AuthService';
 
@@ -9,17 +10,21 @@ enum Status {
   loading = 'loading',
   succeeded = 'succeeded',
   failed = 'failed',
+  updatingData = 'updating data',
 }
 export interface UserState {
   status: Status;
   data?: UserDB;
   error?: number;
+  auth: boolean;
 }
 
 const defaultState: UserState = {
   status: Status.renew,
+  auth: false,
 };
 
+//THUNKS
 export const login = createAsyncThunk(
   'user/login',
   async (
@@ -43,6 +48,17 @@ export const renew = createAsyncThunk('user/renew', async () => {
   return response;
 });
 
+export const updateData = createAsyncThunk(
+  'user/udpate_data',
+  async (changes: UserUpdateRequest) => {
+    const authService = new AuthService();
+
+    await authService.update(changes);
+
+    return changes;
+  }
+);
+
 const slice = createSlice({
   name: 'user',
   initialState: defaultState,
@@ -53,6 +69,7 @@ const slice = createSlice({
     logout: (state) => {
       state.data = undefined;
       state.error = undefined;
+      state.auth = false;
       localStorage.removeItem('x-token');
     },
   },
@@ -65,12 +82,14 @@ const slice = createSlice({
     builder.addCase(login.rejected, (state, action: any) => {
       state.status = Status.failed;
       state.error = action.payload;
+      state.auth = false;
     });
 
     builder.addCase(login.fulfilled, (state, action) => {
       state.status = Status.succeeded;
       state.data = action.payload.data;
       state.error = undefined;
+      state.auth = true;
 
       localStorage.setItem('x-token', action.payload.data.jwt);
     });
@@ -82,12 +101,24 @@ const slice = createSlice({
 
     builder.addCase(renew.rejected, (state) => {
       state.status = Status.idle;
+      state.auth = false;
     });
 
     builder.addCase(renew.fulfilled, (state, action) => {
       state.status = Status.succeeded;
       state.data = action.payload.data;
+      state.auth = true;
       localStorage.setItem('x-token', action.payload.data.jwt);
+    });
+
+    //USER
+    builder.addCase(updateData.pending, (state) => {
+      state.status = Status.updatingData;
+    });
+
+    builder.addCase(updateData.fulfilled, (state, { payload }) => {
+      state.status = Status.succeeded;
+      Object.assign(state.data, payload);
     });
   },
 });

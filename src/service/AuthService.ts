@@ -1,9 +1,10 @@
 import LoginResponse from '../interfaces/LoginResponse';
 import RenewResponse from '../interfaces/RenewResponse';
+import UserUpdateRequest from '../interfaces/UserUpdateRequest';
 import ApiService from './ApiService';
 
 export default class AuthService extends ApiService {
-  private baseUrl = '/user/';
+  private baseUrl = '/user';
 
   constructor() {
     super();
@@ -17,7 +18,7 @@ export default class AuthService extends ApiService {
     password: string;
   }): Promise<LoginResponse> {
     const { data } = await this.axios.post<LoginResponse>(
-      `${this.baseUrl}login`,
+      `${this.baseUrl}/login`,
       {
         email,
         password,
@@ -28,15 +29,14 @@ export default class AuthService extends ApiService {
   }
 
   async renew(): Promise<RenewResponse> {
-    const headers = { 'x-token': localStorage.getItem('x-token') || '' };
-
     const { data } = await this.axios.get<RenewResponse>(
-      `${this.baseUrl}renew`,
-      {
-        headers,
-      }
+      `${this.baseUrl}/renew`
     );
 
     return data;
+  }
+
+  async update(changes: UserUpdateRequest): Promise<void> {
+    await this.axios.put(`${this.baseUrl}`, changes);
   }
 }

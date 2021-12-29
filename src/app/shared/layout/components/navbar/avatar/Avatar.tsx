@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { RootState } from '../../../../../../state/store';
 import { logout, UserState } from '../../../../../../state/user/slice';
+import { Link } from 'react-router-dom';
 
 const Avatar = () => {
   const dispatch = useDispatch();
@@ -69,10 +70,12 @@ const Avatar = () => {
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
         <MenuItem>
-          <ListItemIcon>
-            <Settings fontSize="small" />
-          </ListItemIcon>
-          Configuración
+          <Link to="/settings/user">
+            <ListItemIcon>
+              <Settings fontSize="small" />
+            </ListItemIcon>
+            Configuración
+          </Link>
         </MenuItem>
         <Divider />
         <MenuItem onClick={() => dispatch(logout())}>

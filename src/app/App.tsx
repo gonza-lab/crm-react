@@ -30,10 +30,6 @@ function App() {
     dispatch(renew());
   }, []);
 
-  useEffect(() => {
-    if (user) navigate('/');
-  }, [user]);
-
   if (status === UserStoreStatus.renew) return <LoadingPage />;
 
   return <Router />;

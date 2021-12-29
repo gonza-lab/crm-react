@@ -10,12 +10,14 @@ import Orders from './orders';
 import Login from './auth/login';
 
 import { Layout } from './shared/layout/components/Layout';
+import settingsRoutes from './settings/Routes';
+import { UserState } from '../state/user/slice';
 
 const RequireAuth: FunctionComponent = ({ children }) => {
-  const user = useSelector<RootState>((state) => state.user.data);
+  const { auth } = useSelector<RootState, UserState>((state) => state.user);
   const location = useLocation();
 
-  if (!user) {
+  if (!auth) {
     return <Navigate to="/login" state={{ from: location }} replace />;
   }
 
@@ -40,6 +42,7 @@ const Router = () => {
           element: <Navigate to="/orders" />,
           index: true,
         },
+        settingsRoutes,
       ],
     },
     {
