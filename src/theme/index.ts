@@ -319,3 +319,16 @@ export const theme = createTheme({
     },
   },
 });
+
+theme.typography.h4 = {
+  ...theme.typography.h3,
+  [theme.breakpoints.up('xs')]: {
+    fontSize: '1.5rem',
+  },
+  [theme.breakpoints.up('sm')]: {
+    fontSize: '1.8182rem',
+  },
+  [theme.breakpoints.up('md')]: {
+    fontSize: '2rem',
+  },
+};
