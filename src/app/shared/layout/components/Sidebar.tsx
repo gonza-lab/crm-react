@@ -2,7 +2,7 @@ import { FunctionComponent, useEffect } from 'react';
 import { Box, Divider, Drawer, useMediaQuery } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 
-import { ShoppingCart } from '@mui/icons-material';
+import ReceiptIcon from '@mui/icons-material/Receipt';
 
 import { Logo } from './logo';
 import { NavItem } from './NavItem';
@@ -10,9 +10,9 @@ import { Link } from 'react-router-dom';
 
 const items = [
   {
-    href: '/orders',
-    icon: <ShoppingCart fontSize="small" />,
-    title: 'Ordenes',
+    href: '/recibos',
+    icon: <ReceiptIcon fontSize="small" />,
+    title: 'Recibos',
   },
 ];
 

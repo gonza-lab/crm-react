@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../state/store';
 
 import Page404 from './404';
-import Orders from './orders';
+import Invoices from './invoices';
 import Login from './auth/login';
 
 import { Layout } from './shared/layout/components/Layout';
@@ -35,11 +35,11 @@ const Router = () => {
       ),
       children: [
         {
-          path: 'orders',
-          element: <Orders />,
+          path: 'recibos', /////////
+          element: <Invoices />, /////
         },
         {
-          element: <Navigate to="/orders" />,
+          element: <Navigate to="/recibos" />, ///////
           index: true,
         },
         settingsRoutes,
