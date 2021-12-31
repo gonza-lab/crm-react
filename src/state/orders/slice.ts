@@ -6,6 +6,7 @@ import {
 import OrderDB from '../../interfaces/OrderDB';
 import OrderService from '../../service/OrderService';
 import { RootState } from '../store';
+import { compareAsc } from 'date-fns';
 
 enum Status {
   idle = 'idle',
@@ -17,7 +18,10 @@ interface State {
   error: null;
 }
 
-const orderAdapter = createEntityAdapter<OrderDB>();
+const orderAdapter = createEntityAdapter<OrderDB>({
+  sortComparer: (a, b) =>
+    compareAsc(new Date(b.updatedAt), new Date(a.updatedAt)),
+});
 
 const initialState = orderAdapter.getInitialState<State>({
   status: Status.idle,
