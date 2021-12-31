@@ -1,7 +1,16 @@
 import { Box, Button, Typography } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
+import { useDispatch } from 'react-redux';
+import { useEffect } from 'react';
+import { readAll } from '../../state/orders/slice';
 
 const Invoices = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(readAll());
+  }, []);
+
   return (
     <Box
       component="main"
