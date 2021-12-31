@@ -16,6 +16,7 @@ enum Status {
 interface State {
   status: Status;
   error: null;
+  isOpenDrawer: boolean;
 }
 
 const orderAdapter = createEntityAdapter<OrderDB>({
@@ -26,6 +27,7 @@ const orderAdapter = createEntityAdapter<OrderDB>({
 const initialState = orderAdapter.getInitialState<State>({
   status: Status.idle,
   error: null,
+  isOpenDrawer: false,
 });
 
 const readAll = createAsyncThunk('orders/read_all', async () => {
@@ -38,7 +40,11 @@ const readAll = createAsyncThunk('orders/read_all', async () => {
 const slice = createSlice({
   name: 'orders',
   initialState,
-  reducers: {},
+  reducers: {
+    toggleDrawer: (state) => {
+      state.isOpenDrawer = !state.isOpenDrawer;
+    },
+  },
   extraReducers(builder) {
     builder.addCase(readAll.pending, (state) => {
       state.status = Status.loadingOrders;
@@ -56,6 +62,8 @@ export const {
   selectById: selectOrderById,
   selectIds: selectOrdersIds,
 } = orderAdapter.getSelectors<RootState>((state) => state.orders);
+
+export const { toggleDrawer: toggleOrderDrawer } = slice.actions;
 
 export { readAll };
 

@@ -10,7 +10,7 @@ import {
 } from '@mui/material';
 import { styled /* useTheme */ } from '@mui/material/styles';
 
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
@@ -18,7 +18,10 @@ import { es } from 'date-fns/locale';
 import OrderDB from '../../../interfaces/OrderDB';
 import OrderStatusColor from '../../../enums/OrderStatusColor';
 
-import { selectOrderById } from '../../../state/orders/slice';
+import {
+  selectOrderById,
+  toggleOrderDrawer,
+} from '../../../state/orders/slice';
 import { RootState } from '../../../state/store';
 import toMoneyFormat from '../../../util/toMoneyFormat';
 
@@ -45,10 +48,14 @@ const BoxGray = styled(Box)(({ theme }) => ({
 }));
 
 const OrderListItem: FunctionComponent<{ id: string | number }> = ({ id }) => {
+  const dispatch = useDispatch();
   const order = useSelector<RootState, OrderDB | undefined>((state) =>
     selectOrderById(state, id)
   );
 
+  const toggleDrawer = () => {
+    dispatch(toggleOrderDrawer());
+  };
   //ESTO ES PARA SABER SI ESTOY EN MOBILE O NO
   // const theme = useTheme();
   // const matches = useMediaQuery(theme.breakpoints.down('md'));
@@ -56,7 +63,7 @@ const OrderListItem: FunctionComponent<{ id: string | number }> = ({ id }) => {
   if (!order) return <></>;
 
   return (
-    <TableRow>
+    <TableRow onClick={toggleDrawer}>
       <TableCell>
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <BoxGray sx={{ p: 1, textAlign: 'center', ml: { md: 2 } }}>
