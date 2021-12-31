@@ -332,3 +332,8 @@ theme.typography.h4 = {
     fontSize: '2rem',
   },
 };
+
+theme.typography.body2 = {
+  ...theme.typography.body2,
+  color: theme.palette.text.secondary,
+};

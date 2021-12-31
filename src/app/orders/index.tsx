@@ -1,34 +1,49 @@
+import { useEffect } from 'react';
 import { Box, Button, Typography } from '@mui/material';
+import { styled } from '@mui/material/styles';
 import AddIcon from '@mui/icons-material/Add';
+import { useDispatch } from 'react-redux';
+
+import { readAll } from '../../state/orders/slice';
+import OrdersList from './list/List';
+
+const BoxRoot = styled(Box)(({ theme }) => ({
+  backgroundColor: theme.palette.background.paper,
+}));
 
 const Orders = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(readAll());
+  }, []);
+
   return (
-    <Box
+    <BoxRoot
       component="main"
       sx={{
         flexGrow: 1,
-        px: 3,
         py: 8,
       }}
     >
       <Box
         sx={{
           display: 'flex',
-          flexDirection: { xs: 'column', md: 'row' },
-          justifyContent: { md: 'space-between' },
-          alignItems: { md: 'center' },
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          px: 3,
+          mb: 3,
         }}
       >
-        <Typography sx={{ mb: 3 }} variant="h4">
-          Pedidos
-        </Typography>
+        <Typography variant="h4">Pedidos</Typography>
         <Box>
           <Button variant="contained" startIcon={<AddIcon />}>
             Nuevo
           </Button>
         </Box>
       </Box>
-    </Box>
+      <OrdersList />
+    </BoxRoot>
   );
 };
 

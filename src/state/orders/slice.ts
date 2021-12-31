@@ -20,7 +20,7 @@ interface State {
 
 const orderAdapter = createEntityAdapter<OrderDB>({
   sortComparer: (a, b) =>
-    compareAsc(new Date(b.updatedAt), new Date(a.updatedAt)),
+    compareAsc(new Date(a.updatedAt), new Date(b.updatedAt)),
 });
 
 const initialState = orderAdapter.getInitialState<State>({
