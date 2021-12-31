@@ -12,6 +12,7 @@ import Login from './auth/login';
 import { Layout } from './shared/layout/components/Layout';
 import settingsRoutes from './settings/Routes';
 import { UserState } from '../state/user/slice';
+import Orders from './orders';
 
 const RequireAuth: FunctionComponent = ({ children }) => {
   const { auth } = useSelector<RootState, UserState>((state) => state.user);
@@ -35,11 +36,15 @@ const Router = () => {
       ),
       children: [
         {
-          path: 'recibos', /////////
-          element: <Invoices />, /////
+          path: 'pedidos',
+          element: <Orders />,
         },
         {
-          element: <Navigate to="/recibos" />, ///////
+          path: 'recibos',
+          element: <Invoices />,
+        },
+        {
+          element: <Navigate to="/pedidos" />,
           index: true,
         },
         settingsRoutes,
