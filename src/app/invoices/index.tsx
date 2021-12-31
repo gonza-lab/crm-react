@@ -3,6 +3,7 @@ import AddIcon from '@mui/icons-material/Add';
 import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import { readAll } from '../../state/orders/slice';
+import InvoiceList from './list/List';
 
 const Invoices = () => {
   const dispatch = useDispatch();
@@ -37,6 +38,7 @@ const Invoices = () => {
           </Button>
         </Box>
       </Box>
+      <InvoiceList />
     </Box>
   );
 };

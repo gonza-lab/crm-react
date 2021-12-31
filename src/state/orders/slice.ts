@@ -3,6 +3,7 @@ import {
   createEntityAdapter,
   createSlice,
 } from '@reduxjs/toolkit';
+import OrderDB from '../../interfaces/OrderDB';
 import OrderService from '../../service/OrderService';
 import { RootState } from '../store';
 
@@ -16,7 +17,7 @@ interface State {
   error: null;
 }
 
-const orderAdapter = createEntityAdapter();
+const orderAdapter = createEntityAdapter<OrderDB>();
 
 const initialState = orderAdapter.getInitialState<State>({
   status: Status.idle,

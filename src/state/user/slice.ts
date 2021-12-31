@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import UserDB from '../../interfaces/UserDB';
 import UserUpdateRequest from '../../interfaces/UserUpdateRequest';
-import { UserDB } from '../../interfaces/User';
 import AuthService from '../../service/AuthService';
 
 enum Status {

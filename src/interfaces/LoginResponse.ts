@@ -1,4 +1,4 @@
-import { UserDB } from './User';
+import UserDB from './UserDB';
 
 interface LoginResponseData extends UserDB {
   jwt: string;

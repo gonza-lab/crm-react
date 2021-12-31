@@ -1,4 +1,5 @@
 export default interface User {
+  id: number;
   first_name: string;
   last_name?: string;
   email: string;
@@ -9,10 +10,4 @@ export default interface User {
   address: string;
   zip_code: string;
   roleId: number;
-}
-
-export interface UserDB extends User {
-  id: number;
-  createdAt: Date;
-  updatedAt: Date;
 }

@@ -1,4 +1,4 @@
-import { UserDB } from './User';
+import UserDB from './UserDB';
 
 interface RenewResponseData extends UserDB {
   jwt: string;
