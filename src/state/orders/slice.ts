@@ -2,6 +2,7 @@ import {
   createAsyncThunk,
   createEntityAdapter,
   createSlice,
+  PayloadAction,
 } from '@reduxjs/toolkit';
 import OrderDB from '../../interfaces/OrderDB';
 import OrderService from '../../service/OrderService';
@@ -16,7 +17,10 @@ enum Status {
 interface State {
   status: Status;
   error: null;
-  isOpenDrawer: boolean;
+  drawer: {
+    isOpen: boolean;
+    orderId?: number;
+  };
 }
 
 const orderAdapter = createEntityAdapter<OrderDB>({
@@ -27,7 +31,9 @@ const orderAdapter = createEntityAdapter<OrderDB>({
 const initialState = orderAdapter.getInitialState<State>({
   status: Status.idle,
   error: null,
-  isOpenDrawer: false,
+  drawer: {
+    isOpen: false,
+  },
 });
 
 const readAll = createAsyncThunk('orders/read_all', async () => {
@@ -42,7 +48,10 @@ const slice = createSlice({
   initialState,
   reducers: {
     toggleDrawer: (state) => {
-      state.isOpenDrawer = !state.isOpenDrawer;
+      state.drawer.isOpen = !state.drawer.isOpen;
+    },
+    selectOrderDrawer: (state, action: PayloadAction<number>) => {
+      state.drawer.orderId = action.payload;
     },
   },
   extraReducers(builder) {
@@ -59,11 +68,12 @@ const slice = createSlice({
 
 export const {
   selectAll: selectAllOrders,
-  selectById: selectOrderById,
   selectIds: selectOrdersIds,
+  selectById: selectOrderById,
 } = orderAdapter.getSelectors<RootState>((state) => state.orders);
 
-export const { toggleDrawer: toggleOrderDrawer } = slice.actions;
+export const { toggleDrawer: toggleOrderDrawer, selectOrderDrawer } =
+  slice.actions;
 
 export { readAll };
 

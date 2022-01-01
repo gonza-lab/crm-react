@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react';
+import { FunctionComponent, useCallback } from 'react';
 
 import {
   Box,
@@ -6,7 +6,6 @@ import {
   TableCell,
   TableRow as MuiTableRow,
   Typography,
-  useMediaQuery,
 } from '@mui/material';
 import { styled /* useTheme */ } from '@mui/material/styles';
 
@@ -20,6 +19,7 @@ import OrderStatusColor from '../../../enums/OrderStatusColor';
 
 import {
   selectOrderById,
+  selectOrderDrawer,
   toggleOrderDrawer,
 } from '../../../state/orders/slice';
 import { RootState } from '../../../state/store';
@@ -47,15 +47,16 @@ const BoxGray = styled(Box)(({ theme }) => ({
   borderRadius: '16px',
 }));
 
-const OrderListItem: FunctionComponent<{ id: string | number }> = ({ id }) => {
+const OrderListItem: FunctionComponent<{ id: number | string }> = ({ id }) => {
   const dispatch = useDispatch();
   const order = useSelector<RootState, OrderDB | undefined>((state) =>
     selectOrderById(state, id)
   );
 
-  const toggleDrawer = () => {
+  const toggleDrawer = useCallback(() => {
     dispatch(toggleOrderDrawer());
-  };
+    dispatch(selectOrderDrawer(+id));
+  }, []);
   //ESTO ES PARA SABER SI ESTOY EN MOBILE O NO
   // const theme = useTheme();
   // const matches = useMediaQuery(theme.breakpoints.down('md'));
@@ -77,7 +78,7 @@ const OrderListItem: FunctionComponent<{ id: string | number }> = ({ id }) => {
             </Typography>
           </BoxGray>
           <Box sx={{ ml: 2 }}>
-            <Typography variant="subtitle2">Pedido #{id}</Typography>
+            <Typography variant="subtitle2">Pedido #{order.id}</Typography>
             <Typography variant="body2">
               Total de
               {' ' +
