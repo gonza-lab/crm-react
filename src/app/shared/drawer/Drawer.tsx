@@ -11,12 +11,18 @@ const Drawer: FunctionComponent<{ open?: boolean; drawerWidth: number }> = ({
       sx={{
         width: drawerWidth,
         flexShrink: 0,
+        position: 'relative',
         '& .MuiDrawer-paper': {
           width: drawerWidth,
           boxSizing: 'border-box',
         },
       }}
       variant="persistent"
+      PaperProps={{
+        sx: {
+          position: 'relative',
+        },
+      }}
       anchor="right"
       open={open}
     >

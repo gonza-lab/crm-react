@@ -28,8 +28,8 @@ const Orders = () => {
       component="main"
       sx={{
         flexGrow: 1,
-        py: 8,
         display: 'flex',
+        overflow: 'hidden',
       }}
     >
       <OrdersContent drawerWidth={drawerWidth} />

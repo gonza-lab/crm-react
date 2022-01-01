@@ -41,6 +41,7 @@ const OrdersContent: FunctionComponent<{ drawerWidth: number }> = ({
           alignItems: 'center',
           px: 3,
           mb: 3,
+          pt: 8,
         }}
       >
         <Typography variant="h4">Pedidos</Typography>

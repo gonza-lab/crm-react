@@ -17,13 +17,10 @@ import { es } from 'date-fns/locale';
 import OrderDB from '../../../interfaces/OrderDB';
 import OrderStatusColor from '../../../enums/OrderStatusColor';
 
-import {
-  selectOrderById,
-  selectOrderDrawer,
-  toggleOrderDrawer,
-} from '../../../state/orders/slice';
+import { openOrdersDrawer, selectOrderById } from '../../../state/orders/slice';
 import { RootState } from '../../../state/store';
 import toMoneyFormat from '../../../util/toMoneyFormat';
+import { EntityId } from '@reduxjs/toolkit';
 
 const TableRow = styled(MuiTableRow)(({ theme }) => ({
   cursor: 'pointer',
@@ -47,15 +44,14 @@ const BoxGray = styled(Box)(({ theme }) => ({
   borderRadius: '16px',
 }));
 
-const OrderListItem: FunctionComponent<{ id: number | string }> = ({ id }) => {
+const OrderListItem: FunctionComponent<{ id: EntityId }> = ({ id }) => {
   const dispatch = useDispatch();
   const order = useSelector<RootState, OrderDB | undefined>((state) =>
     selectOrderById(state, id)
   );
 
   const toggleDrawer = useCallback(() => {
-    dispatch(toggleOrderDrawer());
-    dispatch(selectOrderDrawer(+id));
+    dispatch(openOrdersDrawer(id));
   }, []);
   //ESTO ES PARA SABER SI ESTOY EN MOBILE O NO
   // const theme = useTheme();
