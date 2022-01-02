@@ -29,6 +29,7 @@ import { RootState } from '../../../state/store';
 
 import Drawer from '../../shared/drawer/Drawer';
 import OrderDrawerList from './list/List';
+import OrderDrawerTable from './table/Table';
 
 const Header = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.primary.main,
@@ -69,7 +70,7 @@ const OrdersDrawer: FunctionComponent<{ drawerWidth: number }> = ({
               <CloseIcon />
             </IconButton>
           </Header>
-          <Box sx={{ px: 4, py: 3 }}>
+          <Box sx={{ px: 3, py: 4 }}>
             <Typography variant="h6" sx={{ my: 3 }}>
               Detalles
             </Typography>
@@ -78,30 +79,7 @@ const OrdersDrawer: FunctionComponent<{ drawerWidth: number }> = ({
             <Typography variant="h6" sx={{ my: 3 }}>
               Articulos
             </Typography>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>DESCRIPCIÓN</TableCell>
-                  <TableCell>VALOR</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {order.product.map((product) => (
-                  <TableRow
-                    sx={{
-                      '> td': {
-                        borderBottom: (theme) =>
-                          `1px solid ${theme.palette.divider}`,
-                      },
-                    }}
-                    key={product.id}
-                  >
-                    <TableCell>{product.name}</TableCell>
-                    <TableCell>{product.price}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+            <OrderDrawerTable order={order} />
           </Box>
         </>
       ) : (
