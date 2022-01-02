@@ -10,6 +10,7 @@ import {
 import { styled /* useTheme */ } from '@mui/material/styles';
 
 import { useDispatch, useSelector } from 'react-redux';
+import { EntityId } from '@reduxjs/toolkit';
 
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
@@ -20,7 +21,6 @@ import OrderStatusColor from '../../../enums/OrderStatusColor';
 import { openOrdersDrawer, selectOrderById } from '../../../state/orders/slice';
 import { RootState } from '../../../state/store';
 import toMoneyFormat from '../../../util/toMoneyFormat';
-import { EntityId } from '@reduxjs/toolkit';
 
 const TableRow = styled(MuiTableRow)(({ theme }) => ({
   cursor: 'pointer',

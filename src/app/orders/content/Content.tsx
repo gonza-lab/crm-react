@@ -11,18 +11,20 @@ const Content = styled('div', {
 })<{ open?: boolean; drawerWidth: number }>(({ theme, open, drawerWidth }) => ({
   flexGrow: 1,
   zIndex: 1,
-  transition: theme.transitions.create('margin', {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
-  }),
-  marginRight: `-${drawerWidth}px`,
-  ...(open && {
+  [theme.breakpoints.up('md')]: {
+    marginRight: `-${drawerWidth}px`,
     transition: theme.transitions.create('margin', {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
     }),
-    marginRight: 0,
-  }),
+    ...(open && {
+      transition: theme.transitions.create('margin', {
+        easing: theme.transitions.easing.easeOut,
+        duration: theme.transitions.duration.enteringScreen,
+      }),
+      marginRight: 0,
+    }),
+  },
 }));
 
 const OrdersContent: FunctionComponent<{ drawerWidth: number }> = ({

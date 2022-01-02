@@ -9,18 +9,20 @@ const Drawer: FunctionComponent<{ open?: boolean; drawerWidth: number }> = ({
   return (
     <DrawerMui
       sx={{
-        width: drawerWidth,
+        width: { xs: '100%', md: drawerWidth },
+        maxWidth: drawerWidth,
         flexShrink: 0,
-        position: 'relative',
+        position: { xs: 'absolute', md: 'relative' },
         '& .MuiDrawer-paper': {
-          width: drawerWidth,
+          width: '100%',
           boxSizing: 'border-box',
         },
       }}
       variant="persistent"
       PaperProps={{
         sx: {
-          position: 'relative',
+          position: { md: 'relative' },
+          borderLeft: { xs: 'none', md: '1px solid #E6E8F0' },
         },
       }}
       anchor="right"
