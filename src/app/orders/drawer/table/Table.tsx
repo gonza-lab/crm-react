@@ -1,3 +1,5 @@
+import { FunctionComponent } from 'react';
+
 import {
   Table,
   TableBody,
@@ -5,8 +7,10 @@ import {
   TableHead,
   TableRow,
 } from '@mui/material';
-import { FunctionComponent } from 'react';
+
 import OrderDB from '../../../../interfaces/OrderDB';
+
+import toMoneyFormat from '../../../../util/toMoneyFormat';
 
 const OrderDrawerTable: FunctionComponent<{ order: OrderDB }> = ({ order }) => {
   return (
@@ -28,7 +32,7 @@ const OrderDrawerTable: FunctionComponent<{ order: OrderDB }> = ({ order }) => {
             key={product.id}
           >
             <TableCell>{product.name}</TableCell>
-            <TableCell>{product.price}</TableCell>
+            <TableCell>{toMoneyFormat(product.price)}</TableCell>
           </TableRow>
         ))}
       </TableBody>

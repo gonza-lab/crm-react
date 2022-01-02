@@ -1,18 +1,6 @@
 import { FunctionComponent } from 'react';
 
-import {
-  Box,
-  IconButton,
-  TableContainer,
-  Typography,
-  Paper,
-  Divider,
-  Table,
-  TableHead,
-  TableRow,
-  TableCell,
-  TableBody,
-} from '@mui/material';
+import { Box, IconButton, Typography, Divider } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import CloseIcon from '@mui/icons-material/Close';
 
