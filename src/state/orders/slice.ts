@@ -87,5 +87,5 @@ export const {
 } = slice.actions;
 
 export { readAll };
-
+export { Status as OrderStatus };
 export default slice.reducer;

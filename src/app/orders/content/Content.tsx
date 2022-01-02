@@ -1,10 +1,11 @@
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Button, Typography, CircularProgress } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { FunctionComponent } from 'react';
 import AddIcon from '@mui/icons-material/Add';
 import OrdersList from '../list/List';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../state/store';
+import { OrderStatus } from '../../../state/orders/slice';
 
 const Content = styled('div', {
   shouldForwardProp: (prop) => prop !== 'open' && prop !== 'drawerWidth',
@@ -33,6 +34,9 @@ const OrdersContent: FunctionComponent<{ drawerWidth: number }> = ({
   const isOpenDrawer = useSelector<RootState, boolean>(
     (state) => state.orders.drawer.isOpen
   );
+  const status = useSelector<RootState, OrderStatus>(
+    (state) => state.orders.status
+  );
 
   return (
     <Content drawerWidth={drawerWidth} open={isOpenDrawer}>
@@ -53,7 +57,19 @@ const OrdersContent: FunctionComponent<{ drawerWidth: number }> = ({
           </Button>
         </Box>
       </Box>
-      <OrdersList />
+      {status === OrderStatus.loadingOrders ? (
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            pt: 10,
+          }}
+        >
+          <CircularProgress />
+        </Box>
+      ) : (
+        <OrdersList />
+      )}
     </Content>
   );
 };
