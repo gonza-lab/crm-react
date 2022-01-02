@@ -1,11 +1,14 @@
+import { FunctionComponent } from 'react';
+
 import { Box, Button, Typography, CircularProgress } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { FunctionComponent } from 'react';
 import AddIcon from '@mui/icons-material/Add';
-import OrdersList from '../list/List';
+
 import { useSelector } from 'react-redux';
+
 import { RootState } from '../../../state/store';
 import { OrderStatus } from '../../../state/orders/slice';
+import OrdersList from '../list/List';
 
 const Content = styled('div', {
   shouldForwardProp: (prop) => prop !== 'open' && prop !== 'drawerWidth',
