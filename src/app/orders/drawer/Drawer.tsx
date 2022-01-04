@@ -70,7 +70,7 @@ const OrdersDrawer: FunctionComponent<{ drawerWidth: number }> = ({
             </Typography>
             <OrderDrawerTable order={order} />
             <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 3 }}>
-              <Link to={['/recibos', order.id].join('/')}>
+              <Link to={['/recibos', order.id, 'detalle'].join('/')}>
                 <Button variant="contained">Ver comprobante</Button>
               </Link>
             </Box>

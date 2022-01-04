@@ -50,7 +50,7 @@ const Router = () => {
               element: <Invoices />,
             },
             {
-              path: ':id',
+              path: ':id/detalle',
               element: <InvoiceDetail />,
             },
           ],
@@ -67,8 +67,12 @@ const Router = () => {
       element: <Login />,
     },
     {
-      path: '*',
+      path: '/404',
       element: <Page404 />,
+    },
+    {
+      path: '*',
+      element: <Navigate to="/404" />,
     },
   ]);
 
