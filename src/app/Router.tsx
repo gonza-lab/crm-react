@@ -6,14 +6,15 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../state/store';
 
 import Page404 from './404';
-import Invoices from './invoices';
+import Invoices from './invoices/Invoices';
 import Login from './auth/login';
 
 import { Layout } from './shared/layout/components/Layout';
 import settingsRoutes from './settings/Routes';
 import { UserState } from '../state/user/slice';
 import Orders from './orders';
-import InvoiceDetail from './invoices/detail';
+import InvoiceDetail from './invoices/detail/Detail';
+import InvoiceIndex from './invoices';
 
 const RequireAuth: FunctionComponent = ({ children }) => {
   const { auth } = useSelector<RootState, UserState>((state) => state.user);
@@ -42,6 +43,7 @@ const Router = () => {
         },
         {
           path: 'recibos',
+          element: <InvoiceIndex />,
           children: [
             {
               index: true,

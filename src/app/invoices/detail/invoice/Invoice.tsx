@@ -42,10 +42,9 @@ const TableBody = styled(MuiTableBody)(({ theme }) => ({
   },
 }));
 
-const InvoicesDetailInvoice: FunctionComponent<{ id: EntityId }> = ({ id }) => {
-  const order = useSelector<RootState, OrderDB | undefined>((state) =>
-    selectOrderById(state, id)
-  );
+const InvoicesDetailInvoice: FunctionComponent<{ order: OrderDB }> = ({
+  order,
+}) => {
   if (!order) return <></>;
 
   const resume = useResume(order.product);
