@@ -1,6 +1,6 @@
 import { FunctionComponent } from 'react';
 
-import { Box, IconButton, Typography, Divider } from '@mui/material';
+import { Box, IconButton, Typography, Divider, Button } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import CloseIcon from '@mui/icons-material/Close';
 
@@ -18,6 +18,7 @@ import { RootState } from '../../../state/store';
 import Drawer from '../../shared/drawer/Drawer';
 import OrderDrawerList from './list/List';
 import OrderDrawerTable from './table/Table';
+import { Link } from 'react-router-dom';
 
 const Header = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.primary.main,
@@ -68,6 +69,11 @@ const OrdersDrawer: FunctionComponent<{ drawerWidth: number }> = ({
               Articulos
             </Typography>
             <OrderDrawerTable order={order} />
+            <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 3 }}>
+              <Link to={['/recibos', order.id].join('/')}>
+                <Button variant="contained">Ver comprobante</Button>
+              </Link>
+            </Box>
           </Box>
         </>
       ) : (

@@ -13,6 +13,7 @@ import { Layout } from './shared/layout/components/Layout';
 import settingsRoutes from './settings/Routes';
 import { UserState } from '../state/user/slice';
 import Orders from './orders';
+import InvoiceDetail from './invoices/detail';
 
 const RequireAuth: FunctionComponent = ({ children }) => {
   const { auth } = useSelector<RootState, UserState>((state) => state.user);
@@ -41,7 +42,16 @@ const Router = () => {
         },
         {
           path: 'recibos',
-          element: <Invoices />,
+          children: [
+            {
+              index: true,
+              element: <Invoices />,
+            },
+            {
+              path: ':id',
+              element: <InvoiceDetail />,
+            },
+          ],
         },
         {
           element: <Navigate to="/pedidos" />,
