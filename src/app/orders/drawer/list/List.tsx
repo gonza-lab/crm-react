@@ -24,33 +24,41 @@ const OrderDrawerList: FunctionComponent<{ order: OrderDB }> = ({ order }) => {
     <List>
       <ListItem disablePadding>
         <Typography variant="h6">ID</Typography>
-        <Typography variant="body2">{order.id}</Typography>
+        <Typography variant="body2" color="textSecondary">
+          {order.id}
+        </Typography>
       </ListItem>
       <ListItem disablePadding>
         <Typography variant="h6">Cliente</Typography>
         {order.user && (
-          <Typography variant="body2">
+          <Typography variant="body2" color="textSecondary">
             {order.user?.first_name} {order.user?.last_name}
           </Typography>
         )}
       </ListItem>
       <ListItem disablePadding>
         <Typography variant="h6">Fecha</Typography>
-        <Typography variant="body2">
+        <Typography variant="body2" color="textSecondary">
           {format(new Date(order.updatedAt), 'Pp', { locale: es })}
         </Typography>
       </ListItem>
       <ListItem disablePadding>
         <Typography variant="h6">Ubicación</Typography>
         <Box>
-          <Typography variant="body2">{order.user?.address},</Typography>
-          <Typography variant="body2">{order.user?.locality},</Typography>
-          <Typography variant="body2">{order.user?.city}</Typography>
+          <Typography variant="body2" color="textSecondary">
+            {order.user?.address},
+          </Typography>
+          <Typography variant="body2" color="textSecondary">
+            {order.user?.locality},
+          </Typography>
+          <Typography variant="body2" color="textSecondary">
+            {order.user?.city}
+          </Typography>
         </Box>
       </ListItem>
       <ListItem disablePadding>
         <Typography variant="h6">Valor total</Typography>
-        <Typography variant="body2">
+        <Typography variant="body2" color="textSecondary">
           {toMoneyFormat(
             order.product.reduce((acum, product) => acum + product.price, 0)
           )}

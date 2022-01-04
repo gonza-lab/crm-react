@@ -75,7 +75,7 @@ const OrderListItem: FunctionComponent<{ id: EntityId }> = ({ id }) => {
           </BoxGray>
           <Box sx={{ ml: 2 }}>
             <Typography variant="subtitle2">Pedido #{order.id}</Typography>
-            <Typography variant="body2">
+            <Typography variant="body2" color="textSecondary">
               Total de
               {' ' +
                 toMoneyFormat(
@@ -91,7 +91,7 @@ const OrderListItem: FunctionComponent<{ id: EntityId }> = ({ id }) => {
       {order?.user && (
         <TableCell>
           <Typography variant="subtitle2">Por</Typography>
-          <Typography variant="body2">
+          <Typography variant="body2" color="textSecondary">
             {order.user.first_name} {order.user?.last_name}
           </Typography>
         </TableCell>

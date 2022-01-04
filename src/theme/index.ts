@@ -333,9 +333,4 @@ theme.typography.h4 = {
   },
 };
 
-theme.typography.body2 = {
-  ...theme.typography.body2,
-  color: theme.palette.text.secondary,
-};
-
 export type Theme = typeof theme;
