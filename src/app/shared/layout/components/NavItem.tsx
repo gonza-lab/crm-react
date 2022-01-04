@@ -9,7 +9,7 @@ export const NavItem: FunctionComponent<{
 }> = (props) => {
   const { href, icon, title, ...others } = props;
   const resolved = useResolvedPath(href);
-  const active = useMatch({ path: resolved.pathname, end: true });
+  const active = useMatch({ path: resolved.pathname, end: false });
 
   return (
     <ListItem
