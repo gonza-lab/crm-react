@@ -1,0 +1,5 @@
+.print {
+  @media print {
+    min-width: unset !important;
+  }
+}

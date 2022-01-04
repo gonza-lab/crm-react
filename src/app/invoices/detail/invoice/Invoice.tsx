@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react';
+import { forwardRef, FunctionComponent, MutableRefObject } from 'react';
 
 import {
   Paper,
@@ -25,6 +25,7 @@ import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
 import toMoneyFormat from '../../../../util/toMoneyFormat';
 import useResume from '../../../../hooks/useResume';
+import { OverridableComponent } from '@mui/material/OverridableComponent';
 
 const TableBody = styled(MuiTableBody)(({ theme }) => ({
   td: {
@@ -42,18 +43,22 @@ const TableBody = styled(MuiTableBody)(({ theme }) => ({
   },
 }));
 
-const InvoicesDetailInvoice: FunctionComponent<{ order: OrderDB }> = ({
-  order,
-}) => {
+const InvoicesDetailInvoice: FunctionComponent<{
+  order: OrderDB;
+  innerRef: any;
+}> = ({ order, innerRef }) => {
   if (!order) return <></>;
 
   const resume = useResume(order.product);
 
   return (
-    <Paper sx={{ p: 6, overflowX: 'auto' }}>
+    <Paper sx={{ overflowX: 'auto' }}>
       <Box
+        ref={innerRef}
+        className="print"
         sx={{
           minWidth: '800px',
+          p: 6,
         }}
       >
         <Box
