@@ -7,7 +7,7 @@ import {
   TableRow as MuiTableRow,
   Typography,
 } from '@mui/material';
-import { styled /* useTheme */ } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { EntityId } from '@reduxjs/toolkit';
@@ -27,9 +27,6 @@ const TableRow = styled(MuiTableRow)(({ theme }) => ({
   '> td': {
     maxHeight: '95px',
     borderBottom: `1px solid ${theme.palette.divider}`,
-  },
-  ':hover': {
-    backgroundColor: `${theme.palette.neutral[700]}0a`,
   },
   ':first-of-type': {
     '> td': {
@@ -53,14 +50,14 @@ const OrderListItem: FunctionComponent<{ id: EntityId }> = ({ id }) => {
   const toggleDrawer = useCallback(() => {
     dispatch(openOrdersDrawer(id));
   }, []);
-  //ESTO ES PARA SABER SI ESTOY EN MOBILE O NO
-  // const theme = useTheme();
-  // const matches = useMediaQuery(theme.breakpoints.down('md'));
 
   if (!order) return <></>;
 
   return (
-    <TableRow onClick={toggleDrawer}>
+    <TableRow onClick={toggleDrawer} hover>
+      {/* <TableCell padding="checkbox">
+        <Checkbox></Checkbox>
+      </TableCell> */}
       <TableCell>
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <BoxGray sx={{ p: 1, textAlign: 'center', ml: { md: 2 } }}>

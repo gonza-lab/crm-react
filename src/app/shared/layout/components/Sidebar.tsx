@@ -15,11 +15,11 @@ const items = [
     icon: <ShoppingCart fontSize="small" />,
     title: 'Pedidos',
   },
-  {
-    href: '/recibos',
-    icon: <ReceiptIcon fontSize="small" />,
-    title: 'Recibos',
-  },
+  // {
+  //   href: '/recibos',
+  //   icon: <ReceiptIcon fontSize="small" />,
+  //   title: 'Recibos',
+  // },
 ];
 
 export const Sidebar: FunctionComponent<{
