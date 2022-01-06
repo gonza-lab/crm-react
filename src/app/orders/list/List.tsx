@@ -47,7 +47,7 @@ const OrdersList = () => {
         {!selectedItems.length && (
           <TableHead>
             <TableRow>
-              <TableCell padding="none" sx={{ pl: 2 }}>
+              <TableCell padding="none" width={50} sx={{ pl: 2 }}>
                 <Checkbox
                   onChange={handleToggleAll}
                   checked={selectedItems.length === ids.length}
