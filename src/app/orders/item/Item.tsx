@@ -59,7 +59,7 @@ const OrderListItem: FunctionComponent<{
 
   return (
     <TableRow hover>
-      <TableCell padding="checkbox">
+      <TableCell>
         <Checkbox checked={checked} onChange={() => onToggle(id)} />
       </TableCell>
 

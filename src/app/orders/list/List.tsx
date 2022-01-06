@@ -19,7 +19,7 @@ import OrdersPrintMultiple from '../print-multiple/PrintMultiple';
 
 const TableHeadActions = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.neutral[100],
-  padding: '4px',
+  padding: '1px 16px',
   width: '100%',
 }));
 
@@ -47,7 +47,7 @@ const OrdersList = () => {
         {!selectedItems.length && (
           <TableHead>
             <TableRow>
-              <TableCell padding="checkbox">
+              <TableCell padding="none" sx={{ pl: 2 }}>
                 <Checkbox
                   onChange={handleToggleAll}
                   checked={selectedItems.length === ids.length}
