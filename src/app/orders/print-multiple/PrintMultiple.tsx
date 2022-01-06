@@ -1,4 +1,10 @@
-import { FunctionComponent, useEffect, useRef, useState } from 'react';
+import {
+  Fragment,
+  FunctionComponent,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 
 import { Box } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
@@ -7,6 +13,9 @@ import { useSelector } from 'react-redux';
 import { EntityId } from '@reduxjs/toolkit';
 
 import { useReactToPrint } from 'react-to-print';
+
+import { format } from 'date-fns';
+import { es } from 'date-fns/locale';
 
 import OrderDB from '../../../interfaces/OrderDB';
 
@@ -29,6 +38,7 @@ const OrdersPrintMultiple: FunctionComponent<{ orders: EntityId[] }> = ({
     content: () => ref.current,
     onAfterPrint: () => setIsPrinting(false),
     onBeforePrint: () => setIsPrinting(true),
+    documentTitle: `Comprobante ${format(new Date(), 'P', { locale: es })}`,
   });
 
   const handlePrint = () => {
@@ -53,10 +63,10 @@ const OrdersPrintMultiple: FunctionComponent<{ orders: EntityId[] }> = ({
             orders
               .filter((order) => selectedOrders.includes(order.id))
               .map((order) => (
-                <>
+                <Fragment key={order.id}>
                   <div className="page-break" />
                   <InvoicesDetailInvoice key={order.id} order={order} />
-                </>
+                </Fragment>
               ))}
         </div>
       </Box>
