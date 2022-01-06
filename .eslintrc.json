@@ -21,7 +21,6 @@
   },
   "plugins": ["react", "@typescript-eslint"],
   "rules": {
-    "@typescript-eslint/explicit-function-return-type": "error",
     "no-restricted-imports": [
       "error",
       {

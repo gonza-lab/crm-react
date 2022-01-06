@@ -2,6 +2,7 @@ import { FunctionComponent, useCallback } from 'react';
 
 import {
   Box,
+  Checkbox,
   Chip,
   TableCell,
   TableRow as MuiTableRow,
@@ -41,64 +42,62 @@ const BoxGray = styled(Box)(({ theme }) => ({
   borderRadius: '16px',
 }));
 
-const OrderListItem: FunctionComponent<{ id: EntityId }> = ({ id }) => {
-  const dispatch = useDispatch();
+const OrderListItem: FunctionComponent<{
+  id: EntityId;
+  onToggle: (id: EntityId) => void;
+  checked?: boolean;
+}> = ({ id, onToggle, checked }) => {
   const order = useSelector<RootState, OrderDB | undefined>((state) =>
     selectOrderById(state, id)
   );
+  if (!order) return <></>;
 
+  const dispatch = useDispatch();
   const toggleDrawer = useCallback(() => {
     dispatch(openOrdersDrawer(id));
   }, []);
 
-  if (!order) return <></>;
-
   return (
-    <TableRow onClick={toggleDrawer} hover>
-      {/* <TableCell padding="checkbox">
-        <Checkbox></Checkbox>
-      </TableCell> */}
-      <TableCell>
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <BoxGray sx={{ p: 1, textAlign: 'center', ml: { md: 2 } }}>
-            <Typography variant="subtitle2">
-              {format(new Date(order.updatedAt), 'MMM', {
-                locale: es,
-              }).toLocaleUpperCase()}
-            </Typography>
-            <Typography variant="h6">
-              {new Date(order.updatedAt).getUTCDate()}
-            </Typography>
-          </BoxGray>
-          <Box sx={{ ml: 2 }}>
-            <Typography variant="subtitle2">Pedido #{order.id}</Typography>
-            <Typography variant="body2" color="textSecondary">
-              Total de
-              {' ' +
-                toMoneyFormat(
-                  order.product.reduce(
-                    (acum, product) => acum + product.price,
-                    0
-                  )
-                )}
-            </Typography>
-          </Box>
-        </Box>
+    <TableRow hover>
+      <TableCell padding="checkbox">
+        <Checkbox checked={checked} onChange={() => onToggle(id)} />
+      </TableCell>
+
+      <TableCell onClick={toggleDrawer}>
+        <Typography variant="body2">#{order.id}</Typography>
+      </TableCell>
+      <TableCell onClick={toggleDrawer}>
+        <Typography variant="body2">
+          {toMoneyFormat(
+            order.product.reduce((acum, product) => acum + product.price, 0)
+          )}
+        </Typography>
       </TableCell>
       {order?.user && (
-        <TableCell>
-          <Typography variant="subtitle2">Por</Typography>
-          <Typography variant="body2" color="textSecondary">
+        <TableCell onClick={toggleDrawer}>
+          <Typography variant="body2">
             {order.user.first_name} {order.user?.last_name}
           </Typography>
         </TableCell>
       )}
-      <TableCell sx={{ textAlign: 'right', pl: { xs: 0, md: 2 } }}>
+      <TableCell onClick={toggleDrawer} sx={{ pl: { xs: 0, md: 2 } }}>
         <Chip
           size="small"
           label={order.status.name}
           color={OrderStatusColor[order.status.name]}
         />
+      </TableCell>
+      <TableCell width={80} onClick={toggleDrawer}>
+        <BoxGray sx={{ p: 1, textAlign: 'center', m: '0 auto' }}>
+          <Typography variant="subtitle2">
+            {format(new Date(order.updatedAt), 'MMM', {
+              locale: es,
+            }).toLocaleUpperCase()}
+          </Typography>
+          <Typography variant="h6">
+            {new Date(order.updatedAt).getUTCDate()}
+          </Typography>
+        </BoxGray>
       </TableCell>
     </TableRow>
   );

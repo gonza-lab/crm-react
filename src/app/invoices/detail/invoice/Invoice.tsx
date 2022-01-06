@@ -41,7 +41,7 @@ const TableBody = styled(MuiTableBody)(({ theme }) => ({
 
 const InvoicesDetailInvoice: FunctionComponent<{
   order: OrderDB;
-  innerRef: any;
+  innerRef?: any;
 }> = ({ order, innerRef }) => {
   if (!order) return <></>;
 
