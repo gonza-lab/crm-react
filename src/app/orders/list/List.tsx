@@ -29,7 +29,7 @@ const OrdersList = () => {
     useCheckboxTable(ids);
 
   return (
-    <Box>
+    <Box sx={{ overflowX: 'auto' }}>
       {!!selectedItems.length && (
         <TableHeadActions>
           <Checkbox

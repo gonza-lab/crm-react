@@ -13,6 +13,7 @@ import OrdersList from '../list/List';
 const Content = styled('div', {
   shouldForwardProp: (prop) => prop !== 'open' && prop !== 'drawerWidth',
 })<{ open?: boolean; drawerWidth: number }>(({ theme, open, drawerWidth }) => ({
+  width: '100%',
   flexGrow: 1,
   zIndex: 1,
   [theme.breakpoints.up('md')]: {
