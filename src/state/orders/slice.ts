@@ -28,7 +28,7 @@ interface State {
 
 const orderAdapter = createEntityAdapter<OrderDB>({
   sortComparer: (a, b) =>
-    compareAsc(new Date(a.updatedAt), new Date(b.updatedAt)),
+    compareAsc(new Date(a.updated_at), new Date(b.updated_at)),
 });
 
 const initialState = orderAdapter.getInitialState<State>({
@@ -69,7 +69,7 @@ const slice = createSlice({
 
     builder.addCase(readAll.fulfilled, (state, action) => {
       state.status = Status.idle;
-      orderAdapter.upsertMany(state, action.payload.data);
+      orderAdapter.upsertMany(state, action.payload);
     });
   },
 });

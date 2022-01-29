@@ -22,7 +22,7 @@ const OrderDrawerTable: FunctionComponent<{ order: OrderDB }> = ({ order }) => {
         </TableRow>
       </TableHead>
       <TableBody>
-        {order.product.map((product) => (
+        {order.products.map((product) => (
           <TableRow
             sx={{
               '> td': {

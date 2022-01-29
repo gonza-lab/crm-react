@@ -1,4 +1,4 @@
 import Product from './Product';
-import SequelizeModel from './SequelizeModel';
+import TypeORMEntity from './TypeORMEntity';
 
-export default interface ProductDB extends Product, SequelizeModel {}
+export default interface ProductDB extends Product, TypeORMEntity {}

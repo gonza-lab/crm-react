@@ -45,7 +45,7 @@ const InvoicesDetailInvoice: FunctionComponent<{
 }> = ({ order, innerRef }) => {
   if (!order) return <></>;
 
-  const resume = useResume(order.product);
+  const resume = useResume(order.products);
 
   return (
     <Paper sx={{ overflowX: 'auto' }}>
@@ -93,7 +93,7 @@ const InvoicesDetailInvoice: FunctionComponent<{
           <Box>
             <Typography variant="subtitle2">Fecha de emisión</Typography>
             <Typography variant="body2">
-              {format(new Date(order.updatedAt), 'P', { locale: es })}
+              {format(new Date(order.updated_at), 'P', { locale: es })}
             </Typography>
           </Box>
         </Box>
@@ -114,7 +114,7 @@ const InvoicesDetailInvoice: FunctionComponent<{
             </TableRow>
           </TableHead>
           <TableBody>
-            {order.product.map((product) => (
+            {order.products.map((product) => (
               <TableRow key={product.id}>
                 <TableCell>{product.name}</TableCell>
                 <TableCell></TableCell>

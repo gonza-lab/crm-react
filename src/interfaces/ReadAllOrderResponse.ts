@@ -1,5 +1,3 @@
 import OrderDB from './OrderDB';
 
-export interface ReadAllOrderResponse extends Response {
-  data: OrderDB[];
-}
+export type ReadAllOrderResponse = OrderDB[];

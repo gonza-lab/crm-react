@@ -39,7 +39,7 @@ const OrderDrawerList: FunctionComponent<{ order: OrderDB }> = ({ order }) => {
       <ListItem disablePadding>
         <Typography variant="h6">Fecha</Typography>
         <Typography variant="body2" color="textSecondary">
-          {format(new Date(order.updatedAt), 'Pp', { locale: es })}
+          {format(new Date(order.updated_at), 'Pp', { locale: es })}
         </Typography>
       </ListItem>
       <ListItem disablePadding>
@@ -60,7 +60,7 @@ const OrderDrawerList: FunctionComponent<{ order: OrderDB }> = ({ order }) => {
         <Typography variant="h6">Valor total</Typography>
         <Typography variant="body2" color="textSecondary">
           {toMoneyFormat(
-            order.product.reduce((acum, product) => acum + product.price, 0)
+            order.products.reduce((acum, product) => acum + product.price, 0)
           )}
         </Typography>
       </ListItem>

@@ -41,9 +41,9 @@ const InvoiceItem: FunctionComponent<{ id: number | string }> = ({ id }) => {
         )}
       </TableCell>
       <TableCell>
-        {order.product.reduce((acum, product) => acum + product.price, 0)}
+        {order.products.reduce((acum, product) => acum + product.price, 0)}
       </TableCell>
-      <TableCell>{new Date(order.createdAt).getDay()}</TableCell>
+      <TableCell>{new Date(order.created_at).getDay()}</TableCell>
     </TableRow>
   );
 };

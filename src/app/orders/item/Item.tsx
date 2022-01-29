@@ -69,7 +69,7 @@ const OrderListItem: FunctionComponent<{
       <TableCell onClick={toggleDrawer}>
         <Typography variant="body2">
           {toMoneyFormat(
-            order.product.reduce((acum, product) => acum + product.price, 0)
+            order.products.reduce((acum, product) => acum + product.price, 0)
           )}
         </Typography>
       </TableCell>
@@ -81,21 +81,21 @@ const OrderListItem: FunctionComponent<{
         </TableCell>
       )}
       <TableCell onClick={toggleDrawer} sx={{ pl: { xs: 0, md: 2 } }}>
-        <Chip
+        {/* <Chip
           size="small"
           label={order.status.name}
           color={OrderStatusColor[order.status.name]}
-        />
+        /> */}
       </TableCell>
       <TableCell width={80} onClick={toggleDrawer}>
         <BoxGray sx={{ p: 1, textAlign: 'center', m: '0 auto' }}>
           <Typography variant="subtitle2">
-            {format(new Date(order.updatedAt), 'MMM', {
+            {format(new Date(order.updated_at), 'MMM', {
               locale: es,
             }).toLocaleUpperCase()}
           </Typography>
           <Typography variant="h6">
-            {new Date(order.updatedAt).getUTCDate()}
+            {new Date(order.updated_at).getUTCDate()}
           </Typography>
         </BoxGray>
       </TableCell>
