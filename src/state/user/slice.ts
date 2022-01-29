@@ -26,7 +26,7 @@ const defaultState: UserState = {
 
 //THUNKS
 export const login = createAsyncThunk(
-  'user/login',
+  'auth/login',
   async (
     { email, password }: { email: string; password: string },
     { rejectWithValue }
@@ -41,7 +41,7 @@ export const login = createAsyncThunk(
   }
 );
 
-export const renew = createAsyncThunk('user/renew', async () => {
+export const renew = createAsyncThunk('auth/renew', async () => {
   const authService = new AuthService();
 
   const response = await authService.renew();
@@ -90,11 +90,11 @@ const slice = createSlice({
 
     builder.addCase(login.fulfilled, (state, action) => {
       state.status = Status.succeeded;
-      state.data = action.payload.data;
+      state.data = action.payload;
       state.error = undefined;
       state.auth = true;
 
-      localStorage.setItem('x-token', action.payload.data.jwt);
+      localStorage.setItem('x-token', action.payload.access_token);
     });
 
     //RENEW
@@ -109,9 +109,9 @@ const slice = createSlice({
 
     builder.addCase(renew.fulfilled, (state, action) => {
       state.status = Status.succeeded;
-      state.data = action.payload.data;
+      state.data = action.payload;
       state.auth = true;
-      localStorage.setItem('x-token', action.payload.data.jwt);
+      localStorage.setItem('x-token', action.payload.access_token);
     });
 
     //USER

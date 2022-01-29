@@ -1,4 +1,4 @@
-import SequelizeModel from './SequelizeModel';
+import TypeORMEntity from './TypeORMEntity';
 import User from './User';
 
-export default interface UserDB extends User, SequelizeModel {}
+export default interface UserDB extends User, TypeORMEntity {}

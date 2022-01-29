@@ -1,10 +1,5 @@
 import UserDB from './UserDB';
 
-interface LoginResponseData extends UserDB {
-  jwt: string;
-}
-
-export default interface LoginResponse {
-  ok: boolean;
-  data: LoginResponseData;
+export default interface LoginResponse extends UserDB {
+  access_token: string;
 }

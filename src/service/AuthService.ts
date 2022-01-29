@@ -4,7 +4,7 @@ import UserUpdateRequest from '../interfaces/UserUpdateRequest';
 import ApiService from './ApiService';
 
 export default class AuthService extends ApiService {
-  private baseUrl = '/user';
+  private baseUrl = '/auth';
 
   constructor() {
     super();

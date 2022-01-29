@@ -1,3 +1,5 @@
+import RoleDB from './RoleDB';
+
 export default interface User {
   id: number;
   first_name: string;
@@ -9,5 +11,5 @@ export default interface User {
   locality: string;
   address: string;
   zip_code: string;
-  roleId: number;
+  role: RoleDB;
 }

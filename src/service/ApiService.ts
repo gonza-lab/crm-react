@@ -10,7 +10,7 @@ export default class ApiService {
       ...config,
       baseURL: process.env.REACT_APP_API_URL,
       headers: {
-        'x-token': token,
+        Authorization: `Bearer ${token}`,
       },
     });
   }
