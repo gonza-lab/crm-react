@@ -81,11 +81,11 @@ const OrderListItem: FunctionComponent<{
         </TableCell>
       )}
       <TableCell onClick={toggleDrawer} sx={{ pl: { xs: 0, md: 2 } }}>
-        {/* <Chip
+        <Chip
           size="small"
           label={order.status.name}
           color={OrderStatusColor[order.status.name]}
-        /> */}
+        />
       </TableCell>
       <TableCell width={80} onClick={toggleDrawer}>
         <BoxGray sx={{ p: 1, textAlign: 'center', m: '0 auto' }}>
