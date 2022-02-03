@@ -8,7 +8,7 @@ import { useSelector } from 'react-redux';
 import { Controller, useForm } from 'react-hook-form';
 
 import { RootState } from '../../../../../state/store';
-import { UserState, UserStoreStatus } from '../../../../../state/user/slice';
+import { AuthState, AuthStoreStatus } from '../../../../../state/user/slice';
 
 export interface InputBasicDetailsForm {
   first_name: string;
@@ -19,8 +19,8 @@ export interface InputBasicDetailsForm {
 const BasicDetailsForm: FunctionComponent<{
   onSubmit?: (data: InputBasicDetailsForm) => void;
 }> = ({ onSubmit }) => {
-  const { data, status } = useSelector<RootState, UserState>(
-    (state) => state.user
+  const { data, status } = useSelector<RootState, AuthState>(
+    (state) => state.auth
   );
   const { control, handleSubmit, setValue } = useForm<InputBasicDetailsForm>({
     defaultValues: {
@@ -129,7 +129,7 @@ const BasicDetailsForm: FunctionComponent<{
           size="small"
           disabled={disabled}
           type="submit"
-          loading={status === UserStoreStatus.updatingData}
+          loading={status === AuthStoreStatus.updatingData}
         >
           Guardar
         </LoadingButton>

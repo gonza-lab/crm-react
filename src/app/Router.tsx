@@ -11,13 +11,14 @@ import Login from './auth/login';
 
 import { Layout } from './shared/layout/components/Layout';
 import settingsRoutes from './settings/Routes';
-import { UserState } from '../state/user/slice';
+import { AuthState } from '../state/user/slice';
 import Orders from './orders';
 import InvoiceDetail from './invoices/detail/Detail';
 import InvoiceIndex from './invoices';
+import OrderAddIndex from './orders/add';
 
 const RequireAuth: FunctionComponent = ({ children }) => {
-  const { auth } = useSelector<RootState, UserState>((state) => state.user);
+  const { auth } = useSelector<RootState, AuthState>((state) => state.auth);
   const location = useLocation();
 
   if (!auth) {
@@ -39,7 +40,16 @@ const Router = () => {
       children: [
         {
           path: 'pedidos',
-          element: <Orders />,
+          children: [
+            {
+              index: true,
+              element: <Orders />,
+            },
+            {
+              path: 'nuevo',
+              element: <OrderAddIndex />,
+            },
+          ],
         },
         {
           path: 'recibos',

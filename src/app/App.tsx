@@ -6,8 +6,8 @@ import { RootState } from '../state/store';
 import {
   renew,
   setStatus,
-  UserState,
-  UserStoreStatus,
+  AuthState,
+  AuthStoreStatus,
 } from '../state/user/slice';
 import LoadingPage from './loading';
 
@@ -15,22 +15,22 @@ import Router from './Router';
 
 function App() {
   const dispatch = useDispatch();
-  const { data: user, status } = useSelector<RootState, UserState>(
-    (state) => state.user
+  const { data: user, status } = useSelector<RootState, AuthState>(
+    (state) => state.auth
   );
   const navigate = useNavigate();
 
   useEffect(() => {
     if (!localStorage.getItem('x-token')) {
       navigate('/login');
-      dispatch(setStatus(UserStoreStatus.idle));
+      dispatch(setStatus(AuthStoreStatus.idle));
       return;
     }
 
     dispatch(renew());
   }, []);
 
-  if (status === UserStoreStatus.renew) return <LoadingPage />;
+  if (status === AuthStoreStatus.renew) return <LoadingPage />;
 
   return <Router />;
 }

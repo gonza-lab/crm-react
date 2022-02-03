@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { RootState } from '../../../state/store';
-import { login, UserState, UserStoreStatus } from '../../../state/user/slice';
+import { login, AuthState, AuthStoreStatus } from '../../../state/user/slice';
 import LoginForm from './form/Form';
 
 const codeErrors: {
@@ -23,8 +23,8 @@ const LoginRoot = styled(Box)(({ theme }) => ({
 
 const Login = () => {
   const dispatch = useDispatch();
-  const { status, error, data } = useSelector<RootState, UserState>(
-    (state) => state.user
+  const { status, error, data } = useSelector<RootState, AuthState>(
+    (state) => state.auth
   );
   const navigate = useNavigate();
 
@@ -57,7 +57,7 @@ const Login = () => {
         <Container maxWidth="sm">
           <LoginForm
             onSubmit={onSubmit}
-            isLoadingButton={status === UserStoreStatus.loading}
+            isLoadingButton={status === AuthStoreStatus.loading}
             error={
               error
                 ? codeErrors[error]

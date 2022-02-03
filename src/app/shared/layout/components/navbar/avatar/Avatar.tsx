@@ -11,12 +11,12 @@ import { Logout, Settings } from '@mui/icons-material';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { RootState } from '../../../../../../state/store';
-import { logout, UserState } from '../../../../../../state/user/slice';
+import { logout, AuthState } from '../../../../../../state/user/slice';
 import { Link } from 'react-router-dom';
 
 const Avatar = () => {
   const dispatch = useDispatch();
-  const user = useSelector<RootState, UserState>((state) => state.user);
+  const user = useSelector<RootState, AuthState>((state) => state.auth);
   const [anchorEl, setAnchorEl] = useState<Element | null>(null);
 
   const handleClick = (e: any) => {

@@ -12,14 +12,14 @@ enum Status {
   failed = 'failed',
   updatingData = 'updating data',
 }
-export interface UserState {
+export interface AuthState {
   status: Status;
   data?: UserDB;
   error?: number;
   auth: boolean;
 }
 
-const defaultState: UserState = {
+const defaultState: AuthState = {
   status: Status.renew,
   auth: false,
 };
@@ -49,7 +49,7 @@ export const renew = createAsyncThunk('auth/renew', async () => {
 });
 
 export const updateData = createAsyncThunk(
-  'user/udpate_data',
+  'auth/update_data',
   async (changes: UserUpdateRequest) => {
     const authService = new AuthService();
 
@@ -63,7 +63,7 @@ export const updateData = createAsyncThunk(
 );
 
 const slice = createSlice({
-  name: 'user',
+  name: 'auth',
   initialState: defaultState,
   reducers: {
     setStatus: (state, { payload }: { payload: Status }) => {
@@ -128,6 +128,6 @@ const slice = createSlice({
 
 export const { setStatus, logout } = slice.actions;
 
-export { Status as UserStoreStatus };
+export { Status as AuthStoreStatus };
 
 export default slice.reducer;

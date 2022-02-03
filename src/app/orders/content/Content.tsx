@@ -9,6 +9,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../../state/store';
 import { OrderStatus } from '../../../state/orders/slice';
 import OrdersList from '../list/List';
+import { Link } from 'react-router-dom';
 
 const Content = styled('div', {
   shouldForwardProp: (prop) => prop !== 'open' && prop !== 'drawerWidth',
@@ -56,9 +57,11 @@ const OrdersContent: FunctionComponent<{ drawerWidth: number }> = ({
       >
         <Typography variant="h4">Pedidos</Typography>
         <Box>
-          <Button variant="contained" startIcon={<AddIcon />}>
-            Nuevo
-          </Button>
+          <Link to="/pedidos/nuevo">
+            <Button variant="contained" startIcon={<AddIcon />}>
+              Nuevo
+            </Button>
+          </Link>
         </Box>
       </Box>
       {status === OrderStatus.loadingOrders ? (
