@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { RootState } from '../../../state/store';
-import { login, AuthState, AuthStoreStatus } from '../../../state/user/slice';
+import { login, AuthState, AuthStoreStatus } from '../../../state/auth/slice';
 import LoginForm from './form/Form';
 
 const codeErrors: {

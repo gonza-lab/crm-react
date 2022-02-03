@@ -8,7 +8,7 @@ import {
   setStatus,
   AuthState,
   AuthStoreStatus,
-} from '../state/user/slice';
+} from '../state/auth/slice';
 import LoadingPage from './loading';
 
 import Router from './Router';

@@ -8,7 +8,7 @@ import { useSelector } from 'react-redux';
 import { Controller, useForm } from 'react-hook-form';
 
 import { RootState } from '../../../../../state/store';
-import { AuthState, AuthStoreStatus } from '../../../../../state/user/slice';
+import { AuthState, AuthStoreStatus } from '../../../../../state/auth/slice';
 
 export interface InputBasicDetailsForm {
   first_name: string;

@@ -4,7 +4,7 @@ import { Grid, Paper, Typography } from '@mui/material';
 import { useDispatch } from 'react-redux';
 
 import { AppDispatch } from '../../../../state/store';
-import { updateData as updateUserData } from '../../../../state/user/slice';
+import { updateData as updateUserData } from '../../../../state/auth/slice';
 import AlertCollapse from '../../../shared/alert/Alert';
 import BasicDetailsForm, { InputBasicDetailsForm } from './form/Form';
 

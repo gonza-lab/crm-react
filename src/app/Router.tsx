@@ -11,7 +11,7 @@ import Login from './auth/login';
 
 import { Layout } from './shared/layout/components/Layout';
 import settingsRoutes from './settings/Routes';
-import { AuthState } from '../state/user/slice';
+import { AuthState } from '../state/auth/slice';
 import Orders from './orders';
 import InvoiceDetail from './invoices/detail/Detail';
 import InvoiceIndex from './invoices';

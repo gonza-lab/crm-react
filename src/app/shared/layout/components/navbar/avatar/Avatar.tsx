@@ -11,7 +11,7 @@ import { Logout, Settings } from '@mui/icons-material';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { RootState } from '../../../../../../state/store';
-import { logout, AuthState } from '../../../../../../state/user/slice';
+import { logout, AuthState } from '../../../../../../state/auth/slice';
 import { Link } from 'react-router-dom';
 
 const Avatar = () => {
