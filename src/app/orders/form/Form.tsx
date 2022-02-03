@@ -35,7 +35,7 @@ const OrderForm = () => {
     setTimeOutState(
       setTimeout(async () => {
         if (userQuery) {
-          const options = (await userService.searchByFullName(userQuery)).map(
+          const options = (await userService.findByFullName(userQuery)).map(
             (user) => ({
               label: user.first_name + ' ' + user.last_name,
             })
