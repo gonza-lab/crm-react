@@ -6,6 +6,7 @@ import {
 import { RootState } from '../store';
 import userService from '../../service/UserService';
 import UserDB from '../../interfaces/UserDB';
+
 enum Status {
   idle = 'loading',
   loadingUsers = 'loading users',
@@ -49,5 +50,5 @@ export const {
 } = userAdapter.getSelectors<RootState>((state) => state.users);
 
 export { readAll as readAllUsers };
-
+export { Status as UserStoreStatus };
 export default slice.reducer;
