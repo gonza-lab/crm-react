@@ -2,6 +2,7 @@ import { Box, Container, Typography } from '@mui/material';
 
 import FormCustomer from './customer/Customer';
 import LinkBack from '../../shared/link-back/LinkBack';
+import FormProducts from './products/Products';
 
 const OrderForm = () => {
   return (
@@ -12,7 +13,10 @@ const OrderForm = () => {
       <Box sx={{ mb: 4 }}>
         <Typography variant="h4">Nueva orden</Typography>
       </Box>
-      <FormCustomer />
+      <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+        <FormCustomer />
+        <FormProducts />
+      </Box>
     </Container>
   );
 };
