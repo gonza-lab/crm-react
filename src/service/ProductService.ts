@@ -1,18 +1,10 @@
 import axios from 'axios';
-import { getToken } from './Token';
+import axiosService from './AxiosService';
 
 const url = 'product';
-const baseURL = process.env.REACT_APP_API_URL;
 
 const findAll = async () => {
-  const token = getToken();
-
-  const products = await axios.get(url, {
-    baseURL,
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  const products = await axios.get(url, axiosService.getRequestConfig());
 
   return products.data;
 };

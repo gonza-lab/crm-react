@@ -1,18 +1,12 @@
 import axios from 'axios';
 import UserDB from '../interfaces/UserDB';
-import { getToken } from './Token';
+import axiosService from './AxiosService';
 
 const url = 'user';
-const baseURL = process.env.REACT_APP_API_URL;
 
 const findByFullName = async (fullName: string): Promise<UserDB[]> => {
-  const token = getToken();
-
   const users = await axios.get(url, {
-    baseURL,
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
+    ...axiosService.getRequestConfig(),
     params: {
       q: fullName,
     },
@@ -22,13 +16,8 @@ const findByFullName = async (fullName: string): Promise<UserDB[]> => {
 };
 
 const findAll = async (): Promise<UserDB[]> => {
-  const token = getToken();
-
   const users = await axios.get(url, {
-    baseURL,
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
+    ...axiosService.getRequestConfig(),
     params: {
       q: '',
     },
