@@ -26,6 +26,7 @@ const FormProductsSelector = () => {
             <TableCell sx={{ width: 72 }}></TableCell>
             <TableCell>Nombre</TableCell>
             <TableCell>Price</TableCell>
+            <TableCell>Stock</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -38,6 +39,7 @@ const FormProductsSelector = () => {
               </TableCell>
               <TableCell>{product.name}</TableCell>
               <TableCell>{product.price}</TableCell>
+              <TableCell>{product.stock}</TableCell>
             </TableRow>
           ))}
         </TableBody>
