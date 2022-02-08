@@ -60,7 +60,10 @@ const OrderDrawerList: FunctionComponent<{ order: OrderDB }> = ({ order }) => {
         <Typography variant="h6">Valor total</Typography>
         <Typography variant="body2" color="textSecondary">
           {toMoneyFormat(
-            order.products.reduce((acum, product) => acum + product.price, 0)
+            order.products.reduce(
+              (acum, product) => acum + product.product.price,
+              0
+            )
           )}
         </Typography>
       </ListItem>

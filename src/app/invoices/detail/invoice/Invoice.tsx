@@ -115,11 +115,11 @@ const InvoicesDetailInvoice: FunctionComponent<{
           </TableHead>
           <TableBody>
             {order.products.map((product) => (
-              <TableRow key={product.id}>
-                <TableCell>{product.name}</TableCell>
+              <TableRow key={product.product.id}>
+                <TableCell>{product.product.name}</TableCell>
                 <TableCell></TableCell>
                 <TableCell align="right">
-                  {toMoneyFormat(product.price)}
+                  {toMoneyFormat(product.product.price)}
                 </TableCell>
               </TableRow>
             ))}

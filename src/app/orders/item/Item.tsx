@@ -69,7 +69,10 @@ const OrderListItem: FunctionComponent<{
       <TableCell onClick={toggleDrawer}>
         <Typography variant="body2">
           {toMoneyFormat(
-            order.products.reduce((acum, product) => acum + product.price, 0)
+            order.products.reduce(
+              (acum, product) => acum + product.product.price,
+              0
+            )
           )}
         </Typography>
       </TableCell>

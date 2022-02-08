@@ -29,10 +29,10 @@ const OrderDrawerTable: FunctionComponent<{ order: OrderDB }> = ({ order }) => {
                 borderBottom: (theme) => `1px solid ${theme.palette.divider}`,
               },
             }}
-            key={product.id}
+            key={product.product.id}
           >
-            <TableCell>{product.name}</TableCell>
-            <TableCell>{toMoneyFormat(product.price)}</TableCell>
+            <TableCell>{product.product.name}</TableCell>
+            <TableCell>{toMoneyFormat(product.product.price)}</TableCell>
           </TableRow>
         ))}
       </TableBody>
