@@ -9,7 +9,7 @@ const OrderAddIndex = () => {
 
   useEffect(() => {
     dispatch(readAllUsers());
-    dispatch(readAllProducts());
+    dispatch(readAllProducts({ limit: 10 }));
   }, []);
 
   return <OrderForm />;

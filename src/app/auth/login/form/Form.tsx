@@ -23,7 +23,7 @@ const LoginForm: FunctionComponent<{
 }> = ({ onSubmit, error, isLoadingButton }) => {
   const { handleSubmit, control } = useForm<InputsLoginForm>({
     defaultValues: {
-      email: 'administrador@test.com',
+      email: 'gonzaflores358@gmail.com',
       password: 'password',
     },
   });

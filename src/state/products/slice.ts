@@ -8,16 +8,18 @@ enum Status {
   readingProducts = 'reading products',
 }
 
-interface State {
+export interface ProductState {
   status: Status;
   error: null;
+  total_count: number;
 }
 
 const productAdapter = createEntityAdapter<ProductDB>({});
 
-const initialState = productAdapter.getInitialState<State>({
+const initialState = productAdapter.getInitialState<ProductState>({
   status: Status.idle,
   error: null,
+  total_count: 0,
 });
 
 const slice = createSlice({
@@ -32,7 +34,8 @@ const slice = createSlice({
     builder.addCase(readAllProducts.fulfilled, (state, action) => {
       state.status = Status.idle;
 
-      productAdapter.upsertMany(state, action.payload);
+      state.total_count = action.payload.pagination.total_count;
+      productAdapter.setAll(state, action.payload.data);
     });
   },
 });
