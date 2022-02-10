@@ -4,14 +4,21 @@ import { Box, Card, Divider, InputBase, TableContainer } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 
 import ProductDB from '../../../../../interfaces/ProductDB';
-import { selectAllProducts } from '../../../../../state/products/slice';
+import {
+  ProductStoreStatus,
+  selectAllProducts,
+} from '../../../../../state/products/slice';
 import { RootState } from '../../../../../state/store';
 import FormProductsSelectorTable from './table/Table';
 import FormProductsSelectorPagination from './pagination/Pagination';
 
 const FormProductsSelector = () => {
   const products = useSelector<RootState, ProductDB[]>(selectAllProducts);
+  const status = useSelector<RootState, ProductStoreStatus>(
+    (state) => state.products.status
+  );
   const [search, setSearch] = useState('');
+  const [rowsPerPage, setRowsPerPage] = useState(10);
 
   useEffect(() => {
     console.log(search);
@@ -28,8 +35,12 @@ const FormProductsSelector = () => {
       </Box>
       <Divider />
       <TableContainer sx={{ display: 'flex', flexDirection: 'column' }}>
-        <FormProductsSelectorTable products={products} />
-        <FormProductsSelectorPagination />
+        <FormProductsSelectorTable
+          products={products}
+          rowsPerPage={rowsPerPage}
+          loading={status === ProductStoreStatus.readingProducts}
+        />
+        <FormProductsSelectorPagination onRowsPerPageChange={setRowsPerPage} />
       </TableContainer>
     </Card>
   );
