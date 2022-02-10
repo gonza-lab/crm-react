@@ -27,7 +27,9 @@ const FormProductsSelectorPagination: FunctionComponent<{
       onPageChange={handleChangePage}
       onRowsPerPageChange={handleChangeRowsPerPage}
       backIconButtonProps={{ disabled: disableButtons || !page }}
-      nextIconButtonProps={{ disabled: disableButtons }}
+      nextIconButtonProps={{
+        disabled: disableButtons || total_count <= (page + 1) * rowsPerPage,
+      }}
     />
   );
 };

@@ -11,9 +11,11 @@ import {
   Typography,
 } from '@mui/material';
 import { FunctionComponent } from 'react';
-import ProductDB from '../../../../../../interfaces/ProductDB';
+import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
 
+import ProductDB from '../../../../../../interfaces/ProductDB';
 import toMoneyFormat from '../../../../../../util/toMoneyFormat';
+import CenterAbsolute from '../../../../../shared/center-absolute/CenterAbsolute';
 
 const FormProductsSelectorTable: FunctionComponent<{
   products: ProductDB[];
@@ -25,26 +27,34 @@ const FormProductsSelectorTable: FunctionComponent<{
       <TableHead>
         <TableRow>
           <TableCell sx={{ width: 72 }}></TableCell>
-          <TableCell>Nombre</TableCell>
-          <TableCell>Price</TableCell>
+          <TableCell sx={{ width: 550 }}>Nombre</TableCell>
+          <TableCell sx={{ width: 180 }}>Precio</TableCell>
           <TableCell>Stock</TableCell>
         </TableRow>
       </TableHead>
       <TableBody sx={{ position: 'relative' }}>
         {loading ? (
-          <Box
-            component="tr"
-            sx={{
-              right: '50%',
-              top: '50%',
-              position: 'absolute',
-              transform: 'translate(-50%, -50%)',
-            }}
-          >
+          <CenterAbsolute component="tr">
             <td>
               <CircularProgress />
             </td>
-          </Box>
+          </CenterAbsolute>
+        ) : !products.length ? (
+          <CenterAbsolute>
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                flexDirection: 'column',
+              }}
+            >
+              <SentimentVeryDissatisfiedIcon />
+              <Typography variant="body2" color="textSecondary">
+                Productos no encontrados
+              </Typography>
+            </Box>
+          </CenterAbsolute>
         ) : (
           products.map((product) => (
             <TableRow key={product.id}>
