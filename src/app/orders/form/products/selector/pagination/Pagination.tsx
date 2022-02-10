@@ -1,26 +1,21 @@
 import { TablePagination } from '@mui/material';
-import { FunctionComponent, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { FunctionComponent } from 'react';
+import { useSelector } from 'react-redux';
 
 import usePagination from '../../../../../../hooks/usePagination';
-import { PaginatedRequest } from '../../../../../../interfaces/PaginatedRequest';
-import { readAllProducts } from '../../../../../../state/products/reducer';
 import { ProductState } from '../../../../../../state/products/slice';
 import { RootState } from '../../../../../../state/store';
 
 const FormProductsSelectorPagination: FunctionComponent<{
   onRowsPerPageChange: (newRowsPerPage: number) => void;
-}> = ({ onRowsPerPageChange }) => {
-  const dispatch = useDispatch();
+  onPageChange: (newPage: number) => void;
+  disableButtons?: boolean;
+}> = ({ onRowsPerPageChange, onPageChange, disableButtons }) => {
   const { total_count } = useSelector<RootState, ProductState>(
     (state) => state.products
   );
   const { handleChangePage, handleChangeRowsPerPage, page, rowsPerPage } =
-    usePagination((options?: PaginatedRequest) => {
-      dispatch(readAllProducts(options));
-    });
-
-  useEffect(() => onRowsPerPageChange(rowsPerPage), [rowsPerPage]);
+    usePagination(onRowsPerPageChange, onPageChange);
 
   return (
     <TablePagination
@@ -31,6 +26,8 @@ const FormProductsSelectorPagination: FunctionComponent<{
       page={page}
       onPageChange={handleChangePage}
       onRowsPerPageChange={handleChangeRowsPerPage}
+      backIconButtonProps={{ disabled: disableButtons || !page }}
+      nextIconButtonProps={{ disabled: disableButtons }}
     />
   );
 };
