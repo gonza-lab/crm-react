@@ -21,7 +21,8 @@ const FormProductsSelectorTable: FunctionComponent<{
   products: ProductDB[];
   rowsPerPage: number;
   loading?: boolean;
-}> = ({ products, rowsPerPage, loading }) => {
+  onClickIcon?: (product: ProductDB) => void;
+}> = ({ products, rowsPerPage, loading, onClickIcon }) => {
   return (
     <Table>
       <TableHead>
@@ -59,7 +60,7 @@ const FormProductsSelectorTable: FunctionComponent<{
           products.map((product) => (
             <TableRow key={product.id}>
               <TableCell>
-                <IconButton>
+                <IconButton onClick={() => onClickIcon && onClickIcon(product)}>
                   <AddShoppingCart />
                 </IconButton>
               </TableCell>

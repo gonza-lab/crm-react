@@ -1,7 +1,6 @@
-import { useEffect, useState } from 'react';
+import { FunctionComponent, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Box, Card, Divider, InputBase, TableContainer } from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
+import { Card, Divider, TableContainer } from '@mui/material';
 
 import ProductDB from '../../../../../interfaces/ProductDB';
 import {
@@ -13,8 +12,11 @@ import FormProductsSelectorTable from './table/Table';
 import FormProductsSelectorPagination from './pagination/Pagination';
 import useDebounce from '../../../../../hooks/useDebounce';
 import { readAllProducts } from '../../../../../state/products/reducer';
+import FormProductsSearch from './search/Search';
 
-const FormProductsSelector = () => {
+const FormProductsSelector: FunctionComponent<{
+  onAddProduct: (product: ProductDB) => void;
+}> = ({ onAddProduct }) => {
   const dispatch = useDispatch();
   const products = useSelector<RootState, ProductDB[]>(selectAllProducts);
   const status = useSelector<RootState, ProductStoreStatus>(
@@ -52,16 +54,11 @@ const FormProductsSelector = () => {
 
   return (
     <Card>
-      <Box p={2} sx={{ display: 'flex', alignItems: 'center', gap: 3 }}>
-        <SearchIcon />
-        <InputBase
-          onChange={(e) => setSearch(e.target.value)}
-          placeholder="Buscar producto por nombre"
-        />
-      </Box>
+      <FormProductsSearch onSearch={(e) => setSearch(e.target.value)} />
       <Divider />
       <TableContainer sx={{ display: 'flex', flexDirection: 'column' }}>
         <FormProductsSelectorTable
+          onClickIcon={onAddProduct}
           products={products}
           rowsPerPage={rowsPerPage}
           loading={status === ProductStoreStatus.readingProducts}
