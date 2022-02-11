@@ -19,6 +19,7 @@ const FormProductsSelectorPagination: FunctionComponent<{
 
   return (
     <TablePagination
+      labelRowsPerPage="Filas por página"
       rowsPerPageOptions={[5, 10, 20]}
       component="div"
       count={total_count}
