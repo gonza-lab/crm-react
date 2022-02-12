@@ -54,7 +54,10 @@ const FormProductsSelector: FunctionComponent<{
 
   return (
     <Card>
-      <FormProductsSearch onSearch={(e) => setSearch(e.target.value)} />
+      <FormProductsSearch
+        searching={status === ProductStoreStatus.readingProducts}
+        onSearch={(e) => setSearch(e.target.value)}
+      />
       <Divider />
       <TableContainer sx={{ display: 'flex', flexDirection: 'column' }}>
         <FormProductsSelectorTable

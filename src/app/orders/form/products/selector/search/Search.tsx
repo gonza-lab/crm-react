@@ -1,10 +1,11 @@
-import { Box, InputBase } from '@mui/material';
+import { Box, CircularProgress, InputBase } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { ChangeEvent, FunctionComponent } from 'react';
 
 const FormProductsSearch: FunctionComponent<{
   onSearch: (event: ChangeEvent<HTMLInputElement>) => void;
-}> = ({ onSearch }) => {
+  searching: boolean;
+}> = ({ onSearch, searching }) => {
   return (
     <Box p={2} sx={{ display: 'flex', alignItems: 'center', gap: 3 }}>
       <SearchIcon />
@@ -13,6 +14,11 @@ const FormProductsSearch: FunctionComponent<{
         placeholder="Buscar producto por nombre"
         fullWidth
       />
+      {searching && (
+        <Box height={20}>
+          <CircularProgress size={20} />
+        </Box>
+      )}
     </Box>
   );
 };
