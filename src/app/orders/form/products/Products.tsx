@@ -29,10 +29,12 @@ const FormProducts = () => {
     product: ProductDB,
     orderedProduct: OrderedProduct
   ) => {
-    setProducts((prev) => ({
-      ...prev,
-      [product.id]: orderedProduct,
-    }));
+    if (product.stock >= orderedProduct.quantity) {
+      setProducts((prev) => ({
+        ...prev,
+        [product.id]: orderedProduct,
+      }));
+    }
   };
 
   const handleDeleteProduct = (product: ProductDB) => {

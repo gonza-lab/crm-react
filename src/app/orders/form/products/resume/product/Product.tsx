@@ -33,7 +33,11 @@ const FormProductsSummaryDetail: FunctionComponent<{
       <Box sx={{ flexShrink: 0 }}>
         <TextField
           sx={{ width: 58 }}
-          inputProps={{ style: { textAlign: 'right' } }}
+          inputProps={{
+            style: { textAlign: 'right' },
+            inputMode: 'numeric',
+            pattern: '[0-9]*',
+          }}
           size="small"
           value={quantity}
           onChange={(e) => onChangeValue(product, +e.target.value)}
