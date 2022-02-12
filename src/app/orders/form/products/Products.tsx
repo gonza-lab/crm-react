@@ -12,24 +12,33 @@ export interface OrderedProducts {
   [key: number]: OrderedProduct;
 }
 
+const isEnoughStock = (product: ProductDB, quantity: number): boolean => {
+  return product.stock >= quantity;
+};
+
 const FormProducts = () => {
   const [products, setProducts] = useState<OrderedProducts>({});
 
   const handleAddProduct = (product: ProductDB) => {
-    setProducts((prev) => ({
-      ...prev,
-      [product.id]: {
-        quantity: prev[product.id] ? prev[product.id].quantity + 1 : 1,
-        product,
-      },
-    }));
+    if (
+      !products[product.id] ||
+      isEnoughStock(product, products[product.id].quantity + 1)
+    ) {
+      setProducts((prev) => ({
+        ...prev,
+        [product.id]: {
+          quantity: prev[product.id] ? prev[product.id].quantity + 1 : 1,
+          product,
+        },
+      }));
+    }
   };
 
   const handleChangeProduct = (
     product: ProductDB,
     orderedProduct: OrderedProduct
   ) => {
-    if (product.stock >= orderedProduct.quantity) {
+    if (isEnoughStock(product, orderedProduct.quantity)) {
       setProducts((prev) => ({
         ...prev,
         [product.id]: orderedProduct,
