@@ -1,18 +1,18 @@
 import {
-  createAsyncThunk,
   createEntityAdapter,
   createSlice,
   EntityId,
   PayloadAction,
 } from '@reduxjs/toolkit';
 import OrderDB from '../../interfaces/OrderDB';
-import OrderService from '../../service/OrderService';
 import { RootState } from '../store';
 import { compareAsc } from 'date-fns';
+import { createOrder, readAllOrders } from './reducer';
 
 enum Status {
   idle = 'idle',
   loadingOrders = 'loading orders',
+  creatingOrder = 'creating order',
 }
 
 export interface StateDrawer {
@@ -40,13 +40,6 @@ const initialState = orderAdapter.getInitialState<State>({
   },
 });
 
-const readAll = createAsyncThunk('orders/read_all', async () => {
-  const orderService = new OrderService();
-  const response = await orderService.readAll();
-
-  return response;
-});
-
 const slice = createSlice({
   name: 'orders',
   initialState,
@@ -63,13 +56,22 @@ const slice = createSlice({
     },
   },
   extraReducers(builder) {
-    builder.addCase(readAll.pending, (state) => {
+    builder.addCase(readAllOrders.pending, (state) => {
       state.status = Status.loadingOrders;
     });
 
-    builder.addCase(readAll.fulfilled, (state, action) => {
+    builder.addCase(readAllOrders.fulfilled, (state, action) => {
       state.status = Status.idle;
       orderAdapter.upsertMany(state, action.payload);
+    });
+
+    builder.addCase(createOrder.pending, (state) => {
+      state.status = Status.creatingOrder;
+    });
+
+    builder.addCase(createOrder.fulfilled, (state, action) => {
+      state.status = Status.idle;
+      orderAdapter.setOne(state, action.payload);
     });
   },
 });
@@ -86,6 +88,5 @@ export const {
   closeDrawer: closeOrdersDrawer,
 } = slice.actions;
 
-export { readAll };
 export { Status as OrderStatus };
 export default slice.reducer;

@@ -5,10 +5,9 @@ import { styled } from '@mui/material/styles';
 
 import { useDispatch } from 'react-redux';
 
-import { readAll } from '../../state/orders/slice';
-
 import OrdersDrawer from './drawer/Drawer';
 import OrdersContent from './content/Content';
+import { readAllOrders } from '../../state/orders/reducer';
 
 const drawerWidth = 500;
 
@@ -20,7 +19,7 @@ const Orders = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(readAll());
+    dispatch(readAllOrders());
   }, []);
 
   return (

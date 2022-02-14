@@ -2,8 +2,7 @@ import { useEffect } from 'react';
 
 import { useDispatch } from 'react-redux';
 import { Outlet } from 'react-router-dom';
-
-import { readAll as readAllOrders } from '../../state/orders/slice';
+import { readAllOrders } from '../../state/orders/reducer';
 
 const InvoiceIndex = () => {
   const dispatch = useDispatch();

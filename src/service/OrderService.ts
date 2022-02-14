@@ -1,15 +1,28 @@
+import axios from 'axios';
+import { CreateOrderRequest } from '../interfaces/CreateOrderRequest';
+import OrderDB from '../interfaces/OrderDB';
 import { ReadAllOrderResponse } from '../interfaces/ReadAllOrderResponse';
-import ApiService from './ApiService';
+import axiosService from './AxiosService';
 
-export default class OrderService extends ApiService {
-  private baseUrl = '/order';
+const url = 'order';
 
-  constructor() {
-    super();
-  }
+const readAll = async (): Promise<ReadAllOrderResponse> => {
+  const orders = await axios.get<ReadAllOrderResponse>(
+    url,
+    axiosService.getRequestConfig()
+  );
 
-  async readAll(): Promise<ReadAllOrderResponse> {
-    const { data } = await this.axios.get<ReadAllOrderResponse>(this.baseUrl);
-    return data;
-  }
-}
+  return orders.data;
+};
+
+const create = async (data: CreateOrderRequest): Promise<OrderDB> => {
+  const order = await axios.post<OrderDB>(
+    url,
+    data,
+    axiosService.getRequestConfig()
+  );
+
+  return order.data;
+};
+
+export default { readAll, create };
