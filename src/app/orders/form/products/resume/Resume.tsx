@@ -17,11 +17,26 @@ const FormProductsSummary: FunctionComponent<{
   };
 
   return (
-    <Card sx={{ p: 3, height: '100%', position: 'relative' }}>
+    <Card
+      sx={{
+        p: 3,
+        height: { md: 526 },
+        position: 'relative',
+        display: 'flex',
+        flexDirection: 'column',
+      }}
+    >
       <Typography variant="h6" sx={{ mb: 3 }}>
         Resumen
       </Typography>
-      <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 1,
+          overflowY: 'auto',
+        }}
+      >
         {Object.values(products).length ? (
           Object.values(products).map((value) => (
             <FormProductsSummaryDetail
