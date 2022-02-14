@@ -11,15 +11,18 @@ import { useDispatch, useSelector } from 'react-redux';
 import { createOrder } from '../../../state/orders/reducer';
 import { RootState } from '../../../state/store';
 import { OrderState, OrderStatus } from '../../../state/orders/slice';
+import { AppDispatch } from '../../../state/store';
+import { useNavigate } from 'react-router-dom';
 
 const OrderForm = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const [user, setUser] = useState<UserDB | null>();
   const [products, setProducts] = useState<OrderedProducts>({});
   const [submited, setSubmited] = useState(false);
   const { status } = useSelector<RootState, OrderState>(
     (state) => state.orders
   );
+  const navigate = useNavigate();
 
   const handleSubmit = () => {
     setSubmited(true);
@@ -33,7 +36,14 @@ const OrderForm = () => {
           })),
           status: 1,
         })
-      );
+      )
+        .unwrap()
+        .then((e) => {
+          navigate('/pedidos');
+        })
+        .catch((e) => {
+          console.log('Mal:', e);
+        });
     }
   };
 
