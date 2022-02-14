@@ -1,5 +1,5 @@
 import { Grid } from '@mui/material';
-import { useState } from 'react';
+import { FunctionComponent, useEffect, useState } from 'react';
 import ProductDB from '../../../../interfaces/ProductDB';
 import FormProductsSummary from './resume/Resume';
 import FormProductsSelector from './selector/Selector';
@@ -16,7 +16,9 @@ const isEnoughStock = (product: ProductDB, quantity: number): boolean => {
   return product.stock >= quantity;
 };
 
-const FormProducts = () => {
+const FormProducts: FunctionComponent<{
+  onChangeProducts: (products: OrderedProducts) => void;
+}> = ({ onChangeProducts }) => {
   const [products, setProducts] = useState<OrderedProducts>({});
 
   const handleAddProduct = (product: ProductDB) => {
@@ -53,6 +55,8 @@ const FormProducts = () => {
       return clone;
     });
   };
+
+  useEffect(() => onChangeProducts(products), [products]);
 
   return (
     <Grid container spacing={2}>

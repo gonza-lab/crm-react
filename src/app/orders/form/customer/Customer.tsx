@@ -46,7 +46,9 @@ const ListItemLabel: FunctionComponent<{ label: string }> = ({
   </ListItem>
 );
 
-const FormCustomer: FunctionComponent = () => {
+const FormCustomer: FunctionComponent<{
+  onChangeUser: (user: UserDB | null) => void;
+}> = ({ onChangeUser }) => {
   const users = useSelector<RootState, UserDB[]>((state) =>
     selectAllUsers(state)
   );
@@ -99,7 +101,10 @@ const FormCustomer: FunctionComponent = () => {
           )}
           renderInput={(params) => <TextField {...params} />}
           sx={{ maxWidth: 300, width: '100%' }}
-          onChange={(e, value) => setUser(value)}
+          onChange={(e, value) => {
+            setUser(value);
+            onChangeUser(value);
+          }}
         />
       </CardHeader>
       <Divider />
