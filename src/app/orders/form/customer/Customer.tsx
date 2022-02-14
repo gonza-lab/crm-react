@@ -4,6 +4,7 @@ import {
   Card,
   CircularProgress,
   Divider,
+  InputLabel,
   List,
   ListItem as MuiListItem,
   TextField,
@@ -48,7 +49,8 @@ const ListItemLabel: FunctionComponent<{ label: string }> = ({
 
 const FormCustomer: FunctionComponent<{
   onChangeUser: (user: UserDB | null) => void;
-}> = ({ onChangeUser }) => {
+  error?: string | boolean;
+}> = ({ onChangeUser, error }) => {
   const users = useSelector<RootState, UserDB[]>((state) =>
     selectAllUsers(state)
   );
@@ -58,87 +60,100 @@ const FormCustomer: FunctionComponent<{
   const [user, setUser] = useState<UserDB | null>(null);
   const theme = useTheme();
 
-  return status === UserStoreStatus.loadingUsers ? (
-    <Card
-      elevation={1}
-      sx={{
-        maxHeight: 213,
-        height: '100%',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}
-    >
-      <CircularProgress />
-    </Card>
-  ) : (
-    <Card elevation={1}>
-      <CardHeader>
-        <Typography variant="h6" sx={{ display: 'flex' }}>
-          Cliente
-        </Typography>
-        <Autocomplete
-          options={users}
-          getOptionLabel={(user) => user.first_name + ' ' + user.last_name}
-          renderOption={(props, option) => (
-            <li
-              {...props}
-              style={{
-                flexDirection: 'column',
-                alignItems: 'flex-start',
-              }}
-            >
-              <span>
-                {option.first_name} {option.last_name}
-              </span>
-              <Typography
-                variant="caption"
-                color={theme.palette.text.secondary}
-              >
-                {option.email}
-              </Typography>
-            </li>
-          )}
-          renderInput={(params) => <TextField {...params} />}
-          sx={{ maxWidth: 300, width: '100%' }}
-          onChange={(e, value) => {
-            setUser(value);
-            onChangeUser(value);
+  return (
+    <Box>
+      {status === UserStoreStatus.loadingUsers ? (
+        <Card
+          elevation={1}
+          sx={{
+            maxHeight: 213,
+            height: '100%',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
           }}
-        />
-      </CardHeader>
-      <Divider />
-      <List disablePadding>
-        <ListItemLabel label="ID">
-          {user && (
-            <Typography variant="body2" color="textSecondary">
-              {user.id}
-            </Typography>
+        >
+          <CircularProgress />
+        </Card>
+      ) : (
+        <>
+          <Card elevation={1}>
+            <CardHeader>
+              <Typography variant="h6" sx={{ display: 'flex' }}>
+                Cliente
+              </Typography>
+              <Autocomplete
+                options={users}
+                getOptionLabel={(user) =>
+                  user.first_name + ' ' + user.last_name
+                }
+                renderOption={(props, option) => (
+                  <li
+                    {...props}
+                    style={{
+                      flexDirection: 'column',
+                      alignItems: 'flex-start',
+                    }}
+                  >
+                    <span>
+                      {option.first_name} {option.last_name}
+                    </span>
+                    <Typography
+                      variant="caption"
+                      color={theme.palette.text.secondary}
+                    >
+                      {option.email}
+                    </Typography>
+                  </li>
+                )}
+                renderInput={(params) => <TextField {...params} />}
+                sx={{ maxWidth: 300, width: '100%' }}
+                onChange={(e, value) => {
+                  setUser(value);
+                  onChangeUser(value);
+                }}
+              />
+            </CardHeader>
+            <Divider />
+            <List disablePadding>
+              <ListItemLabel label="ID">
+                {user && (
+                  <Typography variant="body2" color="textSecondary">
+                    {user.id}
+                  </Typography>
+                )}
+              </ListItemLabel>
+              <Divider />
+              <ListItemLabel label="Ubicación">
+                <Box sx={{ flex: '1 1 0%', flexDirection: 'column' }}>
+                  {user && (
+                    <>
+                      <Typography variant="body2" color="textSecondary">
+                        {user.address},
+                      </Typography>
+                      <Typography variant="body2" color="textSecondary">
+                        {user.locality},
+                      </Typography>
+                      <Typography variant="body2" color="textSecondary">
+                        {user.city},
+                      </Typography>
+                      <Typography variant="body2" color="textSecondary">
+                        {user.country}.
+                      </Typography>
+                    </>
+                  )}
+                </Box>
+              </ListItemLabel>
+            </List>
+          </Card>
+          {error && (
+            <InputLabel error sx={{ mt: 1 }}>
+              {error}
+            </InputLabel>
           )}
-        </ListItemLabel>
-        <Divider />
-        <ListItemLabel label="Ubicación">
-          <Box sx={{ flex: '1 1 0%', flexDirection: 'column' }}>
-            {user && (
-              <>
-                <Typography variant="body2" color="textSecondary">
-                  {user.address},
-                </Typography>
-                <Typography variant="body2" color="textSecondary">
-                  {user.locality},
-                </Typography>
-                <Typography variant="body2" color="textSecondary">
-                  {user.city},
-                </Typography>
-                <Typography variant="body2" color="textSecondary">
-                  {user.country}.
-                </Typography>
-              </>
-            )}
-          </Box>
-        </ListItemLabel>
-      </List>
-    </Card>
+        </>
+      )}
+    </Box>
   );
 };
 

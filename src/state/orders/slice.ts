@@ -20,7 +20,7 @@ export interface StateDrawer {
   orderId: EntityId;
 }
 
-interface State {
+export interface OrderState {
   status: Status;
   error: null;
   drawer: StateDrawer;
@@ -31,7 +31,7 @@ const orderAdapter = createEntityAdapter<OrderDB>({
     compareAsc(new Date(a.updated_at), new Date(b.updated_at)),
 });
 
-const initialState = orderAdapter.getInitialState<State>({
+const initialState = orderAdapter.getInitialState<OrderState>({
   status: Status.idle,
   error: null,
   drawer: {

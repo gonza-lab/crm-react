@@ -1,4 +1,4 @@
-import { Grid } from '@mui/material';
+import { Box, Grid, InputLabel } from '@mui/material';
 import { FunctionComponent, useEffect, useState } from 'react';
 import ProductDB from '../../../../interfaces/ProductDB';
 import FormProductsSummary from './resume/Resume';
@@ -18,7 +18,8 @@ const isEnoughStock = (product: ProductDB, quantity: number): boolean => {
 
 const FormProducts: FunctionComponent<{
   onChangeProducts: (products: OrderedProducts) => void;
-}> = ({ onChangeProducts }) => {
+  error?: string | boolean;
+}> = ({ onChangeProducts, error }) => {
   const [products, setProducts] = useState<OrderedProducts>({});
 
   const handleAddProduct = (product: ProductDB) => {
@@ -59,18 +60,25 @@ const FormProducts: FunctionComponent<{
   useEffect(() => onChangeProducts(products), [products]);
 
   return (
-    <Grid container spacing={2}>
-      <Grid item xs={12} md={7}>
-        <FormProductsSelector onAddProduct={handleAddProduct} />
+    <Box>
+      <Grid container spacing={2}>
+        <Grid item xs={12} md={7}>
+          <FormProductsSelector onAddProduct={handleAddProduct} />
+        </Grid>
+        <Grid item xs={12} md={5}>
+          <FormProductsSummary
+            products={products}
+            onChangeProduct={handleChangeProduct}
+            onDeleteProduct={handleDeleteProduct}
+          />
+        </Grid>
       </Grid>
-      <Grid item xs={12} md={5}>
-        <FormProductsSummary
-          products={products}
-          onChangeProduct={handleChangeProduct}
-          onDeleteProduct={handleDeleteProduct}
-        />
-      </Grid>
-    </Grid>
+      {error && (
+        <InputLabel error sx={{ mt: 1 }}>
+          {error}
+        </InputLabel>
+      )}
+    </Box>
   );
 };
 
