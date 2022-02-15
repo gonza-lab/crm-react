@@ -13,6 +13,7 @@ import { RootState } from '../../../state/store';
 import { OrderState, OrderStatus } from '../../../state/orders/slice';
 import { AppDispatch } from '../../../state/store';
 import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 const OrderForm = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -38,11 +39,14 @@ const OrderForm = () => {
         })
       )
         .unwrap()
-        .then((e) => {
+        .then(() => {
           navigate('/pedidos');
+          toast.success('Se ha creado la orden con éxito.');
         })
-        .catch((e) => {
-          console.log('Mal:', e);
+        .catch(() => {
+          toast.error(
+            'Ha ocurrido un error al crear la orden. Porfavor, intentelo nuevamente.'
+          );
         });
     }
   };

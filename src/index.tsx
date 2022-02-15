@@ -6,6 +6,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { ThemeProvider } from '@emotion/react';
 import { CssBaseline } from '@mui/material';
+import { Toaster } from 'react-hot-toast';
 
 import { theme } from './theme';
 import { store } from './state/store';
@@ -20,6 +21,7 @@ ReactDOM.render(
       <ThemeProvider theme={theme}>
         <BrowserRouter>
           <CssBaseline />
+          <Toaster />
           <App />
         </BrowserRouter>
       </ThemeProvider>
