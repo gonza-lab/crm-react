@@ -6,7 +6,6 @@ import {
 } from '@reduxjs/toolkit';
 import OrderDB from '../../interfaces/OrderDB';
 import { RootState } from '../store';
-import { compareAsc } from 'date-fns';
 import { createOrder, readAllOrders } from './reducer';
 
 enum Status {
@@ -24,6 +23,7 @@ export interface OrderState {
   status: Status;
   error: null;
   drawer: StateDrawer;
+  total_count: number;
 }
 
 const orderAdapter = createEntityAdapter<OrderDB>({});
@@ -35,6 +35,7 @@ const initialState = orderAdapter.getInitialState<OrderState>({
     isOpen: false,
     orderId: 0,
   },
+  total_count: 0,
 });
 
 const slice = createSlice({
@@ -59,7 +60,8 @@ const slice = createSlice({
 
     builder.addCase(readAllOrders.fulfilled, (state, action) => {
       state.status = Status.idle;
-      orderAdapter.upsertMany(state, action.payload);
+      state.total_count = action.payload.pagination.total_count;
+      orderAdapter.upsertMany(state, action.payload.data);
     });
 
     builder.addCase(createOrder.pending, (state) => {
