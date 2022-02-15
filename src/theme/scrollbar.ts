@@ -9,12 +9,12 @@ export const scrollbar: CSSObject = {
     backgroundColor: 'transparent',
   },
   '::-webkit-scrollbar-thumb': {
-    backgroundColor: initial.palette.neutral[200],
+    backgroundColor: initial.palette.neutral[300],
     borderRadius: '20px',
     border: '6px solid transparent',
     backgroundClip: 'content-box',
   },
   '::-webkit-scrollbar-thumb:hover': {
-    backgroundColor: initial.palette.neutral[300],
+    backgroundColor: initial.palette.neutral[400],
   },
 };

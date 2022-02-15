@@ -26,10 +26,7 @@ export interface OrderState {
   drawer: StateDrawer;
 }
 
-const orderAdapter = createEntityAdapter<OrderDB>({
-  sortComparer: (a, b) =>
-    compareAsc(new Date(a.updated_at), new Date(b.updated_at)),
-});
+const orderAdapter = createEntityAdapter<OrderDB>({});
 
 const initialState = orderAdapter.getInitialState<OrderState>({
   status: Status.idle,
