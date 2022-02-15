@@ -61,7 +61,7 @@ const slice = createSlice({
     builder.addCase(readAllOrders.fulfilled, (state, action) => {
       state.status = Status.idle;
       state.total_count = action.payload.pagination.total_count;
-      orderAdapter.upsertMany(state, action.payload.data);
+      orderAdapter.setAll(state, action.payload.data);
     });
 
     builder.addCase(createOrder.pending, (state) => {

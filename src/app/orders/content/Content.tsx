@@ -1,15 +1,17 @@
-import { FunctionComponent } from 'react';
+import { FunctionComponent, useEffect, useState } from 'react';
 
 import { Box, Button, Typography, CircularProgress } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import AddIcon from '@mui/icons-material/Add';
 
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { RootState } from '../../../state/store';
-import { OrderStatus } from '../../../state/orders/slice';
+import { OrderState, OrderStatus } from '../../../state/orders/slice';
 import OrdersList from '../list/List';
 import { Link } from 'react-router-dom';
+import Pagination from '../../shared/pagination/Pagination';
+import { readAllOrders } from '../../../state/orders/reducer';
 
 const Content = styled('div', {
   shouldForwardProp: (prop) => prop !== 'open' && prop !== 'drawerWidth',
@@ -17,6 +19,7 @@ const Content = styled('div', {
   width: '100%',
   flexGrow: 1,
   zIndex: 1,
+  padding: '64px 0 48px 0',
   [theme.breakpoints.up('md')]: {
     marginRight: `-${drawerWidth}px`,
     transition: theme.transitions.create('margin', {
@@ -36,15 +39,28 @@ const Content = styled('div', {
 const OrdersContent: FunctionComponent<{ drawerWidth: number }> = ({
   drawerWidth,
 }) => {
-  const isOpenDrawer = useSelector<RootState, boolean>(
-    (state) => state.orders.drawer.isOpen
+  const dispatch = useDispatch();
+  const { status, drawer, total_count } = useSelector<RootState, OrderState>(
+    (state) => state.orders
   );
-  const status = useSelector<RootState, OrderStatus>(
-    (state) => state.orders.status
-  );
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [page, setPage] = useState(0);
+
+  useEffect(() => {
+    dispatch(readAllOrders({ limit: rowsPerPage, offset: 0 }));
+  }, [rowsPerPage]);
+
+  useEffect(() => {
+    dispatch(
+      readAllOrders({
+        limit: rowsPerPage,
+        offset: rowsPerPage * page,
+      })
+    );
+  }, [page]);
 
   return (
-    <Content drawerWidth={drawerWidth} open={isOpenDrawer}>
+    <Content drawerWidth={drawerWidth} open={drawer.isOpen}>
       <Box
         sx={{
           display: 'flex',
@@ -52,7 +68,6 @@ const OrdersContent: FunctionComponent<{ drawerWidth: number }> = ({
           alignItems: 'center',
           px: 3,
           mb: 3,
-          pt: 8,
         }}
       >
         <Typography variant="h4">Pedidos</Typography>
@@ -64,19 +79,30 @@ const OrdersContent: FunctionComponent<{ drawerWidth: number }> = ({
           </Link>
         </Box>
       </Box>
-      {status === OrderStatus.loadingOrders ? (
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'center',
-            pt: 10,
-          }}
-        >
-          <CircularProgress />
-        </Box>
-      ) : (
-        <OrdersList />
-      )}
+      <Box
+        sx={{
+          height: 95.72 * rowsPerPage + 44.5,
+          position: 'relative',
+        }}
+      >
+        {status === OrderStatus.loadingOrders ? (
+          <CircularProgress
+            sx={{
+              position: 'absolute',
+              left: '50%',
+              top: '50%',
+              transform: 'translate(-50%, -50%)',
+            }}
+          />
+        ) : (
+          <OrdersList />
+        )}
+      </Box>
+      <Pagination
+        totalCount={total_count}
+        onRowsPerPageChange={setRowsPerPage}
+        onPageChange={setPage}
+      />
     </Content>
   );
 };

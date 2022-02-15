@@ -19,7 +19,7 @@ const Orders = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(readAllOrders());
+    dispatch(readAllOrders({ limit: 5 }));
   }, []);
 
   return (

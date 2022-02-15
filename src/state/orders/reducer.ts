@@ -1,5 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { CreateOrderRequest } from '../../interfaces/CreateOrderRequest';
+import { PaginatedRequest } from '../../interfaces/PaginatedRequest';
 import orderService from '../../service/OrderService';
 
 const create = createAsyncThunk(
@@ -9,10 +10,13 @@ const create = createAsyncThunk(
   }
 );
 
-const readAll = createAsyncThunk('orders/read_all', async () => {
-  const response = await orderService.readAll();
+const readAll = createAsyncThunk(
+  'orders/read_all',
+  async (options?: PaginatedRequest) => {
+    const response = await orderService.readAll(options);
 
-  return response;
-});
+    return response;
+  }
+);
 
 export { create as createOrder, readAll as readAllOrders };
