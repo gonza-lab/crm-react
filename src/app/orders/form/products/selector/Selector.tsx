@@ -4,23 +4,24 @@ import { Card, Divider, TableContainer } from '@mui/material';
 
 import ProductDB from '../../../../../interfaces/ProductDB';
 import {
+  ProductState,
   ProductStoreStatus,
   selectAllProducts,
 } from '../../../../../state/products/slice';
 import { RootState } from '../../../../../state/store';
 import FormProductsSelectorTable from './table/Table';
-import FormProductsSelectorPagination from './pagination/Pagination';
 import useDebounce from '../../../../../hooks/useDebounce';
 import { readAllProducts } from '../../../../../state/products/reducer';
 import FormProductsSearch from './search/Search';
+import Pagination from '../../../../shared/pagination/Pagination';
 
 const FormProductsSelector: FunctionComponent<{
   onAddProduct: (product: ProductDB) => void;
 }> = ({ onAddProduct }) => {
   const dispatch = useDispatch();
   const products = useSelector<RootState, ProductDB[]>(selectAllProducts);
-  const status = useSelector<RootState, ProductStoreStatus>(
-    (state) => state.products.status
+  const { total_count, status } = useSelector<RootState, ProductState>(
+    (state) => state.products
   );
   const [search, setSearch] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -66,10 +67,11 @@ const FormProductsSelector: FunctionComponent<{
           rowsPerPage={rowsPerPage}
           loading={status === ProductStoreStatus.readingProducts}
         />
-        <FormProductsSelectorPagination
+        <Pagination
           onRowsPerPageChange={setRowsPerPage}
           onPageChange={setPage}
           disableButtons={status === ProductStoreStatus.readingProducts}
+          totalCount={total_count}
         />
       </TableContainer>
     </Card>
