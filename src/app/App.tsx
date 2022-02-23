@@ -15,9 +15,7 @@ import Router from './Router';
 
 function App() {
   const dispatch = useDispatch();
-  const { data: user, status } = useSelector<RootState, AuthState>(
-    (state) => state.auth
-  );
+  const { status } = useSelector<RootState, AuthState>((state) => state.auth);
   const navigate = useNavigate();
 
   useEffect(() => {

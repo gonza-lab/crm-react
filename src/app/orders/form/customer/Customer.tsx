@@ -18,7 +18,7 @@ import { RootState } from '../../../../state/store';
 import { selectAllUsers, UserStoreStatus } from '../../../../state/users/slice';
 import { useTheme } from '@mui/material/styles';
 
-const ListItem = styled(MuiListItem)(({ theme }) => ({
+const ListItem = styled(MuiListItem)(() => ({
   padding: '12px 24px',
 }));
 

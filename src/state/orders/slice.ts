@@ -68,7 +68,7 @@ const slice = createSlice({
       state.status = Status.creatingOrder;
     });
 
-    builder.addCase(createOrder.fulfilled, (state, action) => {
+    builder.addCase(createOrder.fulfilled, (state) => {
       state.status = Status.idle;
     });
   },
