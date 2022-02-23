@@ -30,7 +30,9 @@ export const Layout: FunctionComponent = () => {
             flex: '1 1 auto',
             flexDirection: 'column',
             width: '100%',
-            height: '100%',
+            height: 'calc(100vh - 64px)',
+            overflowY: 'auto',
+            overflowX: 'hidden',
           }}
         >
           <Outlet />

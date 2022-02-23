@@ -28,7 +28,6 @@ const Orders = () => {
       sx={{
         flexGrow: 1,
         display: 'flex',
-        overflow: 'hidden',
       }}
     >
       <OrdersContent drawerWidth={drawerWidth} />

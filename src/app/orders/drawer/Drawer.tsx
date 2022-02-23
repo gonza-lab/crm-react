@@ -41,7 +41,7 @@ const OrdersDrawer: FunctionComponent<{ drawerWidth: number }> = ({
 
   return (
     <Drawer open={drawer.isOpen} drawerWidth={drawerWidth}>
-      {order ? (
+      {order && (
         <>
           <Header
             sx={{
@@ -59,8 +59,8 @@ const OrdersDrawer: FunctionComponent<{ drawerWidth: number }> = ({
               <CloseIcon />
             </IconButton>
           </Header>
-          <Box sx={{ px: 3, py: 4 }}>
-            <Typography variant="h6" sx={{ my: 3 }}>
+          <Box sx={{ px: 3, py: 4, height: '100%', overflow: 'auto' }}>
+            <Typography variant="h6" sx={{ mb: 3 }}>
               Detalles
             </Typography>
             <OrderDrawerList order={order} />
@@ -76,8 +76,6 @@ const OrdersDrawer: FunctionComponent<{ drawerWidth: number }> = ({
             </Box>
           </Box>
         </>
-      ) : (
-        <></>
       )}
     </Drawer>
   );
