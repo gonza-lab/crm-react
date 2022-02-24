@@ -70,7 +70,8 @@ const OrderListItem: FunctionComponent<{
         <Typography variant="body2">
           {toMoneyFormat(
             order.products.reduce(
-              (acum, product) => acum + product.product.price,
+              (acum, product) =>
+                acum + product.quantity * product.product.price,
               0
             )
           )}

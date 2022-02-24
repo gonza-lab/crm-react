@@ -13,10 +13,12 @@ import OrderDB from '../../../../interfaces/OrderDB';
 import toMoneyFormat from '../../../../util/toMoneyFormat';
 
 const OrderDrawerTable: FunctionComponent<{ order: OrderDB }> = ({ order }) => {
+  console.log(order);
   return (
     <Table>
       <TableHead>
         <TableRow>
+          <TableCell>CANTIDAD</TableCell>
           <TableCell>DESCRIPCIÓN</TableCell>
           <TableCell>VALOR</TableCell>
         </TableRow>
@@ -31,8 +33,11 @@ const OrderDrawerTable: FunctionComponent<{ order: OrderDB }> = ({ order }) => {
             }}
             key={product.product.id}
           >
+            <TableCell>{product.quantity}</TableCell>
             <TableCell>{product.product.name}</TableCell>
-            <TableCell>{toMoneyFormat(product.product.price)}</TableCell>
+            <TableCell>
+              {toMoneyFormat(product.quantity * product.product.price)}
+            </TableCell>
           </TableRow>
         ))}
       </TableBody>
