@@ -9,7 +9,10 @@ interface UseResumeResponse {
 
 const useResume = (products: ProductOrder[]): UseResumeResponse => {
   const [total] = useState(
-    products.reduce((acum, product) => acum + product.product.price, 0)
+    products.reduce(
+      (acum, product) => acum + product.quantity * product.product.price,
+      0
+    )
   );
 
   return { total, totalIva: total * 1.21, iva: total * 0.21 };

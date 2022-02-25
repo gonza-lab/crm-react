@@ -13,7 +13,6 @@ import OrderDB from '../../../../interfaces/OrderDB';
 import toMoneyFormat from '../../../../util/toMoneyFormat';
 
 const OrderDrawerTable: FunctionComponent<{ order: OrderDB }> = ({ order }) => {
-  console.log(order);
   return (
     <Table>
       <TableHead>

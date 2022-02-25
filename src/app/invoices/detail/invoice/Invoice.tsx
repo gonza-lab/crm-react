@@ -44,7 +44,6 @@ const InvoicesDetailInvoice: FunctionComponent<{
   innerRef?: any;
 }> = ({ order, innerRef }) => {
   if (!order) return <></>;
-
   const resume = useResume(order.products);
 
   return (
@@ -68,7 +67,7 @@ const InvoicesDetailInvoice: FunctionComponent<{
             <Typography variant="subtitle2">www.crm.com.ar</Typography>
           </Box>
           <Box textAlign="right">
-            <Typography variant="h4">PAGADO</Typography>
+            <Typography variant="h4">{order.status.name}</Typography>
             <Typography variant="subtitle2">Comprobante #{order.id}</Typography>
           </Box>
         </Box>
@@ -108,40 +107,52 @@ const InvoicesDetailInvoice: FunctionComponent<{
         <Table sx={{ mt: 4 }}>
           <TableHead>
             <TableRow>
+              <TableCell>CANTIDAD</TableCell>
               <TableCell>DESCRIPCIÓN</TableCell>
               <TableCell></TableCell>
-              <TableCell align="right">PRECIO</TableCell>
+              <TableCell align="right">VALOR UNITARIO</TableCell>
+              <TableCell align="right">VALOR TOTAL</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {order.products.map((product) => (
               <TableRow key={product.product.id}>
+                <TableCell>{product.quantity}</TableCell>
                 <TableCell>{product.product.name}</TableCell>
                 <TableCell></TableCell>
                 <TableCell align="right">
                   {toMoneyFormat(product.product.price)}
                 </TableCell>
+                <TableCell align="right">
+                  {toMoneyFormat(product.quantity * product.product.price)}
+                </TableCell>
               </TableRow>
             ))}
             <TableRow>
               <TableCell></TableCell>
+              <TableCell></TableCell>
               <TableCell>
                 <Typography variant="subtitle2">Subtotal</Typography>
               </TableCell>
+              <TableCell></TableCell>
               <TableCell align="right">{toMoneyFormat(resume.total)}</TableCell>
             </TableRow>
             <TableRow>
               <TableCell></TableCell>
+              <TableCell></TableCell>
               <TableCell>
                 <Typography variant="subtitle2">IVA</Typography>
               </TableCell>
+              <TableCell></TableCell>
               <TableCell align="right">{toMoneyFormat(resume.iva)}</TableCell>
             </TableRow>
             <TableRow>
               <TableCell></TableCell>
+              <TableCell></TableCell>
               <TableCell>
                 <Typography variant="subtitle2">Total</Typography>
               </TableCell>
+              <TableCell></TableCell>
               <TableCell align="right">
                 {toMoneyFormat(resume.totalIva)}
               </TableCell>

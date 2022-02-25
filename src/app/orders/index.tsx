@@ -8,6 +8,7 @@ import { useDispatch } from 'react-redux';
 import OrdersDrawer from './drawer/Drawer';
 import OrdersContent from './content/Content';
 import { readAllOrders } from '../../state/orders/reducer';
+import { closeOrdersDrawer } from '../../state/orders/slice';
 
 const drawerWidth = 500;
 
@@ -20,6 +21,10 @@ const Orders = () => {
 
   useEffect(() => {
     dispatch(readAllOrders({ limit: 5 }));
+
+    return () => {
+      dispatch(closeOrdersDrawer());
+    };
   }, []);
 
   return (
