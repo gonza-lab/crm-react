@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react';
+import { FunctionComponent, useEffect, useState } from 'react';
 
 import { Box, IconButton, Typography, Divider, Button } from '@mui/material';
 import { styled } from '@mui/material/styles';
@@ -31,13 +31,18 @@ const OrdersDrawer: FunctionComponent<{ drawerWidth: number }> = ({
   const drawer = useSelector<RootState, OrderStateDrawer>(
     (state) => state.orders.drawer
   );
-  const order = useSelector<RootState, OrderDB | undefined>((state) =>
+  const orderState = useSelector<RootState, OrderDB | undefined>((state) =>
     selectOrderById(state, drawer.orderId)
   );
+  const [order, setOrder] = useState<OrderDB>();
 
   const closeDrawer = () => {
     dispatch(closeOrdersDrawer());
   };
+
+  useEffect(() => {
+    if (orderState) setOrder(orderState);
+  }, [orderState]);
 
   return (
     <Drawer open={drawer.isOpen} drawerWidth={drawerWidth}>
