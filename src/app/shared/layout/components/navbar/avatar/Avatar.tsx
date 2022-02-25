@@ -70,7 +70,7 @@ const Avatar = () => {
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
         <MenuItem>
-          <Link to="/settings/user">
+          <Link to="/configuracion/usuario">
             <ListItemIcon>
               <Settings fontSize="small" />
             </ListItemIcon>

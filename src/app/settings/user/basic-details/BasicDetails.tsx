@@ -13,9 +13,13 @@ const BasicDetails = () => {
   const [showAlert, setShowAlert] = useState(false);
 
   const handleSubmit = (data: InputBasicDetailsForm) => {
-    dispatch(updateUserData(data)).then(() => {
-      setShowAlert(true);
-    });
+    // dispatch(updateUserData(data)).then(() => {
+    //   setShowAlert(true);
+    // });
+    setShowAlert(true);
+    window.alert(
+      'Para que la password siempre sea la misma, no estamos dejando cambiar la configuración del usuario :)'
+    );
   };
 
   return (

@@ -64,7 +64,9 @@ const InvoicesDetailInvoice: FunctionComponent<{
         >
           <Box>
             <img src={logo} alt="Logo de la empresa" width={42} height={42} />
-            <Typography variant="subtitle2">www.crm.com.ar</Typography>
+            <Typography variant="subtitle2">
+              {process.env.REACT_APP_URL}
+            </Typography>
           </Box>
           <Box textAlign="right">
             <Typography variant="h4">{order.status.name}</Typography>

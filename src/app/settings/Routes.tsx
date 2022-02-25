@@ -2,10 +2,10 @@ import { RouteObject } from 'react-router-dom';
 import UserSettings from './user';
 
 const settingsRoutes: RouteObject = {
-  path: 'settings',
+  path: 'configuracion',
   children: [
     {
-      path: 'user',
+      path: 'usuario',
       element: <UserSettings />,
     },
   ],
