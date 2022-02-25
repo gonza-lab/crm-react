@@ -23,8 +23,8 @@ const LoginForm: FunctionComponent<{
 }> = ({ onSubmit, error, isLoadingButton }) => {
   const { handleSubmit, control } = useForm<InputsLoginForm>({
     defaultValues: {
-      email: 'gonzaflores358@gmail.com',
-      password: 'password',
+      email: '',
+      password: '',
     },
   });
 
@@ -66,7 +66,9 @@ const LoginForm: FunctionComponent<{
             type="email"
             variant="outlined"
             error={!!error}
-            helperText={error ? error.message : null}
+            helperText={
+              error ? error.message : 'Email de prueba: brad.gibson@example.com'
+            }
           />
         )}
       />
@@ -109,7 +111,7 @@ const LoginForm: FunctionComponent<{
             }}
             variant="outlined"
             error={!!error}
-            helperText={error ? error.message : null}
+            helperText={error ? error.message : 'Password de prueba: password'}
           />
         )}
       />
