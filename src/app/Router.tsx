@@ -10,8 +10,7 @@ import LoginIndex from './auth/login';
 
 import OrdersRoutes from './orders/Routes';
 const ProductsRoutes = lazy(() => import('./products/Routes'));
-import InvoicesRoutes from './invoices/Routes';
-// import SettingsRoutes from './settings/Routes';
+const InvoicesRoutes = lazy(() => import('./invoices/Routes'));
 const SettingsRoutes = lazy(() => import('./settings/Routes'));
 
 import { AuthState } from '../state/auth/slice';
@@ -49,7 +48,14 @@ const Router = () => {
             </Suspense>
           }
         />
-        <Route path="recibos/*" element={<InvoicesRoutes />} />
+        <Route
+          path="recibos/*"
+          element={
+            <Suspense fallback={<>cargando</>}>
+              <InvoicesRoutes />
+            </Suspense>
+          }
+        />
         <Route
           path="configuracion/*"
           element={
