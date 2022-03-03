@@ -16,6 +16,8 @@ interface InputsLoginForm {
   password: string;
 }
 
+const isDemo = Boolean(process.env.REACT_APP_DEMO);
+
 const LoginForm: FunctionComponent<{
   onSubmit?: (data: InputsLoginForm) => void;
   error?: string;
@@ -67,7 +69,9 @@ const LoginForm: FunctionComponent<{
             variant="outlined"
             error={!!error}
             helperText={
-              error ? error.message : 'Email de prueba: brad.gibson@example.com'
+              error
+                ? error.message
+                : isDemo && 'Email de prueba: brad.gibson@example.com'
             }
           />
         )}
@@ -111,7 +115,9 @@ const LoginForm: FunctionComponent<{
             }}
             variant="outlined"
             error={!!error}
-            helperText={error ? error.message : 'Password de prueba: password'}
+            helperText={
+              error ? error.message : isDemo && 'Password de prueba: password'
+            }
           />
         )}
       />

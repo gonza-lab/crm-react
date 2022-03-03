@@ -19,10 +19,10 @@ const FormProductsSummaryDetail: FunctionComponent<{
     >
       <IconButton
         onClick={() => onDelete(product)}
-        size="small"
-        sx={{ mr: 2, alignSelf: 'flex-start' }}
+        // size="small"
+        sx={{ mr: 1, alignSelf: 'flex-start' }}
       >
-        <ClearIcon fontSize="small" />
+        <ClearIcon fontSize="small" sx={{ color: 'text.primary' }} />
       </IconButton>
       <Box sx={{ width: '100%' }}>
         <Typography variant="subtitle2">{product.name}</Typography>

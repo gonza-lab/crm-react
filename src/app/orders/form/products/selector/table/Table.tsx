@@ -12,6 +12,7 @@ import {
 } from '@mui/material';
 import { FunctionComponent } from 'react';
 import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
+import AddIcon from '@mui/icons-material/Add';
 
 import ProductDB from '../../../../../../interfaces/ProductDB';
 import toMoneyFormat from '../../../../../../util/toMoneyFormat';
@@ -61,7 +62,7 @@ const FormProductsSelectorTable: FunctionComponent<{
             <TableRow key={product.id}>
               <TableCell>
                 <IconButton onClick={() => onClickIcon && onClickIcon(product)}>
-                  <AddShoppingCart />
+                  <AddIcon sx={{ color: 'text.primary' }} />
                 </IconButton>
               </TableCell>
               <TableCell>
