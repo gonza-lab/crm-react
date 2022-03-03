@@ -16,6 +16,7 @@ import Orders from './orders';
 import InvoiceDetail from './invoices/detail/Detail';
 import InvoiceIndex from './invoices';
 import OrderAddIndex from './orders/add';
+import Products from './products';
 
 const RequireAuth: FunctionComponent = ({ children }) => {
   const { auth } = useSelector<RootState, AuthState>((state) => state.auth);
@@ -48,6 +49,15 @@ const Router = () => {
             {
               path: 'nuevo',
               element: <OrderAddIndex />,
+            },
+          ],
+        },
+        {
+          path: 'productos',
+          children: [
+            {
+              index: true,
+              element: <Products />,
             },
           ],
         },
