@@ -21,7 +21,7 @@ const LoginRoot = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.background.default,
 }));
 
-const Login = () => {
+const LoginIndex = () => {
   const dispatch = useDispatch();
   const { status, error, data } = useSelector<RootState, AuthState>(
     (state) => state.auth
@@ -72,4 +72,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default LoginIndex;

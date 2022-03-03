@@ -1,13 +1,13 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
-import UserSettings from './user';
+import ProductsIndex from '.';
 
-const SettingsRoutes = () => (
+const ProductsRoutes = () => (
   <Routes>
     <Route path="/">
-      <Route path="usuario" element={<UserSettings />} />
+      <Route index element={<ProductsIndex />} />
       <Route path="*" element={<Navigate to="/404" />} />
     </Route>
   </Routes>
 );
 
-export default SettingsRoutes;
+export default ProductsRoutes;
