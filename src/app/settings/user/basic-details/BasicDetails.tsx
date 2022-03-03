@@ -1,18 +1,18 @@
 import { useState } from 'react';
 import { Grid, Paper, Typography } from '@mui/material';
 
-import { useDispatch } from 'react-redux';
+// import { useDispatch } from 'react-redux';
 
-import { AppDispatch } from '../../../../state/store';
-import { updateData as updateUserData } from '../../../../state/auth/slice';
+// import { AppDispatch } from '../../../../state/store';
+// import { updateData as updateUserData } from '../../../../state/auth/slice';
 import AlertCollapse from '../../../shared/alert/Alert';
-import BasicDetailsForm, { InputBasicDetailsForm } from './form/Form';
+import BasicDetailsForm /* , { InputBasicDetailsForm } */ from './form/Form';
 
 const BasicDetails = () => {
-  const dispatch = useDispatch<AppDispatch>();
+  // const dispatch = useDispatch<AppDispatch>();
   const [showAlert, setShowAlert] = useState(false);
 
-  const handleSubmit = (data: InputBasicDetailsForm) => {
+  const handleSubmit = (/* data: InputBasicDetailsForm */) => {
     // dispatch(updateUserData(data)).then(() => {
     //   setShowAlert(true);
     // });

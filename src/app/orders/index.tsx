@@ -16,7 +16,7 @@ const BoxRoot = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
 }));
 
-const Orders = () => {
+const OrdersIndex = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -41,4 +41,4 @@ const Orders = () => {
   );
 };
 
-export default Orders;
+export default OrdersIndex;

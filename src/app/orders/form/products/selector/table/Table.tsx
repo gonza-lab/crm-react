@@ -1,4 +1,3 @@
-import { AddShoppingCart } from '@mui/icons-material';
 import {
   Box,
   CircularProgress,
