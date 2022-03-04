@@ -1,32 +1,18 @@
-import { FunctionComponent, Suspense, lazy } from 'react';
+import { lazy } from 'react';
 
-import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { Navigate, Route, Routes } from 'react-router-dom';
 
-import { RootState } from '../state/store';
-
-import Page404 from './404';
 import LoginIndex from './auth/login';
-
+import Page404 from './404';
 import OrdersRoutes from './orders/Routes';
+
 const ProductsRoutes = lazy(() => import('./products/Routes'));
 const InvoicesRoutes = lazy(() => import('./invoices/Routes'));
 const SettingsRoutes = lazy(() => import('./settings/Routes'));
 
-import { AuthState } from '../state/auth/slice';
-
 import { Layout } from './shared/layout/components/Layout';
-
-const RequireAuth: FunctionComponent = ({ children }) => {
-  const { auth } = useSelector<RootState, AuthState>((state) => state.auth);
-  const location = useLocation();
-
-  if (!auth) {
-    return <Navigate to="/login" state={{ from: location }} replace />;
-  }
-
-  return <>{children}</>;
-};
+import Suspense from './shared/suspense/Suspense';
+import RequireAuth from './shared/require-auth/RequireAuth';
 
 const Router = () => {
   return (
@@ -43,7 +29,7 @@ const Router = () => {
         <Route
           path="productos/*"
           element={
-            <Suspense fallback={<>cargando</>}>
+            <Suspense>
               <ProductsRoutes />
             </Suspense>
           }
@@ -51,7 +37,7 @@ const Router = () => {
         <Route
           path="recibos/*"
           element={
-            <Suspense fallback={<>cargando</>}>
+            <Suspense>
               <InvoicesRoutes />
             </Suspense>
           }
@@ -59,7 +45,7 @@ const Router = () => {
         <Route
           path="configuracion/*"
           element={
-            <Suspense fallback={<>cargando</>}>
+            <Suspense>
               <SettingsRoutes />
             </Suspense>
           }
@@ -69,7 +55,7 @@ const Router = () => {
       <Route
         path="login"
         element={
-          <Suspense fallback={<>cargando</>}>
+          <Suspense>
             <LoginIndex />
           </Suspense>
         }
