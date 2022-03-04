@@ -1,92 +1,69 @@
-import { FunctionComponent } from 'react';
+import { lazy } from 'react';
 
-import { Navigate, useLocation, useRoutes } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { Navigate, Route, Routes } from 'react-router-dom';
 
-import { RootState } from '../state/store';
-
+import LoginIndex from './auth/login';
 import Page404 from './404';
-import Invoices from './invoices/Invoices';
-import Login from './auth/login';
+import OrdersRoutes from './orders/Routes';
+
+const ProductsRoutes = lazy(() => import('./products/Routes'));
+const InvoicesRoutes = lazy(() => import('./invoices/Routes'));
+const SettingsRoutes = lazy(() => import('./settings/Routes'));
 
 import { Layout } from './shared/layout/components/Layout';
-import settingsRoutes from './settings/Routes';
-import { AuthState } from '../state/auth/slice';
-import Orders from './orders';
-import InvoiceDetail from './invoices/detail/Detail';
-import InvoiceIndex from './invoices';
-import OrderAddIndex from './orders/add';
-
-const RequireAuth: FunctionComponent = ({ children }) => {
-  const { auth } = useSelector<RootState, AuthState>((state) => state.auth);
-  const location = useLocation();
-
-  if (!auth) {
-    return <Navigate to="/login" state={{ from: location }} replace />;
-  }
-
-  return <>{children}</>;
-};
+import Suspense from './shared/suspense/Suspense';
+import RequireAuth from './shared/require-auth/RequireAuth';
 
 const Router = () => {
-  const element = useRoutes([
-    {
-      path: '/',
-      element: (
-        <RequireAuth>
-          <Layout />
-        </RequireAuth>
-      ),
-      children: [
-        {
-          path: 'pedidos',
-          children: [
-            {
-              index: true,
-              element: <Orders />,
-            },
-            {
-              path: 'nuevo',
-              element: <OrderAddIndex />,
-            },
-          ],
-        },
-        {
-          path: 'recibos',
-          element: <InvoiceIndex />,
-          children: [
-            {
-              index: true,
-              element: <Invoices />,
-            },
-            {
-              path: ':id/detalle',
-              element: <InvoiceDetail />,
-            },
-          ],
-        },
-        {
-          element: <Navigate to="/pedidos" />,
-          index: true,
-        },
-        settingsRoutes,
-      ],
-    },
-    {
-      path: '/login',
-      element: <Login />,
-    },
-    {
-      path: '/404',
-      element: <Page404 />,
-    },
-    {
-      path: '*',
-      element: <Navigate to="/404" />,
-    },
-  ]);
-
-  return element;
+  return (
+    <Routes>
+      <Route
+        path="/"
+        element={
+          <RequireAuth>
+            <Layout />
+          </RequireAuth>
+        }
+      >
+        <Route path="pedidos/*" element={<OrdersRoutes />} />
+        <Route
+          path="productos/*"
+          element={
+            <Suspense>
+              <ProductsRoutes />
+            </Suspense>
+          }
+        />
+        <Route
+          path="recibos/*"
+          element={
+            <Suspense>
+              <InvoicesRoutes />
+            </Suspense>
+          }
+        />
+        <Route
+          path="configuracion/*"
+          element={
+            <Suspense>
+              <SettingsRoutes />
+            </Suspense>
+          }
+        />
+        <Route index element={<Navigate to="pedidos" />} />
+      </Route>
+      <Route
+        path="login"
+        element={
+          <Suspense>
+            <LoginIndex />
+          </Suspense>
+        }
+      />
+      <Route path="404" element={<Page404 />} />
+      <Route path="*" element={<Navigate to="/404" />} />
+    </Routes>
+  );
 };
 
 export default Router;

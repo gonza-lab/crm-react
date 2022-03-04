@@ -1,11 +1,11 @@
 import { FunctionComponent, useEffect } from 'react';
 import { Box, Divider, Drawer, useMediaQuery } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
+import { ShoppingCart, Inventory } from '@mui/icons-material';
+import { Link } from 'react-router-dom';
 
 import { Logo } from './logo';
 import { NavItem } from './NavItem';
-import { Link } from 'react-router-dom';
-import { ShoppingCart } from '@mui/icons-material';
 
 const items = [
   {
@@ -13,11 +13,11 @@ const items = [
     icon: <ShoppingCart fontSize="small" />,
     title: 'Pedidos',
   },
-  // {
-  //   href: '/recibos',
-  //   icon: <ReceiptIcon fontSize="small" />,
-  //   title: 'Recibos',
-  // },
+  {
+    href: '/productos',
+    icon: <Inventory />,
+    title: 'Productos',
+  },
 ];
 
 export const Sidebar: FunctionComponent<{
