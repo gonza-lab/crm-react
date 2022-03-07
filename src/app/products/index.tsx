@@ -4,13 +4,13 @@ import { useDispatch } from 'react-redux';
 
 import { readAllProducts } from '../../state/products/reducer';
 import HeaderButton from '../shared/header-button/HeaderButton';
-import ProductsList from './list/ProductsList';
+import ProductsList from './list/List';
 
 const ProductsIndex = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(readAllProducts());
+    dispatch(readAllProducts({ limit: 10, offset: 0 }));
   }, []);
 
   return (

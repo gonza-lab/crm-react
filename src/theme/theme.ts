@@ -130,6 +130,13 @@ export const initial = createTheme({
         },
       },
     },
+    MuiTableCell: {
+      styleOverrides: {
+        root: {
+          borderBottom: '1px solid rgb(230, 232, 240)',
+        },
+      },
+    },
   },
   palette: {
     neutral: {
