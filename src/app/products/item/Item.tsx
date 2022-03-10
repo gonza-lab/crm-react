@@ -1,5 +1,6 @@
 import {
   Box,
+  IconButton,
   LinearProgress,
   TableCell,
   TableRow,
@@ -10,6 +11,9 @@ import { useSelector } from 'react-redux';
 import ProductDB from '../../../interfaces/ProductDB';
 import { selectProductById } from '../../../state/products/slice';
 import { RootState } from '../../../state/store';
+import toMoneyFormat from '../../../util/toMoneyFormat';
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import Dropdown from '../../shared/dropdown/Dropdown';
 
 interface ProductItemProps {
   id: number;
@@ -40,9 +44,31 @@ const ProductItem: FC<ProductItemProps> = ({ id }) => {
           </Typography>
         </Box>
       </TableCell>
-      <TableCell>{product.price}</TableCell>
+      <TableCell>{toMoneyFormat(product.price)}</TableCell>
       <TableCell>Público</TableCell>
-      <TableCell>boton</TableCell>
+      <TableCell>
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          {/* <IconButton size="small">
+            <MoreHorizIcon />
+          </IconButton> */}
+          <Dropdown
+            IconButtonProps={{
+              size: 'small',
+              children: <MoreHorizIcon />,
+            }}
+            MenuProps={{
+              children: <div>hola</div>,
+              open: false,
+            }}
+          />
+        </Box>
+      </TableCell>
     </TableRow>
   );
 };
