@@ -1,5 +1,6 @@
 import { Box, Grid, InputLabel } from '@mui/material';
 import { FunctionComponent, useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
 import ProductDB from '../../../../interfaces/ProductDB';
 import FormProductsSummary from './resume/Resume';
 import FormProductsSelector from './selector/Selector';
@@ -16,6 +17,18 @@ const isEnoughStock = (product: ProductDB, quantity: number): boolean => {
   return product.stock >= quantity;
 };
 
+const showWarningProduct = (product: ProductDB) => {
+  toast(
+    <div>
+      No hay suficiente stock de: <br /> <b>{product.name}</b>
+    </div>,
+    {
+      icon: '⚠️',
+      id: 'warning-products',
+    }
+  );
+};
+
 const FormProducts: FunctionComponent<{
   onChangeProducts: (products: OrderedProducts) => void;
   error?: string | boolean;
@@ -24,8 +37,9 @@ const FormProducts: FunctionComponent<{
 
   const handleAddProduct = (product: ProductDB) => {
     if (
-      !products[product.id] ||
-      isEnoughStock(product, products[product.id].quantity + 1)
+      product.stock >= 1 &&
+      (!products[product.id] ||
+        isEnoughStock(product, products[product.id].quantity + 1))
     ) {
       setProducts((prev) => ({
         ...prev,
@@ -34,6 +48,8 @@ const FormProducts: FunctionComponent<{
           product,
         },
       }));
+    } else {
+      showWarningProduct(product);
     }
   };
 
@@ -46,6 +62,8 @@ const FormProducts: FunctionComponent<{
         ...prev,
         [product.id]: orderedProduct,
       }));
+    } else {
+      showWarningProduct(product);
     }
   };
 
