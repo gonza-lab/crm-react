@@ -27,7 +27,7 @@ const FormProductsSelectorTable: FunctionComponent<{
     <Table>
       <TableHead>
         <TableRow>
-          <TableCell sx={{ width: 72 }}></TableCell>
+          <TableCell></TableCell>
           <TableCell sx={{ width: 550 }}>Nombre</TableCell>
           <TableCell sx={{ width: 180 }}>Precio</TableCell>
           <TableCell>Stock</TableCell>
@@ -59,7 +59,7 @@ const FormProductsSelectorTable: FunctionComponent<{
         ) : (
           products.map((product) => (
             <TableRow key={product.id}>
-              <TableCell>
+              <TableCell padding="none" sx={{ p: 1 }}>
                 <IconButton onClick={() => onClickIcon && onClickIcon(product)}>
                   <AddIcon sx={{ color: 'text.primary' }} />
                 </IconButton>

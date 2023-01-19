@@ -26,22 +26,22 @@ const FormProductsSelector: FunctionComponent<{
   const [search, setSearch] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [page, setPage] = useState(0);
+  const [writing, setWriting] = useState(false);
 
   useEffect(() => {
     dispatch(readAllProducts({ limit: rowsPerPage, offset: 0, q: search }));
   }, [rowsPerPage]);
 
-  useDebounce(
-    () =>
-      dispatch(
-        readAllProducts({
-          limit: rowsPerPage,
-          offset: rowsPerPage * page,
-          q: search,
-        })
-      ),
-    [search]
-  );
+  useDebounce(() => {
+    setWriting(false);
+    dispatch(
+      readAllProducts({
+        limit: rowsPerPage,
+        offset: rowsPerPage * page,
+        q: search,
+      })
+    );
+  }, [search]);
 
   useEffect(() => {
     dispatch(
@@ -56,8 +56,11 @@ const FormProductsSelector: FunctionComponent<{
   return (
     <Card>
       <FormProductsSearch
-        searching={status === ProductStoreStatus.readingProducts}
-        onSearch={(e) => setSearch(e.target.value)}
+        searching={status === ProductStoreStatus.readingProducts || writing}
+        onSearch={(e) => {
+          setSearch(e.target.value);
+          setWriting(true);
+        }}
       />
       <Divider />
       <TableContainer sx={{ display: 'flex', flexDirection: 'column' }}>

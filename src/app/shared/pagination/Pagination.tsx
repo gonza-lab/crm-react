@@ -14,6 +14,7 @@ const Pagination: FunctionComponent<{
 
   return (
     <TablePagination
+      style={{ overflow: 'visible' }}
       labelRowsPerPage="Filas por página"
       rowsPerPageOptions={[5, 10, 20]}
       component="div"
