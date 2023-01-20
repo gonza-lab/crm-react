@@ -2,6 +2,7 @@ import {
   Box,
   CircularProgress,
   IconButton,
+  Paper,
   Table,
   TableBody,
   TableCell,
@@ -34,13 +35,7 @@ const FormProductsSelectorTable: FunctionComponent<{
         </TableRow>
       </TableHead>
       <TableBody sx={{ position: 'relative' }}>
-        {loading ? (
-          <CenterAbsolute component="tr">
-            <td>
-              <CircularProgress />
-            </td>
-          </CenterAbsolute>
-        ) : !products.length ? (
+        {!products.length ? (
           <CenterAbsolute>
             <Box
               sx={{
@@ -58,14 +53,22 @@ const FormProductsSelectorTable: FunctionComponent<{
           </CenterAbsolute>
         ) : (
           products.map((product) => (
-            <TableRow key={product.id}>
+            <TableRow key={product.id} style={{ height: 57 }}>
               <TableCell padding="none" sx={{ p: 1 }}>
                 <IconButton onClick={() => onClickIcon && onClickIcon(product)}>
                   <AddIcon sx={{ color: 'text.primary' }} />
                 </IconButton>
               </TableCell>
               <TableCell>
-                <Typography variant="subtitle2">{product.name}</Typography>
+                <Typography
+                  variant="subtitle2"
+                  style={{
+                    whiteSpace: 'nowrap',
+                    maxWidth: 550,
+                  }}
+                >
+                  {product.name}
+                </Typography>
               </TableCell>
               <TableCell>{toMoneyFormat(product.price)}</TableCell>
               <TableCell>
@@ -76,15 +79,28 @@ const FormProductsSelectorTable: FunctionComponent<{
             </TableRow>
           ))
         )}
-        {(rowsPerPage - products.length > 0 || loading) && (
-          <TableRow
-            style={{
-              height:
-                (loading ? rowsPerPage : rowsPerPage - products.length) * 73,
+        <TableRow
+          sx={{
+            height: (rowsPerPage - products.length) * 57,
+          }}
+        >
+          <TableCell colSpan={6} padding="none" style={{ border: 'none' }} />
+        </TableRow>
+        {loading && (
+          <Paper
+            sx={{
+              boxShadow: 'none',
+              position: 'absolute',
+              left: 0,
+              right: 0,
+              top: 0,
+              bottom: 0,
             }}
           >
-            <TableCell colSpan={6} />
-          </TableRow>
+            <CenterAbsolute component="div">
+              <CircularProgress />
+            </CenterAbsolute>
+          </Paper>
         )}
       </TableBody>
     </Table>
