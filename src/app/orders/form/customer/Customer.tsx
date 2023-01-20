@@ -66,8 +66,7 @@ const FormCustomer: FunctionComponent<{
         <Card
           elevation={1}
           sx={{
-            maxHeight: 213,
-            height: '100%',
+            height: 213,
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
