@@ -56,8 +56,9 @@ const OrdersList = () => {
               <TableCell>ID</TableCell>
               <TableCell>Valor</TableCell>
               <TableCell>Cliente</TableCell>
+              <TableCell>Fecha</TableCell>
               <TableCell>Estado</TableCell>
-              <TableCell width={80}></TableCell>
+              <TableCell sx={{ textAlign: 'right' }}>Acciones</TableCell>
             </TableRow>
           </TableHead>
         )}

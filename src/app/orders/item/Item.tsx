@@ -1,14 +1,17 @@
 import { FunctionComponent, useCallback } from 'react';
 
 import {
-  Box,
   Checkbox,
   Chip,
+  IconButton,
   TableCell,
   TableRow as MuiTableRow,
   Typography,
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import EditIcon from '@mui/icons-material/Edit';
+import AssignmentIcon from '@mui/icons-material/Assignment';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { EntityId } from '@reduxjs/toolkit';
@@ -22,6 +25,7 @@ import OrderStatusColor from '../../../enums/OrderStatusColor';
 import { openOrdersDrawer, selectOrderById } from '../../../state/orders/slice';
 import { RootState } from '../../../state/store';
 import toMoneyFormat from '../../../util/toMoneyFormat';
+import { Link } from 'react-router-dom';
 
 const TableRow = styled(MuiTableRow)(({ theme }) => ({
   cursor: 'pointer',
@@ -34,12 +38,6 @@ const TableRow = styled(MuiTableRow)(({ theme }) => ({
       borderTop: `1px solid ${theme.palette.divider}`,
     },
   },
-}));
-
-const BoxGray = styled(Box)(({ theme }) => ({
-  backgroundColor: theme.palette.neutral[200],
-  maxWidth: 'fit-content',
-  borderRadius: '16px',
 }));
 
 const OrderListItem: FunctionComponent<{
@@ -62,7 +60,6 @@ const OrderListItem: FunctionComponent<{
       <TableCell width={50}>
         <Checkbox checked={checked} onChange={() => onToggle(id)} />
       </TableCell>
-
       <TableCell onClick={toggleDrawer}>
         <Typography variant="body2">#{order.id}</Typography>
       </TableCell>
@@ -84,6 +81,13 @@ const OrderListItem: FunctionComponent<{
           </Typography>
         </TableCell>
       )}
+      <TableCell onClick={toggleDrawer}>
+        <Typography variant="body2">
+          {format(new Date(order.updated_at), 'd/M/y', {
+            locale: es,
+          }).toLocaleUpperCase()}
+        </Typography>
+      </TableCell>
       <TableCell onClick={toggleDrawer} sx={{ pl: { xs: 0, md: 2 } }}>
         <Chip
           size="small"
@@ -91,17 +95,20 @@ const OrderListItem: FunctionComponent<{
           color={OrderStatusColor[order.status.name]}
         />
       </TableCell>
-      <TableCell width={80} onClick={toggleDrawer}>
-        <BoxGray sx={{ p: 1, textAlign: 'center', m: '0 auto' }}>
-          <Typography variant="subtitle2">
-            {format(new Date(order.updated_at), 'MMM', {
-              locale: es,
-            }).toLocaleUpperCase()}
-          </Typography>
-          <Typography variant="h6">
-            {new Date(order.updated_at).getUTCDate()}
-          </Typography>
-        </BoxGray>
+      <TableCell sx={{ display: 'flex', justifyContent: 'right' }}>
+        <Link to={'/pedidos/editar' + id}>
+          <IconButton>
+            <EditIcon />
+          </IconButton>
+        </Link>
+        <IconButton onClick={toggleDrawer}>
+          <AssignmentIcon />
+        </IconButton>
+        <Link to={`/recibos/${id}/detalle`}>
+          <IconButton>
+            <ArrowForwardIcon />
+          </IconButton>
+        </Link>
       </TableCell>
     </TableRow>
   );
