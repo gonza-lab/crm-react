@@ -28,7 +28,7 @@ const OrdersIndex = () => {
   }, []);
 
   return (
-    <BoxRoot
+    <Box
       component="main"
       sx={{
         flexGrow: 1,
@@ -37,7 +37,7 @@ const OrdersIndex = () => {
     >
       <OrdersContent drawerWidth={drawerWidth} />
       <OrdersDrawer drawerWidth={drawerWidth} />
-    </BoxRoot>
+    </Box>
   );
 };
 

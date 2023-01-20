@@ -1,6 +1,13 @@
 import { FunctionComponent, useEffect, useState } from 'react';
 
-import { Box, Button, Typography, CircularProgress } from '@mui/material';
+import {
+  Box,
+  Button,
+  Typography,
+  CircularProgress,
+  Card,
+  Container,
+} from '@mui/material';
 import { styled } from '@mui/material/styles';
 import AddIcon from '@mui/icons-material/Add';
 
@@ -61,48 +68,51 @@ const OrdersContent: FunctionComponent<{ drawerWidth: number }> = ({
 
   return (
     <Content drawerWidth={drawerWidth} open={drawer.isOpen}>
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          px: 3,
-          mb: 3,
-        }}
-      >
-        <Typography variant="h4">Pedidos</Typography>
-        <Box>
-          <Link to="/pedidos/nuevo">
-            <Button variant="contained" startIcon={<AddIcon />}>
-              Nuevo
-            </Button>
-          </Link>
+      <Container maxWidth="xl">
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            mb: 3,
+          }}
+        >
+          <Typography variant="h4">Pedidos</Typography>
+          <Box>
+            <Link to="/pedidos/nuevo">
+              <Button variant="contained" startIcon={<AddIcon />}>
+                Nuevo
+              </Button>
+            </Link>
+          </Box>
         </Box>
-      </Box>
-      <Box
-        sx={{
-          height: 95.72 * rowsPerPage + 44.5,
-          position: 'relative',
-        }}
-      >
-        {status === OrderStatus.loadingOrders ? (
-          <CircularProgress
+        <Card>
+          <Box
             sx={{
-              position: 'absolute',
-              left: '50%',
-              top: '50%',
-              transform: 'translate(-50%, -50%)',
+              height: 95.72 * rowsPerPage + 44.5,
+              position: 'relative',
             }}
+          >
+            {status === OrderStatus.loadingOrders ? (
+              <CircularProgress
+                sx={{
+                  position: 'absolute',
+                  left: '50%',
+                  top: '50%',
+                  transform: 'translate(-50%, -50%)',
+                }}
+              />
+            ) : (
+              <OrdersList />
+            )}
+          </Box>
+          <Pagination
+            totalCount={total_count}
+            onRowsPerPageChange={setRowsPerPage}
+            onPageChange={setPage}
           />
-        ) : (
-          <OrdersList />
-        )}
-      </Box>
-      <Pagination
-        totalCount={total_count}
-        onRowsPerPageChange={setRowsPerPage}
-        onPageChange={setPage}
-      />
+        </Card>
+      </Container>
     </Content>
   );
 };
