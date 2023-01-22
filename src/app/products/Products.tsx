@@ -1,30 +1,18 @@
-import { Box, Button, Container, Typography } from '@mui/material';
-import { Link } from 'react-router-dom';
-import AddIcon from '@mui/icons-material/Add';
+import { Box } from '@mui/material';
 
-const Products = () => {
+import HeaderButton from '../shared/header-button/HeaderButton';
+import ProductsList from './list/List';
+
+const ProductsIndex = () => {
   return (
-    <Container maxWidth="lg" sx={{ py: 8 }}>
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          px: 3,
-          mb: 3,
-        }}
-      >
-        <Typography variant="h4">Productos</Typography>
-        <Box>
-          <Link to="/productos/nuevo">
-            <Button variant="contained" startIcon={<AddIcon />}>
-              Nuevo
-            </Button>
-          </Link>
-        </Box>
-      </Box>
-    </Container>
+    <Box component="main" sx={{ py: 8 }}>
+      <HeaderButton
+        title="Productos"
+        button={{ href: '/productos/nuevo', text: 'Añadir' }}
+      />
+      <ProductsList />
+    </Box>
   );
 };
 
-export default Products;
+export default ProductsIndex;

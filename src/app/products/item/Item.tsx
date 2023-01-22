@@ -1,18 +1,23 @@
+import { FC } from 'react';
+
 import {
   Box,
-  IconButton,
   LinearProgress,
   TableCell,
   TableRow,
   Typography,
 } from '@mui/material';
-import { FC } from 'react';
-import { useSelector } from 'react-redux';
-import ProductDB from '../../../interfaces/ProductDB';
-import { selectProductById } from '../../../state/products/slice';
-import { RootState } from '../../../state/store';
-import toMoneyFormat from '../../../util/toMoneyFormat';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+
+import { useSelector } from 'react-redux';
+
+import ProductDB from '../../../interfaces/ProductDB';
+import { RootState } from '../../../state/store';
+
+import { selectProductById } from '../../../state/products/slice';
+
+import toMoneyFormat from '../../../util/toMoneyFormat';
+
 import Dropdown from '../../shared/dropdown/Dropdown';
 
 interface ProductItemProps {
@@ -63,7 +68,7 @@ const ProductItem: FC<ProductItemProps> = ({ id }) => {
               children: <MoreHorizIcon />,
             }}
             MenuProps={{
-              children: <div>hola</div>,
+              children: <div>En construcción</div>,
               open: false,
             }}
           />
