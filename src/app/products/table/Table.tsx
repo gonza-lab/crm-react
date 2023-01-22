@@ -11,9 +11,10 @@ import ProductItem from '../item/Item';
 
 interface ProductsTableProps {
   products: ProductDB[];
+  rowsPerPage: number;
 }
 
-const ProductsTable: FC<ProductsTableProps> = ({ products }) => {
+const ProductsTable: FC<ProductsTableProps> = ({ products, rowsPerPage }) => {
   return (
     <Table>
       <TableHead>
@@ -30,6 +31,13 @@ const ProductsTable: FC<ProductsTableProps> = ({ products }) => {
           <ProductItem key={product.id} {...product} />
         ))}
       </TableBody>
+      <TableRow
+        sx={{
+          height: (rowsPerPage - products.length) * 66.8,
+        }}
+      >
+        <TableCell colSpan={6} padding="none" style={{ border: 'none' }} />
+      </TableRow>
     </Table>
   );
 };

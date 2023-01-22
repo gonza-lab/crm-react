@@ -23,6 +23,8 @@ import ProductsTable from '../table/Table';
 
 const defaultRowsPerPage = 5;
 
+let resetPage: () => void;
+
 const ProductsList: FC = () => {
   const dispatch = useDispatch();
   const products = useSelector<RootState, ProductDB[]>(selectAllProducts);
@@ -35,7 +37,7 @@ const ProductsList: FC = () => {
   const [writing, setWriting] = useState(false);
 
   useEffect(() => {
-    dispatch(readAllProducts({ limit: rowsPerPage, offset: 0 }));
+    dispatch(readAllProducts({ limit: rowsPerPage, offset: 0, q: search }));
   }, [rowsPerPage]);
 
   useEffect(() => {
@@ -43,22 +45,21 @@ const ProductsList: FC = () => {
       readAllProducts({
         limit: rowsPerPage,
         offset: rowsPerPage * page,
+        q: search,
       })
     );
   }, [page]);
 
   useDebounce(() => {
     setWriting(false);
+    resetPage();
     dispatch(
       readAllProducts({
         limit: rowsPerPage,
-        // offset: rowsPerPage * page,
         q: search,
       })
     );
   }, [search]);
-
-  console.log(total_count);
 
   return (
     <Box sx={{ px: { xs: 2, md: 3 } }}>
@@ -75,13 +76,16 @@ const ProductsList: FC = () => {
             setSearch(e.target.value);
           }}
         />
-        <ProductsTable products={products} />
+        <ProductsTable products={products} rowsPerPage={rowsPerPage} />
         <Pagination
           totalCount={total_count}
           onRowsPerPageChange={setRowsPerPage}
           onPageChange={setPage}
           defaultRowsPerPage={defaultRowsPerPage}
           disableButtons={status === ProductStoreStatus.readingProducts}
+          resetPage={(callback) => {
+            resetPage = callback;
+          }}
         />
       </Card>
     </Box>

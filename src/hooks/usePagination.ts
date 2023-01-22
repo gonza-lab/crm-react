@@ -1,9 +1,10 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 
 const usePagination = (
   onRowsPerPageChange?: (newRowsPerPage: number) => void,
   onPageChange?: (newPage: number) => void,
-  defaultRowsPerPage?: number
+  defaultRowsPerPage?: number,
+  resetPage?: (callback: () => void) => void
 ) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(defaultRowsPerPage || 5);
@@ -19,6 +20,10 @@ const usePagination = (
     setPage(newPage);
     if (onPageChange) onPageChange(newPage);
   };
+
+  useEffect(() => {
+    if (resetPage) resetPage(() => setPage(0));
+  }, []);
 
   return { handleChangeRowsPerPage, handleChangePage, page, rowsPerPage };
 };

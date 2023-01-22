@@ -34,7 +34,9 @@ const ProductItem: FC<ProductItemProps> = ({ id }) => {
   return (
     <TableRow hover key={product.id}>
       <TableCell>
-        <Typography variant="subtitle2">{product.name}</Typography>
+        <Typography variant="subtitle2" sx={{ whiteSpace: 'nowrap' }}>
+          {product.name}
+        </Typography>
       </TableCell>
       <TableCell>
         <Box>
