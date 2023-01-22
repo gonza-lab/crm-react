@@ -2,10 +2,11 @@ import { ChangeEvent, useState } from 'react';
 
 const usePagination = (
   onRowsPerPageChange?: (newRowsPerPage: number) => void,
-  onPageChange?: (newPage: number) => void
+  onPageChange?: (newPage: number) => void,
+  defaultRowsPerPage?: number
 ) => {
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(defaultRowsPerPage || 5);
 
   const handleChangeRowsPerPage = (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
