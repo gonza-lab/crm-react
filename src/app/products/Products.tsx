@@ -8,7 +8,7 @@ const ProductsIndex = () => {
     <Box component="main" sx={{ py: 8 }}>
       <HeaderButton
         title="Productos"
-        button={{ href: '/productos/nuevo', text: 'Añadir' }}
+        button={{ href: '/productos/nuevo', text: 'Añadir', visible: false }}
       />
       <ProductsList />
     </Box>

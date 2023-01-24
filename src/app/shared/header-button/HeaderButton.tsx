@@ -7,6 +7,7 @@ interface HeaderButtonProps {
   button: {
     text: string;
     href: string;
+    visible?: boolean;
   };
   title: string;
 }
@@ -25,9 +26,11 @@ const HeaderButton: FC<HeaderButtonProps> = ({ title, button }) => {
       <Typography variant="h4">{title}</Typography>
       <Box>
         <Link to={button.href}>
-          <Button variant="contained" startIcon={<AddIcon />}>
-            {button.text}
-          </Button>
+          {button.visible && (
+            <Button variant="contained" startIcon={<AddIcon />}>
+              {button.text}
+            </Button>
+          )}
         </Link>
       </Box>
     </Box>
