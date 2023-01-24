@@ -1,5 +1,7 @@
+import { Outlet } from 'react-router-dom';
+
 const ProductsIndex = () => {
-  return <div>pantalla de ProductsIndex</div>;
+  return <Outlet />;
 };
 
 export default ProductsIndex;
