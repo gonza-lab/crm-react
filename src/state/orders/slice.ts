@@ -6,12 +6,13 @@ import {
 } from '@reduxjs/toolkit';
 import OrderDB from '../../interfaces/OrderDB';
 import { RootState } from '../store';
-import { createOrder, readAllOrders } from './reducer';
+import { createOrder, readAllOrders, updateOrder } from './reducer';
 
 enum Status {
   idle = 'idle',
   loadingOrders = 'loading orders',
   creatingOrder = 'creating order',
+  updatingOrder = 'updating order',
 }
 
 export interface StateDrawer {
@@ -70,6 +71,17 @@ const slice = createSlice({
 
     builder.addCase(createOrder.fulfilled, (state) => {
       state.status = Status.idle;
+    });
+
+    builder.addCase(updateOrder.pending, (state) => {
+      state.status = Status.updatingOrder;
+    });
+
+    builder.addCase(updateOrder.fulfilled, (state, action) => {
+      orderAdapter.updateOne(state, {
+        id: action.payload.id,
+        changes: action.payload,
+      });
     });
   },
 });

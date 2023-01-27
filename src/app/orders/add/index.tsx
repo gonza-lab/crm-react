@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Typography } from '@mui/material';
 import { createOrder } from '../../../state/orders/reducer';
 import { readAllUsers } from '../../../state/users/slice';
 import OrderForm, { OrderFormOrder } from '../form/Form';
@@ -44,8 +45,12 @@ const OrderAddIndex = () => {
 
   return (
     <OrderForm
-      onSubmit={handleSubmit}
+      button={{
+        onSubmit: handleSubmit,
+        text: 'Cargar orden',
+      }}
       loading={status === OrderStatus.creatingOrder}
+      title={<Typography variant="h4">Nueva orden</Typography>}
     />
   );
 };

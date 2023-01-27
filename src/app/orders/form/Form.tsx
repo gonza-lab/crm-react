@@ -1,4 +1,4 @@
-import { FunctionComponent, useState } from 'react';
+import { FunctionComponent, useEffect, useState } from 'react';
 import { Box, Container, Typography } from '@mui/material';
 import SaveIcon from '@mui/icons-material/Save';
 import { LoadingButton } from '@mui/lab';
@@ -15,17 +15,29 @@ export interface OrderFormOrder {
 }
 
 const OrderForm: FunctionComponent<{
-  order?: OrderDB;
+  initOrder?: OrderDB;
   loading?: boolean;
-  onSubmit: (order: OrderFormOrder) => void;
-}> = ({ order, onSubmit, loading }) => {
-  const [user, setUser] = useState<UserDB | null>(order ? order.user : null);
+  title: JSX.Element;
+  button: {
+    text: string;
+    onSubmit: (order: OrderFormOrder) => void;
+  };
+}> = ({ initOrder, loading, title, button }) => {
+  const [user, setUser] = useState<UserDB | null>(
+    initOrder ? initOrder.user : null
+  );
   const [products, setProducts] = useState<OrderedProducts>(
-    order
-      ? order.products.map((product) => ({
-          quantity: product.quantity,
-          product: product.product,
-        }))
+    initOrder
+      ? initOrder.products.reduce(
+          (prev, product) => ({
+            ...prev,
+            [product.productId]: {
+              quantity: product.quantity,
+              product: product.product,
+            },
+          }),
+          {}
+        )
       : {}
   );
   const [submited, setSubmited] = useState(false);
@@ -33,7 +45,7 @@ const OrderForm: FunctionComponent<{
   const handleSubmit = () => {
     setSubmited(true);
     if (user && Object.values(products).length) {
-      onSubmit({ user, products });
+      button.onSubmit({ user, products });
     }
   };
 
@@ -42,13 +54,12 @@ const OrderForm: FunctionComponent<{
       <Box sx={{ mb: 4 }}>
         <LinkBack>Ordenes</LinkBack>
       </Box>
-      <Box sx={{ mb: 4 }}>
-        <Typography variant="h4">Nueva orden</Typography>
-      </Box>
+      <Box sx={{ mb: 4 }}>{title}</Box>
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
         <FormCustomer
           error={submited && !user && 'Debes seleccionar un cliente.'}
           onChangeUser={setUser}
+          initUser={initOrder?.user}
         />
         <FormProducts
           error={
@@ -57,6 +68,7 @@ const OrderForm: FunctionComponent<{
             'Debes seleccionar al menos un producto.'
           }
           onChangeProducts={setProducts}
+          initProducts={products}
         />
       </Box>
       <Box sx={{ display: 'flex', justifyContent: 'flex-end', pt: 2 }}>
@@ -67,7 +79,7 @@ const OrderForm: FunctionComponent<{
           onClick={handleSubmit}
           loading={loading}
         >
-          Cargar Orden
+          {button.text}
         </LoadingButton>
       </Box>
     </Container>

@@ -50,14 +50,15 @@ const ListItemLabel: FunctionComponent<{ label: string }> = ({
 const FormCustomer: FunctionComponent<{
   onChangeUser: (user: UserDB | null) => void;
   error?: string | boolean;
-}> = ({ onChangeUser, error }) => {
+  initUser?: UserDB;
+}> = ({ onChangeUser, error, initUser }) => {
   const users = useSelector<RootState, UserDB[]>((state) =>
     selectAllUsers(state)
   );
   const status = useSelector<RootState, UserStoreStatus>(
     (state) => state.users.status
   );
-  const [user, setUser] = useState<UserDB | null>(null);
+  const [user, setUser] = useState<UserDB | undefined>(initUser);
   const theme = useTheme();
 
   return (
@@ -107,8 +108,9 @@ const FormCustomer: FunctionComponent<{
                 )}
                 renderInput={(params) => <TextField {...params} />}
                 sx={{ maxWidth: 300, width: '100%' }}
+                value={user}
                 onChange={(e, value) => {
-                  setUser(value);
+                  setUser(value || undefined);
                   onChangeUser(value);
                 }}
               />
