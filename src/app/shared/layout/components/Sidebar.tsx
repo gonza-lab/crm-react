@@ -1,7 +1,7 @@
 import { FunctionComponent, useEffect } from 'react';
 import { Box, Divider, Drawer, useMediaQuery } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import { ShoppingCart /* , Inventory */ } from '@mui/icons-material';
+import { ShoppingCart, Inventory } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
 
 import { Logo } from './logo';
@@ -13,11 +13,11 @@ const items = [
     icon: <ShoppingCart fontSize="small" />,
     title: 'Pedidos',
   },
-  // {
-  //   href: '/productos',
-  //   icon: <Inventory />,
-  //   title: 'Productos',
-  // },
+  {
+    href: '/productos',
+    icon: <Inventory />,
+    title: 'Productos',
+  },
 ];
 
 export const Sidebar: FunctionComponent<{

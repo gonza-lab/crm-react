@@ -8,9 +8,23 @@ const Pagination: FunctionComponent<{
   onPageChange: (newPage: number) => void;
   disableButtons?: boolean;
   totalCount: number;
-}> = ({ onRowsPerPageChange, onPageChange, disableButtons, totalCount }) => {
+  defaultRowsPerPage?: number;
+  resetPage?: (callback: () => void) => void;
+}> = ({
+  onRowsPerPageChange,
+  onPageChange,
+  disableButtons,
+  totalCount,
+  defaultRowsPerPage,
+  resetPage,
+}) => {
   const { handleChangePage, handleChangeRowsPerPage, page, rowsPerPage } =
-    usePagination(onRowsPerPageChange, onPageChange);
+    usePagination(
+      onRowsPerPageChange,
+      onPageChange,
+      defaultRowsPerPage,
+      resetPage
+    );
 
   return (
     <TablePagination

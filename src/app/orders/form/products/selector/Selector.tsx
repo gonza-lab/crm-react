@@ -37,7 +37,6 @@ const FormProductsSelector: FunctionComponent<{
     dispatch(
       readAllProducts({
         limit: rowsPerPage,
-        offset: rowsPerPage * page,
         q: search,
       })
     );
