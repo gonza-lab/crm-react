@@ -42,7 +42,7 @@ const OrderEditIndex = () => {
       updateOrder({
         id: +id,
         data: {
-          status: 3,
+          status: order.status.id,
           products: Object.values(order.products).map((value) => ({
             id: value.product.id,
             quantity: value.quantity,

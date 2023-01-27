@@ -15,6 +15,8 @@ import { readAllProducts } from '../../../../../state/products/reducer';
 import FormProductsSearch from './search/Search';
 import Pagination from '../../../../shared/pagination/Pagination';
 
+let resetPage: () => void;
+
 const FormProductsSelector: FunctionComponent<{
   onAddProduct: (product: ProductDB) => void;
 }> = ({ onAddProduct }) => {
@@ -34,6 +36,7 @@ const FormProductsSelector: FunctionComponent<{
 
   useDebounce(() => {
     setWriting(false);
+    resetPage();
     dispatch(
       readAllProducts({
         limit: rowsPerPage,
@@ -74,6 +77,9 @@ const FormProductsSelector: FunctionComponent<{
           onPageChange={setPage}
           disableButtons={status === ProductStoreStatus.readingProducts}
           totalCount={total_count}
+          resetPage={(callback) => {
+            resetPage = callback;
+          }}
         />
       </TableContainer>
     </Card>

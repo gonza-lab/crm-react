@@ -8,10 +8,13 @@ import LinkBack from '../../shared/link-back/LinkBack';
 import FormProducts, { OrderedProducts } from './products/Products';
 import UserDB from '../../../interfaces/UserDB';
 import OrderDB from '../../../interfaces/OrderDB';
+import FormStatus from './status/Status';
+import OrderStatusDB from '../../../interfaces/OrderStatusDB';
 
 export interface OrderFormOrder {
   user: UserDB;
   products: OrderedProducts;
+  status: OrderStatusDB;
 }
 
 const OrderForm: FunctionComponent<{
@@ -40,12 +43,15 @@ const OrderForm: FunctionComponent<{
         )
       : {}
   );
+  const [status, setStatus] = useState<OrderStatusDB | undefined>(
+    initOrder?.status
+  );
   const [submited, setSubmited] = useState(false);
 
   const handleSubmit = () => {
     setSubmited(true);
-    if (user && Object.values(products).length) {
-      button.onSubmit({ user, products });
+    if (user && Object.values(products).length && status) {
+      button.onSubmit({ user, products, status });
     }
   };
 
@@ -60,6 +66,11 @@ const OrderForm: FunctionComponent<{
           error={submited && !user && 'Debes seleccionar un cliente.'}
           onChangeUser={setUser}
           initUser={initOrder?.user}
+        />
+        <FormStatus
+          error={submited && !status && 'Debes seleccionar un estado.'}
+          onChange={setStatus}
+          initStatus={initOrder?.status}
         />
         <FormProducts
           error={

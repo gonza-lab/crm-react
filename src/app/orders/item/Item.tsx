@@ -22,16 +22,23 @@ import { es } from 'date-fns/locale';
 import OrderDB from '../../../interfaces/OrderDB';
 import OrderStatusColor from '../../../enums/OrderStatusColor';
 
-import { openOrdersDrawer, selectOrderById } from '../../../state/orders/slice';
+import {
+  openOrdersDrawer,
+  selectOrderById,
+  StateDrawer as OrderStateDrawer,
+} from '../../../state/orders/slice';
 import { RootState } from '../../../state/store';
 import toMoneyFormat from '../../../util/toMoneyFormat';
 import { Link } from 'react-router-dom';
 
 const TableRow = styled(MuiTableRow)(({ theme }) => ({
-  cursor: 'pointer',
   '> td': {
+    cursor: 'pointer',
     maxHeight: '95px',
     borderBottom: `1px solid ${theme.palette.divider}`,
+  },
+  '> td:last-child': {
+    cursor: 'default',
   },
   ':first-of-type': {
     '> td': {
@@ -51,12 +58,15 @@ const OrderListItem: FunctionComponent<{
   if (!order) return <></>;
 
   const dispatch = useDispatch();
+  const { orderId, isOpen } = useSelector<RootState, OrderStateDrawer>(
+    (state) => state.orders.drawer
+  );
   const toggleDrawer = useCallback(() => {
     dispatch(openOrdersDrawer(id));
   }, []);
 
   return (
-    <TableRow hover>
+    <TableRow hover selected={id === orderId && isOpen}>
       <TableCell width={50}>
         <Checkbox checked={checked} onChange={() => onToggle(id)} />
       </TableCell>

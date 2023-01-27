@@ -38,9 +38,17 @@ const readAll = createAsyncThunk(
   }
 );
 
+const readAllStatus = createAsyncThunk(
+  'order/order-status_read_all',
+  async () => {
+    return await orderService.readAllStatus();
+  }
+);
+
 export {
   create as createOrder,
   readAll as readAllOrders,
   readOne as readOneOrder,
   update as updateOrder,
+  readAllStatus as readAllOrderStatus,
 };

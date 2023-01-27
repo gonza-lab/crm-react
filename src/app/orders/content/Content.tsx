@@ -93,7 +93,7 @@ const OrdersContent: FunctionComponent<{ drawerWidth: number }> = ({
               position: 'relative',
             }}
           >
-            {status === OrderStatus.loadingOrders ? (
+            {status.order === OrderStatus.loadingOrders ? (
               <CircularProgress
                 sx={{
                   position: 'absolute',

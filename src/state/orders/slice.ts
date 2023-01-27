@@ -5,14 +5,25 @@ import {
   PayloadAction,
 } from '@reduxjs/toolkit';
 import OrderDB from '../../interfaces/OrderDB';
+import OrderStatusDB from '../../interfaces/OrderStatusDB';
 import { RootState } from '../store';
-import { createOrder, readAllOrders, updateOrder } from './reducer';
+import {
+  createOrder,
+  readAllOrders,
+  readAllOrderStatus,
+  updateOrder,
+} from './reducer';
 
-enum Status {
+enum OrderStatus {
   idle = 'idle',
   loadingOrders = 'loading orders',
   creatingOrder = 'creating order',
   updatingOrder = 'updating order',
+}
+
+enum OrderStatusStatus {
+  idle = 'idle',
+  loadingOrdersStatus = 'loading orders status',
 }
 
 export interface StateDrawer {
@@ -21,22 +32,27 @@ export interface StateDrawer {
 }
 
 export interface OrderState {
-  status: Status;
+  status: {
+    order: OrderStatus;
+    order_status: OrderStatusStatus;
+  };
   error: null;
   drawer: StateDrawer;
   total_count: number;
+  order_status: OrderStatusDB[];
 }
 
 const orderAdapter = createEntityAdapter<OrderDB>({});
 
 const initialState = orderAdapter.getInitialState<OrderState>({
-  status: Status.idle,
+  status: { order: OrderStatus.idle, order_status: OrderStatusStatus.idle },
   error: null,
   drawer: {
     isOpen: false,
     orderId: 0,
   },
   total_count: 0,
+  order_status: [],
 });
 
 const slice = createSlice({
@@ -56,25 +72,25 @@ const slice = createSlice({
   },
   extraReducers(builder) {
     builder.addCase(readAllOrders.pending, (state) => {
-      state.status = Status.loadingOrders;
+      state.status.order = OrderStatus.loadingOrders;
     });
 
     builder.addCase(readAllOrders.fulfilled, (state, action) => {
-      state.status = Status.idle;
+      state.status.order = OrderStatus.idle;
       state.total_count = action.payload.pagination.total_count;
       orderAdapter.setAll(state, action.payload.data);
     });
 
     builder.addCase(createOrder.pending, (state) => {
-      state.status = Status.creatingOrder;
+      state.status.order = OrderStatus.creatingOrder;
     });
 
     builder.addCase(createOrder.fulfilled, (state) => {
-      state.status = Status.idle;
+      state.status.order = OrderStatus.idle;
     });
 
     builder.addCase(updateOrder.pending, (state) => {
-      state.status = Status.updatingOrder;
+      state.status.order = OrderStatus.updatingOrder;
     });
 
     builder.addCase(updateOrder.fulfilled, (state, action) => {
@@ -82,6 +98,15 @@ const slice = createSlice({
         id: action.payload.id,
         changes: action.payload,
       });
+    });
+
+    builder.addCase(readAllOrderStatus.pending, (state) => {
+      state.status.order_status = OrderStatusStatus.loadingOrdersStatus;
+    });
+
+    builder.addCase(readAllOrderStatus.fulfilled, (state, action) => {
+      state.status.order_status = OrderStatusStatus.idle;
+      state.order_status = action.payload;
     });
   },
 });
@@ -98,5 +123,6 @@ export const {
   closeDrawer: closeOrdersDrawer,
 } = slice.actions;
 
-export { Status as OrderStatus };
+export { OrderStatus };
+
 export default slice.reducer;

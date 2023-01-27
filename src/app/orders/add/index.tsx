@@ -1,26 +1,32 @@
 import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+
 import { Typography } from '@mui/material';
+
+import { useDispatch, useSelector } from 'react-redux';
+
+import { useNavigate } from 'react-router-dom';
+
+import toast from 'react-hot-toast';
+
 import { createOrder } from '../../../state/orders/reducer';
 import { readAllUsers } from '../../../state/users/slice';
-import OrderForm, { OrderFormOrder } from '../form/Form';
 import { AppDispatch, RootState } from '../../../state/store';
-import { useNavigate } from 'react-router-dom';
-import toast from 'react-hot-toast';
-import { OrderState, OrderStatus } from '../../../state/orders/slice';
+import { OrderStatus } from '../../../state/orders/slice';
+
+import OrderForm, { OrderFormOrder } from '../form/Form';
 
 const OrderAddIndex = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-  const { status } = useSelector<RootState, OrderState>(
-    (state) => state.orders
+  const status = useSelector<RootState, OrderStatus>(
+    (state) => state.orders.status.order
   );
 
   useEffect(() => {
     dispatch(readAllUsers());
   }, []);
 
-  const handleSubmit = ({ user, products }: OrderFormOrder) => {
+  const handleSubmit = ({ user, products, status }: OrderFormOrder) => {
     dispatch(
       createOrder({
         userId: user.id,
@@ -28,7 +34,7 @@ const OrderAddIndex = () => {
           id: value.product.id,
           quantity: value.quantity,
         })),
-        status: 1,
+        status: status.id,
       })
     )
       .unwrap()
