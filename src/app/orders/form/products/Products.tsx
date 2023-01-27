@@ -32,14 +32,23 @@ const showWarningProduct = (product: ProductDB) => {
 const FormProducts: FunctionComponent<{
   onChangeProducts: (products: OrderedProducts) => void;
   error?: string | boolean;
-}> = ({ onChangeProducts, error }) => {
-  const [products, setProducts] = useState<OrderedProducts>({});
+  initProducts?: OrderedProducts;
+}> = ({ onChangeProducts, error, initProducts: initProductsProp }) => {
+  const [products, setProducts] = useState<OrderedProducts>(
+    initProductsProp || {}
+  );
+  const [initProducts] = useState<OrderedProducts>(initProductsProp || {});
 
   const handleAddProduct = (product: ProductDB) => {
+    let quantity = products[product.id]?.quantity;
+
+    if (initProducts[product.id]) {
+      quantity -= initProducts[product.id].quantity;
+    }
+
     if (
       product.stock >= 1 &&
-      (!products[product.id] ||
-        isEnoughStock(product, products[product.id].quantity + 1))
+      (!products[product.id] || isEnoughStock(product, quantity + 1))
     ) {
       setProducts((prev) => ({
         ...prev,
@@ -57,7 +66,13 @@ const FormProducts: FunctionComponent<{
     product: ProductDB,
     orderedProduct: OrderedProduct
   ) => {
-    if (isEnoughStock(product, orderedProduct.quantity)) {
+    let quantity = orderedProduct.quantity;
+
+    if (initProducts[product.id]) {
+      quantity -= initProducts[product.id].quantity;
+    }
+
+    if (isEnoughStock(product, quantity)) {
       setProducts((prev) => ({
         ...prev,
         [product.id]: orderedProduct,

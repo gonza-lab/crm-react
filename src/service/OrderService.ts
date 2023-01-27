@@ -3,6 +3,8 @@ import { CreateOrderRequest } from '../interfaces/CreateOrderRequest';
 import OrderDB from '../interfaces/OrderDB';
 import { PaginatedRequest } from '../interfaces/PaginatedRequest';
 import { PaginatedResponse } from '../interfaces/PaginatedResponse';
+import { ReadOneOrderRequest } from '../interfaces/ReadOneOrderRequest';
+import { UpdateOrderRequest } from '../interfaces/UpdateOrderRequest';
 import axiosService from './AxiosService';
 
 const url = 'order';
@@ -18,6 +20,15 @@ const readAll = async (
   return orders.data;
 };
 
+const readOne = async (options: ReadOneOrderRequest): Promise<OrderDB> => {
+  const orders = await axios.get<OrderDB>(url + '/' + options.id, {
+    ...axiosService.getRequestConfig(),
+    params: options.options,
+  });
+
+  return orders.data;
+};
+
 const create = async (data: CreateOrderRequest): Promise<OrderDB> => {
   const order = await axios.post<OrderDB>(
     url,
@@ -28,4 +39,17 @@ const create = async (data: CreateOrderRequest): Promise<OrderDB> => {
   return order.data;
 };
 
-export default { readAll, create };
+const update = async (
+  id: number,
+  data: UpdateOrderRequest
+): Promise<OrderDB> => {
+  const order = await axios.patch<OrderDB>(
+    url + '/' + id,
+    data,
+    axiosService.getRequestConfig()
+  );
+
+  return order.data;
+};
+
+export default { readAll, create, readOne, update };

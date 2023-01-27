@@ -89,7 +89,7 @@ const OrdersContent: FunctionComponent<{ drawerWidth: number }> = ({
         <Card>
           <Box
             sx={{
-              height: 95.72 * rowsPerPage + 44.5,
+              height: 75 * rowsPerPage + 44.5,
               position: 'relative',
             }}
           >

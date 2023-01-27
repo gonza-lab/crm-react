@@ -95,8 +95,10 @@ const OrderListItem: FunctionComponent<{
           color={OrderStatusColor[order.status.name]}
         />
       </TableCell>
-      <TableCell sx={{ display: 'flex', justifyContent: 'right' }}>
-        <Link to={'/pedidos/editar' + id}>
+      <TableCell
+        sx={{ display: 'flex', justifyContent: 'right', height: '75px' }}
+      >
+        <Link to={'/pedidos/editar/' + id}>
           <IconButton>
             <EditIcon />
           </IconButton>
