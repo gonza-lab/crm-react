@@ -17,16 +17,10 @@ import UserDB from '../../../../interfaces/UserDB';
 import { RootState } from '../../../../state/store';
 import { selectAllUsers, UserStoreStatus } from '../../../../state/users/slice';
 import { useTheme } from '@mui/material/styles';
+import CardHeader from '../../../shared/card-header/CardHeader';
 
 const ListItem = styled(MuiListItem)(() => ({
   padding: '12px 24px',
-}));
-
-const CardHeader = styled(Box)(() => ({
-  padding: '32px 24px',
-  display: 'flex',
-  alignItems: 'center',
-  gap: 2 * 8,
 }));
 
 const ListItemLabel: FunctionComponent<{ label: string }> = ({

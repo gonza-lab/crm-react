@@ -6,13 +6,17 @@ import {
   TableCell,
   TableHead,
   TableRow,
+  Typography,
 } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 
 import OrderDB from '../../../../interfaces/OrderDB';
 
 import toMoneyFormat from '../../../../util/toMoneyFormat';
 
 const OrderDrawerTable: FunctionComponent<{ order: OrderDB }> = ({ order }) => {
+  const theme = useTheme();
+
   return (
     <Table>
       <TableHead>
@@ -33,7 +37,15 @@ const OrderDrawerTable: FunctionComponent<{ order: OrderDB }> = ({ order }) => {
             key={product.product.id}
           >
             <TableCell>{product.quantity}</TableCell>
-            <TableCell>{product.product.name}</TableCell>
+            <TableCell>
+              {product.product.name} <br />
+              <Typography
+                variant="caption"
+                color={theme.palette.text.secondary}
+              >
+                {toMoneyFormat(product.product.price)}
+              </Typography>{' '}
+            </TableCell>
             <TableCell>
               {toMoneyFormat(product.quantity * product.product.price)}
             </TableCell>

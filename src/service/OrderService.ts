@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { CreateOrderRequest } from '../interfaces/CreateOrderRequest';
 import OrderDB from '../interfaces/OrderDB';
+import OrderStatusDB from '../interfaces/OrderStatusDB';
 import { PaginatedRequest } from '../interfaces/PaginatedRequest';
 import { PaginatedResponse } from '../interfaces/PaginatedResponse';
 import { ReadOneOrderRequest } from '../interfaces/ReadOneOrderRequest';
@@ -8,6 +9,15 @@ import { UpdateOrderRequest } from '../interfaces/UpdateOrderRequest';
 import axiosService from './AxiosService';
 
 const url = 'order';
+
+const readAllStatus = async (): Promise<OrderStatusDB[]> => {
+  const { data } = await axios.get<OrderStatusDB[]>(
+    url + '-status',
+    axiosService.getRequestConfig()
+  );
+
+  return data;
+};
 
 const readAll = async (
   options?: PaginatedRequest
@@ -52,4 +62,4 @@ const update = async (
   return order.data;
 };
 
-export default { readAll, create, readOne, update };
+export default { readAll, create, readOne, update, readAllStatus };
