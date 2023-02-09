@@ -14,7 +14,11 @@ import AddIcon from '@mui/icons-material/Add';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { RootState } from '../../../state/store';
-import { OrderState, OrderStatus } from '../../../state/orders/slice';
+import {
+  OrderState,
+  OrderStatus,
+  useGetOrdersQuery,
+} from '../../../state/orders/slice';
 import OrdersList from '../list/List';
 import { Link } from 'react-router-dom';
 import Pagination from '../../shared/pagination/Pagination';
@@ -52,19 +56,23 @@ const OrdersContent: FunctionComponent<{ drawerWidth: number }> = ({
   );
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [page, setPage] = useState(0);
+  const { data, isFetching } = useGetOrdersQuery({
+    limit: rowsPerPage,
+    offset: 0,
+  });
 
-  useEffect(() => {
-    dispatch(readAllOrders({ limit: rowsPerPage, offset: 0 }));
-  }, [rowsPerPage]);
+  // useEffect(() => {
+  //   dispatch(readAllOrders({ limit: rowsPerPage, offset: 0 }));
+  // }, [rowsPerPage]);
 
-  useEffect(() => {
-    dispatch(
-      readAllOrders({
-        limit: rowsPerPage,
-        offset: rowsPerPage * page,
-      })
-    );
-  }, [page]);
+  // useEffect(() => {
+  //   dispatch(
+  //     readAllOrders({
+  //       limit: rowsPerPage,
+  //       offset: rowsPerPage * page,
+  //     })
+  //   );
+  // }, [page]);
 
   return (
     <Content drawerWidth={drawerWidth} open={drawer.isOpen}>
@@ -93,7 +101,7 @@ const OrdersContent: FunctionComponent<{ drawerWidth: number }> = ({
               position: 'relative',
             }}
           >
-            {status.order === OrderStatus.loadingOrders ? (
+            {isFetching ? (
               <CircularProgress
                 sx={{
                   position: 'absolute',

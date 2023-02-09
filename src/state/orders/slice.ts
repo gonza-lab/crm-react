@@ -6,6 +6,9 @@ import {
 } from '@reduxjs/toolkit';
 import OrderDB from '../../interfaces/OrderDB';
 import OrderStatusDB from '../../interfaces/OrderStatusDB';
+import { PaginatedRequest } from '../../interfaces/PaginatedRequest';
+import { PaginatedResponse } from '../../interfaces/PaginatedResponse';
+import { apiSlice } from '../api/apiSlice';
 import { RootState } from '../store';
 import {
   createOrder,
@@ -110,6 +113,26 @@ const slice = createSlice({
     });
   },
 });
+
+export const extendedApiSlice = apiSlice.injectEndpoints({
+  endpoints: (builder) => ({
+    getOrders: builder.query({
+      query: (options) => {
+        return {
+          url: '/order',
+          method: 'GET',
+          params: options,
+        };
+      },
+      providesTags: ['Order'],
+      transformResponse: (res: PaginatedResponse<OrderDB[]>) => {
+        return res.data;
+      },
+    }),
+  }),
+});
+
+export const { useGetOrdersQuery } = extendedApiSlice;
 
 export const {
   selectAll: selectAllOrders,

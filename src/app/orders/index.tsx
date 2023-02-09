@@ -4,11 +4,14 @@ import { Outlet } from 'react-router-dom';
 import { readAllOrders } from '../../state/orders/reducer';
 
 const OrdersIndex = () => {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
+  // const { data } = useGetOrdersQuery({ limit: 5 });
 
-  useEffect(() => {
-    dispatch(readAllOrders({ limit: 5 }));
-  }, []);
+  // console.log(data);
+
+  // useEffect(() => {
+  //   dispatch(readAllOrders({ limit: 5 }));
+  // }, []);
 
   return <Outlet />;
 };
