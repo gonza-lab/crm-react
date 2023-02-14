@@ -1,24 +1,24 @@
-import { FunctionComponent, useEffect, useState } from 'react';
+import { FunctionComponent } from 'react';
 
 import { Box, IconButton, Typography, Divider, Button } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import CloseIcon from '@mui/icons-material/Close';
 
 import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 
-import OrderDB from '../../../interfaces/OrderDB';
 import {
   closeOrdersDrawer,
-  selectOrderById,
   StateDrawer as OrderStateDrawer,
+  useGetOrderByIdQuery,
 } from '../../../state/orders/slice';
 
 import { RootState } from '../../../state/store';
 
+import Spinner from '../../shared/spinner/Spinner';
 import Drawer from '../../shared/drawer/Drawer';
 import OrderDrawerList from './list/List';
 import OrderDrawerTable from './table/Table';
-import { Link } from 'react-router-dom';
 
 const Header = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.primary.main,
@@ -31,22 +31,19 @@ const OrdersDrawer: FunctionComponent<{ drawerWidth: number }> = ({
   const drawer = useSelector<RootState, OrderStateDrawer>(
     (state) => state.orders.drawer
   );
-  const orderState = useSelector<RootState, OrderDB | undefined>((state) =>
-    selectOrderById(state, drawer.orderId)
+  const { data: order, isFetching } = useGetOrderByIdQuery(
+    typeof drawer.orderId === 'string' ? +drawer.orderId : drawer.orderId
   );
-  const [order, setOrder] = useState<OrderDB>();
 
   const closeDrawer = () => {
     dispatch(closeOrdersDrawer());
   };
 
-  useEffect(() => {
-    if (orderState) setOrder(orderState);
-  }, [orderState]);
-
   return (
     <Drawer open={drawer.isOpen} drawerWidth={drawerWidth}>
-      {order && (
+      {!order || isFetching ? (
+        <Spinner />
+      ) : (
         <>
           <Header
             sx={{

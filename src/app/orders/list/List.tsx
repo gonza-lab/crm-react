@@ -8,11 +8,10 @@ import {
   TableRow,
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
-
-import { useSelector } from 'react-redux';
+import { FC } from 'react';
 
 import useCheckboxTable from '../../../hooks/useCheckboxTable';
-import { selectOrdersIds } from '../../../state/orders/slice';
+import OrderDB from '../../../interfaces/OrderDB';
 
 import OrderListItem from '../item/Item';
 import OrdersPrintMultiple from '../print-multiple/PrintMultiple';
@@ -23,10 +22,14 @@ const TableHeadActions = styled(Box)(({ theme }) => ({
   width: '100%',
 }));
 
-const OrdersList = () => {
-  const ids = useSelector(selectOrdersIds);
-  const { handleToggle, handleToggleAll, selectedItems } =
-    useCheckboxTable(ids);
+interface OrdersListProps {
+  orders: OrderDB[];
+}
+
+const OrdersList: FC<OrdersListProps> = ({ orders }) => {
+  const { handleToggle, handleToggleAll, selectedItems } = useCheckboxTable(
+    orders.map(({ id }) => id)
+  );
 
   return (
     <Box sx={{ overflowX: 'auto' }}>
@@ -34,10 +37,10 @@ const OrdersList = () => {
         <TableHeadActions>
           <Checkbox
             onChange={handleToggleAll}
-            checked={selectedItems.length === ids.length}
+            checked={selectedItems.length === orders.length}
             indeterminate={
               Boolean(selectedItems.length) &&
-              selectedItems.length !== ids.length
+              selectedItems.length !== orders.length
             }
           />
           <OrdersPrintMultiple orders={selectedItems} />
@@ -50,7 +53,7 @@ const OrdersList = () => {
               <TableCell padding="none" width={50} sx={{ pl: 2 }}>
                 <Checkbox
                   onChange={handleToggleAll}
-                  checked={selectedItems.length === ids.length}
+                  checked={selectedItems.length === orders.length}
                 />
               </TableCell>
               <TableCell>ID</TableCell>
@@ -63,12 +66,12 @@ const OrdersList = () => {
           </TableHead>
         )}
         <TableBody>
-          {ids.map((id) => (
+          {orders.map((order) => (
             <OrderListItem
-              checked={selectedItems.includes(id)}
+              checked={selectedItems.includes(order.id)}
               onToggle={handleToggle}
-              key={id}
-              id={id}
+              key={order.id}
+              order={order}
             />
           ))}
         </TableBody>

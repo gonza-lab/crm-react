@@ -1,4 +1,5 @@
 import axios from 'axios';
+import CountOrderResponse from '../interfaces/CountOrderResponse';
 import { CreateOrderRequest } from '../interfaces/CreateOrderRequest';
 import OrderDB from '../interfaces/OrderDB';
 import OrderStatusDB from '../interfaces/OrderStatusDB';
@@ -62,4 +63,13 @@ const update = async (
   return order.data;
 };
 
-export default { readAll, create, readOne, update, readAllStatus };
+const count = async () => {
+  const { data } = await axios.get<CountOrderResponse>(
+    url + '/count',
+    axiosService.getRequestConfig()
+  );
+
+  return data.count;
+};
+
+export default { readAll, create, readOne, update, readAllStatus, count };

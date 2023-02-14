@@ -1,13 +1,13 @@
 import { Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import OrderDB from '../../../interfaces/OrderDB';
 import OrderService from '../../../service/OrderService';
 import { updateOrder } from '../../../state/orders/reducer';
-import { OrderStatus, selectOrderById } from '../../../state/orders/slice';
-import { AppDispatch, RootState } from '../../../state/store';
+import { OrderStatus, useGetOrderByIdQuery } from '../../../state/orders/slice';
+import { AppDispatch } from '../../../state/store';
 import { readAllUsers } from '../../../state/users/slice';
 import OrderForm, { OrderFormOrder } from '../form/Form';
 
@@ -18,9 +18,7 @@ const OrderEditIndex = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
-  const stateOrder = useSelector<RootState, OrderDB | undefined>((state) =>
-    selectOrderById(state, id)
-  );
+  const { data: stateOrder } = useGetOrderByIdQuery(+id);
 
   useEffect(() => {
     dispatch(readAllUsers());
@@ -55,7 +53,7 @@ const OrderEditIndex = () => {
         navigate('/pedidos');
         toast.success('Se ha actualizado la orden con éxito.');
       })
-      .catch((err) => {
+      .catch(() => {
         toast.error(
           'Ha ocurrido un error al actualizar la orden. Porfavor, intentelo nuevamente.'
         );

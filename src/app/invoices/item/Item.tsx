@@ -5,10 +5,7 @@ import {
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { FunctionComponent } from 'react';
-import { useSelector } from 'react-redux';
 import OrderDB from '../../../interfaces/OrderDB';
-import { selectOrderById } from '../../../state/orders/slice';
-import { RootState } from '../../../state/store';
 
 const TableRow = styled(MuiTableRow)(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
@@ -23,13 +20,11 @@ const Avatar = styled(MuiAvatar)(({ theme }) => ({
   backgroundColor: theme.palette.neutral[500],
 }));
 
-const InvoiceItem: FunctionComponent<{ id: number | string }> = ({ id }) => {
-  const order = useSelector<RootState, OrderDB | undefined>((state) =>
-    selectOrderById(state, id)
-  );
+interface InvoiceItemProps {
+  order: OrderDB;
+}
 
-  if (!order) return <></>;
-
+const InvoiceItem: FunctionComponent<InvoiceItemProps> = ({ order }) => {
   return (
     <TableRow>
       <TableCell>

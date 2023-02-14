@@ -1,13 +1,13 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Outlet } from 'react-router-dom';
-import { readAllOrders } from '../../state/orders/reducer';
+import { countOrders } from '../../state/orders/reducer';
 
 const OrdersIndex = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(readAllOrders({ limit: 5 }));
+    dispatch(countOrders());
   }, []);
 
   return <Outlet />;

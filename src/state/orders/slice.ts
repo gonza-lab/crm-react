@@ -6,10 +6,12 @@ import {
 } from '@reduxjs/toolkit';
 import OrderDB from '../../interfaces/OrderDB';
 import OrderStatusDB from '../../interfaces/OrderStatusDB';
-import { RootState } from '../store';
+import { PaginatedRequest } from '../../interfaces/PaginatedRequest';
+import { PaginatedResponse } from '../../interfaces/PaginatedResponse';
+import { apiSlice } from '../api/apiSlice';
 import {
+  countOrders,
   createOrder,
-  readAllOrders,
   readAllOrderStatus,
   updateOrder,
 } from './reducer';
@@ -26,6 +28,11 @@ enum OrderStatusStatus {
   loadingOrdersStatus = 'loading orders status',
 }
 
+enum CountOrderStatus {
+  idle = 'idle',
+  countingOrders = 'counting orders',
+}
+
 export interface StateDrawer {
   isOpen: boolean;
   orderId: EntityId;
@@ -35,17 +42,26 @@ export interface OrderState {
   status: {
     order: OrderStatus;
     order_status: OrderStatusStatus;
+    count_order_status: CountOrderStatus;
   };
   error: null;
   drawer: StateDrawer;
   total_count: number;
   order_status: OrderStatusDB[];
+  table: {
+    rowsPerPage: number;
+    page: number;
+  };
 }
 
 const orderAdapter = createEntityAdapter<OrderDB>({});
 
 const initialState = orderAdapter.getInitialState<OrderState>({
-  status: { order: OrderStatus.idle, order_status: OrderStatusStatus.idle },
+  status: {
+    order: OrderStatus.idle,
+    order_status: OrderStatusStatus.idle,
+    count_order_status: CountOrderStatus.idle,
+  },
   error: null,
   drawer: {
     isOpen: false,
@@ -53,6 +69,10 @@ const initialState = orderAdapter.getInitialState<OrderState>({
   },
   total_count: 0,
   order_status: [],
+  table: {
+    rowsPerPage: 5,
+    page: 0,
+  },
 });
 
 const slice = createSlice({
@@ -69,24 +89,21 @@ const slice = createSlice({
     selectOrderDrawer: (state, action: PayloadAction<number>) => {
       state.drawer.orderId = action.payload;
     },
+    setRowsPerPAge: (state, action: PayloadAction<number>) => {
+      state.table.rowsPerPage = action.payload;
+    },
+    setPage: (state, action: PayloadAction<number>) => {
+      state.table.page = action.payload;
+    },
   },
   extraReducers(builder) {
-    builder.addCase(readAllOrders.pending, (state) => {
-      state.status.order = OrderStatus.loadingOrders;
-    });
-
-    builder.addCase(readAllOrders.fulfilled, (state, action) => {
-      state.status.order = OrderStatus.idle;
-      state.total_count = action.payload.pagination.total_count;
-      orderAdapter.setAll(state, action.payload.data);
-    });
-
     builder.addCase(createOrder.pending, (state) => {
       state.status.order = OrderStatus.creatingOrder;
     });
 
     builder.addCase(createOrder.fulfilled, (state) => {
       state.status.order = OrderStatus.idle;
+      state.total_count += 1;
     });
 
     builder.addCase(updateOrder.pending, (state) => {
@@ -108,19 +125,48 @@ const slice = createSlice({
       state.status.order_status = OrderStatusStatus.idle;
       state.order_status = action.payload;
     });
+
+    builder.addCase(countOrders.pending, (state) => {
+      state.status.count_order_status = CountOrderStatus.countingOrders;
+    });
+
+    builder.addCase(countOrders.fulfilled, (state, action) => {
+      state.status.count_order_status = CountOrderStatus.idle;
+      state.total_count = action.payload;
+    });
   },
 });
 
-export const {
-  selectAll: selectAllOrders,
-  selectIds: selectOrdersIds,
-  selectById: selectOrderById,
-} = orderAdapter.getSelectors<RootState>((state) => state.orders);
+export const extendedApiSlice = apiSlice.injectEndpoints({
+  endpoints: (builder) => ({
+    getOrders: builder.query<OrderDB[], PaginatedRequest>({
+      query: (options) => {
+        return {
+          url: '/order',
+          method: 'GET',
+          params: options,
+        };
+      },
+      providesTags: ['Order'],
+      transformResponse: (res: PaginatedResponse<OrderDB[]>) => {
+        return res.data;
+      },
+    }),
+    getOrderById: builder.query<OrderDB, number>({
+      query: (id) => '/order/' + id,
+      providesTags: (result, error, arg) => [{ type: 'Order', id: arg }],
+    }),
+  }),
+});
+
+export const { useGetOrdersQuery, useGetOrderByIdQuery } = extendedApiSlice;
 
 export const {
   selectOrderDrawer,
   openDrawer: openOrdersDrawer,
   closeDrawer: closeOrdersDrawer,
+  setPage: setTablePageOrder,
+  setRowsPerPAge: setTableRowsPerPageOrder,
 } = slice.actions;
 
 export { OrderStatus };

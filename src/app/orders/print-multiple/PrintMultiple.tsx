@@ -17,9 +17,7 @@ import { useReactToPrint } from 'react-to-print';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
 
-import OrderDB from '../../../interfaces/OrderDB';
-
-import { selectAllOrders } from '../../../state/orders/slice';
+import { OrderState, useGetOrdersQuery } from '../../../state/orders/slice';
 
 import { RootState } from '../../../state/store';
 
@@ -30,15 +28,19 @@ const OrdersPrintMultiple: FunctionComponent<{ orders: EntityId[] }> = ({
 }) => {
   const [print, setPrint] = useState(false);
   const [isPrinting, setIsPrinting] = useState(false);
-  const orders = useSelector<RootState, OrderDB[]>((state) =>
-    selectAllOrders(state)
-  );
+  const {
+    table: { rowsPerPage, page },
+  } = useSelector<RootState, OrderState>((state) => state.orders);
   const ref = useRef<HTMLDivElement>(null);
   const hookPrint = useReactToPrint({
     content: () => ref.current,
     onAfterPrint: () => setIsPrinting(false),
     onBeforePrint: () => setIsPrinting(true),
     documentTitle: `Comprobante ${format(new Date(), 'P', { locale: es })}`,
+  });
+  const { data: orders } = useGetOrdersQuery({
+    limit: rowsPerPage,
+    offset: rowsPerPage * page,
   });
 
   const handlePrint = () => {
@@ -60,7 +62,7 @@ const OrdersPrintMultiple: FunctionComponent<{ orders: EntityId[] }> = ({
       <Box sx={{ display: 'none' }}>
         <div ref={ref}>
           {print &&
-            orders
+            (orders || [])
               .filter((order) => selectedOrders.includes(order.id))
               .map((order) => (
                 <Fragment key={order.id}>
