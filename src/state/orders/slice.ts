@@ -5,47 +5,18 @@ import {
   PayloadAction,
 } from '@reduxjs/toolkit';
 import OrderDB from '../../interfaces/OrderDB';
-import OrderStatusDB from '../../interfaces/OrderStatusDB';
-import { RootState } from '../store';
-import {
-  createOrder,
-  readAllOrders,
-  readAllOrderStatus,
-  updateOrder,
-} from './reducer';
-
-enum OrderStatus {
-  idle = 'idle',
-  loadingOrders = 'loading orders',
-  creatingOrder = 'creating order',
-  updatingOrder = 'updating order',
-}
-
-enum OrderStatusStatus {
-  idle = 'idle',
-  loadingOrdersStatus = 'loading orders status',
-}
-
-export interface StateDrawer {
-  isOpen: boolean;
-  orderId: EntityId;
-}
-
-export interface OrderState {
-  status: {
-    order: OrderStatus;
-    order_status: OrderStatusStatus;
-  };
-  error: null;
-  drawer: StateDrawer;
-  total_count: number;
-  order_status: OrderStatusDB[];
-}
+import CountOrderStatus from './enums/CountOrderStatus';
+import OrderStatusStatus from './enums/OrderStatusStatus';
+import OrderState from './interfaces/OrderState';
+import { countOrders, readAllOrderStatus } from './reducer';
 
 const orderAdapter = createEntityAdapter<OrderDB>({});
 
 const initialState = orderAdapter.getInitialState<OrderState>({
-  status: { order: OrderStatus.idle, order_status: OrderStatusStatus.idle },
+  status: {
+    order_status: OrderStatusStatus.idle,
+    count_order_status: CountOrderStatus.idle,
+  },
   error: null,
   drawer: {
     isOpen: false,
@@ -53,6 +24,10 @@ const initialState = orderAdapter.getInitialState<OrderState>({
   },
   total_count: 0,
   order_status: [],
+  table: {
+    rowsPerPage: 5,
+    page: 0,
+  },
 });
 
 const slice = createSlice({
@@ -69,37 +44,17 @@ const slice = createSlice({
     selectOrderDrawer: (state, action: PayloadAction<number>) => {
       state.drawer.orderId = action.payload;
     },
+    setRowsPerPAge: (state, action: PayloadAction<number>) => {
+      state.table.rowsPerPage = action.payload;
+    },
+    setPage: (state, action: PayloadAction<number>) => {
+      state.table.page = action.payload;
+    },
+    increaseOneTotalCount: (state) => {
+      state.total_count += 1;
+    },
   },
   extraReducers(builder) {
-    builder.addCase(readAllOrders.pending, (state) => {
-      state.status.order = OrderStatus.loadingOrders;
-    });
-
-    builder.addCase(readAllOrders.fulfilled, (state, action) => {
-      state.status.order = OrderStatus.idle;
-      state.total_count = action.payload.pagination.total_count;
-      orderAdapter.setAll(state, action.payload.data);
-    });
-
-    builder.addCase(createOrder.pending, (state) => {
-      state.status.order = OrderStatus.creatingOrder;
-    });
-
-    builder.addCase(createOrder.fulfilled, (state) => {
-      state.status.order = OrderStatus.idle;
-    });
-
-    builder.addCase(updateOrder.pending, (state) => {
-      state.status.order = OrderStatus.updatingOrder;
-    });
-
-    builder.addCase(updateOrder.fulfilled, (state, action) => {
-      orderAdapter.updateOne(state, {
-        id: action.payload.id,
-        changes: action.payload,
-      });
-    });
-
     builder.addCase(readAllOrderStatus.pending, (state) => {
       state.status.order_status = OrderStatusStatus.loadingOrdersStatus;
     });
@@ -108,21 +63,25 @@ const slice = createSlice({
       state.status.order_status = OrderStatusStatus.idle;
       state.order_status = action.payload;
     });
+
+    builder.addCase(countOrders.pending, (state) => {
+      state.status.count_order_status = CountOrderStatus.countingOrders;
+    });
+
+    builder.addCase(countOrders.fulfilled, (state, action) => {
+      state.status.count_order_status = CountOrderStatus.idle;
+      state.total_count = action.payload;
+    });
   },
 });
-
-export const {
-  selectAll: selectAllOrders,
-  selectIds: selectOrdersIds,
-  selectById: selectOrderById,
-} = orderAdapter.getSelectors<RootState>((state) => state.orders);
 
 export const {
   selectOrderDrawer,
   openDrawer: openOrdersDrawer,
   closeDrawer: closeOrdersDrawer,
+  setPage: setTablePageOrder,
+  setRowsPerPAge: setTableRowsPerPageOrder,
+  increaseOneTotalCount,
 } = slice.actions;
-
-export { OrderStatus };
 
 export default slice.reducer;

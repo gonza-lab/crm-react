@@ -1,17 +1,16 @@
 import { Box, Table, TableBody } from '@mui/material';
-import { useSelector } from 'react-redux';
-import { selectOrdersIds } from '../../../state/orders/slice';
+import { useGetOrdersQuery } from '../../../state/orders/endpoints';
 import InvoiceItem from '../item/Item';
 
 const InvoiceList = () => {
-  const ids = useSelector(selectOrdersIds);
+  const { data: orders } = useGetOrdersQuery({});
 
   return (
     <Box>
       <Table sx={{ borderSpacing: '0 24px', borderCollapse: 'separate' }}>
         <TableBody>
-          {ids.map((id) => (
-            <InvoiceItem key={id} id={id} />
+          {(orders || []).map((order) => (
+            <InvoiceItem key={order.id} order={order} />
           ))}
         </TableBody>
       </Table>

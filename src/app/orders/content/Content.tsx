@@ -1,4 +1,4 @@
-import { FunctionComponent, useEffect, useState } from 'react';
+import { FunctionComponent } from 'react';
 
 import {
   Box,
@@ -14,11 +14,15 @@ import AddIcon from '@mui/icons-material/Add';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { RootState } from '../../../state/store';
-import { OrderState, OrderStatus } from '../../../state/orders/slice';
+import {
+  setTablePageOrder,
+  setTableRowsPerPageOrder,
+} from '../../../state/orders/slice';
 import OrdersList from '../list/List';
 import { Link } from 'react-router-dom';
 import Pagination from '../../shared/pagination/Pagination';
-import { readAllOrders } from '../../../state/orders/reducer';
+import { useGetOrdersQuery } from '../../../state/orders/endpoints';
+import OrderState from '../../../state/orders/interfaces/OrderState';
 
 const Content = styled('div', {
   shouldForwardProp: (prop) => prop !== 'open' && prop !== 'drawerWidth',
@@ -47,24 +51,15 @@ const OrdersContent: FunctionComponent<{ drawerWidth: number }> = ({
   drawerWidth,
 }) => {
   const dispatch = useDispatch();
-  const { status, drawer, total_count } = useSelector<RootState, OrderState>(
-    (state) => state.orders
-  );
-  const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [page, setPage] = useState(0);
-
-  useEffect(() => {
-    dispatch(readAllOrders({ limit: rowsPerPage, offset: 0 }));
-  }, [rowsPerPage]);
-
-  useEffect(() => {
-    dispatch(
-      readAllOrders({
-        limit: rowsPerPage,
-        offset: rowsPerPage * page,
-      })
-    );
-  }, [page]);
+  const {
+    drawer,
+    total_count,
+    table: { rowsPerPage, page },
+  } = useSelector<RootState, OrderState>((state) => state.orders);
+  const { data, isFetching } = useGetOrdersQuery({
+    limit: rowsPerPage,
+    offset: rowsPerPage * page,
+  });
 
   return (
     <Content drawerWidth={drawerWidth} open={drawer.isOpen}>
@@ -93,7 +88,7 @@ const OrdersContent: FunctionComponent<{ drawerWidth: number }> = ({
               position: 'relative',
             }}
           >
-            {status.order === OrderStatus.loadingOrders ? (
+            {!data || isFetching ? (
               <CircularProgress
                 sx={{
                   position: 'absolute',
@@ -103,13 +98,15 @@ const OrdersContent: FunctionComponent<{ drawerWidth: number }> = ({
                 }}
               />
             ) : (
-              <OrdersList />
+              <OrdersList orders={data} />
             )}
           </Box>
           <Pagination
             totalCount={total_count}
-            onRowsPerPageChange={setRowsPerPage}
-            onPageChange={setPage}
+            onRowsPerPageChange={(rowsPerPage) =>
+              dispatch(setTableRowsPerPageOrder(rowsPerPage))
+            }
+            onPageChange={(page) => dispatch(setTablePageOrder(page))}
           />
         </Card>
       </Container>

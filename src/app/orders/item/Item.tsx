@@ -1,4 +1,4 @@
-import { FunctionComponent, useCallback } from 'react';
+import { FC, useCallback } from 'react';
 
 import {
   Checkbox,
@@ -22,11 +22,8 @@ import { es } from 'date-fns/locale';
 import OrderDB from '../../../interfaces/OrderDB';
 import OrderStatusColor from '../../../enums/OrderStatusColor';
 
-import {
-  openOrdersDrawer,
-  selectOrderById,
-  StateDrawer as OrderStateDrawer,
-} from '../../../state/orders/slice';
+import { openOrdersDrawer } from '../../../state/orders/slice';
+import OrderStateDrawer from '../../../state/orders/interfaces/StateDrawer';
 import { RootState } from '../../../state/store';
 import toMoneyFormat from '../../../util/toMoneyFormat';
 import { Link } from 'react-router-dom';
@@ -47,28 +44,29 @@ const TableRow = styled(MuiTableRow)(({ theme }) => ({
   },
 }));
 
-const OrderListItem: FunctionComponent<{
-  id: EntityId;
+interface OrderListItemProps {
   onToggle: (id: EntityId) => void;
   checked?: boolean;
-}> = ({ id, onToggle, checked }) => {
-  const order = useSelector<RootState, OrderDB | undefined>((state) =>
-    selectOrderById(state, id)
-  );
-  if (!order) return <></>;
+  order: OrderDB;
+}
 
+const OrderListItem: FC<OrderListItemProps> = ({
+  onToggle,
+  checked,
+  order,
+}) => {
   const dispatch = useDispatch();
   const { orderId, isOpen } = useSelector<RootState, OrderStateDrawer>(
     (state) => state.orders.drawer
   );
   const toggleDrawer = useCallback(() => {
-    dispatch(openOrdersDrawer(id));
+    dispatch(openOrdersDrawer(order.id));
   }, []);
 
   return (
-    <TableRow hover selected={id === orderId && isOpen}>
+    <TableRow hover selected={order.id === orderId && isOpen}>
       <TableCell width={50}>
-        <Checkbox checked={checked} onChange={() => onToggle(id)} />
+        <Checkbox checked={checked} onChange={() => onToggle(order.id)} />
       </TableCell>
       <TableCell onClick={toggleDrawer}>
         <Typography variant="body2">#{order.id}</Typography>
@@ -108,7 +106,7 @@ const OrderListItem: FunctionComponent<{
       <TableCell
         sx={{ display: 'flex', justifyContent: 'right', height: '75px' }}
       >
-        <Link to={'/pedidos/editar/' + id}>
+        <Link to={'/pedidos/editar/' + order.id}>
           <IconButton>
             <EditIcon />
           </IconButton>
@@ -116,7 +114,7 @@ const OrderListItem: FunctionComponent<{
         <IconButton onClick={toggleDrawer}>
           <AssignmentIcon />
         </IconButton>
-        <Link to={`/recibos/${id}/detalle`}>
+        <Link to={`/recibos/${order.id}/detalle`}>
           <IconButton>
             <ArrowForwardIcon />
           </IconButton>
