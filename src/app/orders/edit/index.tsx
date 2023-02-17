@@ -5,8 +5,10 @@ import { useDispatch } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import OrderDB from '../../../interfaces/OrderDB';
 import OrderService from '../../../service/OrderService';
-import { updateOrder } from '../../../state/orders/reducer';
-import { OrderStatus, useGetOrderByIdQuery } from '../../../state/orders/slice';
+import {
+  useGetOrderByIdQuery,
+  useUpdateOrderMutation,
+} from '../../../state/orders/endpoints';
 import { AppDispatch } from '../../../state/store';
 import { readAllUsers } from '../../../state/users/slice';
 import OrderForm, { OrderFormOrder } from '../form/Form';
@@ -19,6 +21,7 @@ const OrderEditIndex = () => {
   const navigate = useNavigate();
 
   const { data: stateOrder } = useGetOrderByIdQuery(+id);
+  const [updateOrder, { isLoading }] = useUpdateOrderMutation();
 
   useEffect(() => {
     dispatch(readAllUsers());
@@ -36,18 +39,16 @@ const OrderEditIndex = () => {
   }, []);
 
   const handleSubmit = (order: OrderFormOrder) => {
-    dispatch(
-      updateOrder({
-        id: +id,
-        data: {
-          status: order.status.id,
-          products: Object.values(order.products).map((value) => ({
-            id: value.product.id,
-            quantity: value.quantity,
-          })),
-        },
-      })
-    )
+    updateOrder({
+      id: +id,
+      data: {
+        status: order.status.id,
+        products: Object.values(order.products).map((value) => ({
+          id: value.product.id,
+          quantity: value.quantity,
+        })),
+      },
+    })
       .unwrap()
       .then(() => {
         navigate('/pedidos');
@@ -66,7 +67,7 @@ const OrderEditIndex = () => {
         onSubmit: handleSubmit,
         text: 'Actualizar orden',
       }}
-      loading={status === OrderStatus.creatingOrder}
+      loading={isLoading}
       title={<Typography variant="h4">Editar orden #{order.id}</Typography>}
       initOrder={order}
     />

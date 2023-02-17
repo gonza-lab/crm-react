@@ -7,7 +7,6 @@ export const apiSlice = createApi({
     baseUrl: process.env.REACT_APP_API_URL || '',
     prepareHeaders: (headers, _) => {
       headers.set('Authorization', `Bearer ${getToken()}`);
-
       return headers;
     },
   }),

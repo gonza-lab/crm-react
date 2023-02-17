@@ -4,10 +4,9 @@ import { Box, CircularProgress, Container, Divider } from '@mui/material';
 
 import { useParams } from 'react-router-dom';
 
-import { useGetOrderByIdQuery } from '../../../state/orders/slice';
-
 import InvoicesDetailInvoice from './invoice/Invoice';
 import InvoiceDetailsFunctions from './functions/Functions';
+import { useGetOrderByIdQuery } from '../../../state/orders/endpoints';
 
 const InvoiceDetail = () => {
   const { id } = useParams<{ id: string }>();

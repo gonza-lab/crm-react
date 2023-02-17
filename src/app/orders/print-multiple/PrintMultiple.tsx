@@ -17,11 +17,11 @@ import { useReactToPrint } from 'react-to-print';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
 
-import { OrderState, useGetOrdersQuery } from '../../../state/orders/slice';
-
 import { RootState } from '../../../state/store';
 
 import InvoicesDetailInvoice from '../../invoices/detail/invoice/Invoice';
+import { useGetOrdersQuery } from '../../../state/orders/endpoints';
+import OrderState from '../../../state/orders/interfaces/OrderState';
 
 const OrdersPrintMultiple: FunctionComponent<{ orders: EntityId[] }> = ({
   orders: selectedOrders,

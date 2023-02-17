@@ -22,10 +22,8 @@ import { es } from 'date-fns/locale';
 import OrderDB from '../../../interfaces/OrderDB';
 import OrderStatusColor from '../../../enums/OrderStatusColor';
 
-import {
-  openOrdersDrawer,
-  StateDrawer as OrderStateDrawer,
-} from '../../../state/orders/slice';
+import { openOrdersDrawer } from '../../../state/orders/slice';
+import OrderStateDrawer from '../../../state/orders/interfaces/StateDrawer';
 import { RootState } from '../../../state/store';
 import toMoneyFormat from '../../../util/toMoneyFormat';
 import { Link } from 'react-router-dom';

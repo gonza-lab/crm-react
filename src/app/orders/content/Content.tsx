@@ -15,14 +15,14 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { RootState } from '../../../state/store';
 import {
-  OrderState,
   setTablePageOrder,
   setTableRowsPerPageOrder,
-  useGetOrdersQuery,
 } from '../../../state/orders/slice';
 import OrdersList from '../list/List';
 import { Link } from 'react-router-dom';
 import Pagination from '../../shared/pagination/Pagination';
+import { useGetOrdersQuery } from '../../../state/orders/endpoints';
+import OrderState from '../../../state/orders/interfaces/OrderState';
 
 const Content = styled('div', {
   shouldForwardProp: (prop) => prop !== 'open' && prop !== 'drawerWidth',

@@ -1,28 +1,18 @@
 import { FunctionComponent } from 'react';
 
-import { Box, IconButton, Typography, Divider, Button } from '@mui/material';
-import { styled } from '@mui/material/styles';
-import CloseIcon from '@mui/icons-material/Close';
-
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
 
-import {
-  closeOrdersDrawer,
-  StateDrawer as OrderStateDrawer,
-  useGetOrderByIdQuery,
-} from '../../../state/orders/slice';
+import { closeOrdersDrawer } from '../../../state/orders/slice';
+
+import OrderStateDrawer from '../../../state/orders/interfaces/StateDrawer';
 
 import { RootState } from '../../../state/store';
 
-import Spinner from '../../shared/spinner/Spinner';
 import Drawer from '../../shared/drawer/Drawer';
-import OrderDrawerList from './list/List';
-import OrderDrawerTable from './table/Table';
+import OrdersDrawerContent from './content/Content';
 
-const Header = styled(Box)(({ theme }) => ({
-  backgroundColor: theme.palette.primary.main,
-}));
+const normalizeOrderId = (id: number | string) =>
+  typeof id === 'string' ? +id : id;
 
 const OrdersDrawer: FunctionComponent<{ drawerWidth: number }> = ({
   drawerWidth,
@@ -31,9 +21,6 @@ const OrdersDrawer: FunctionComponent<{ drawerWidth: number }> = ({
   const drawer = useSelector<RootState, OrderStateDrawer>(
     (state) => state.orders.drawer
   );
-  const { data: order, isFetching } = useGetOrderByIdQuery(
-    typeof drawer.orderId === 'string' ? +drawer.orderId : drawer.orderId
-  );
 
   const closeDrawer = () => {
     dispatch(closeOrdersDrawer());
@@ -41,43 +28,11 @@ const OrdersDrawer: FunctionComponent<{ drawerWidth: number }> = ({
 
   return (
     <Drawer open={drawer.isOpen} drawerWidth={drawerWidth}>
-      {!order || isFetching ? (
-        <Spinner />
-      ) : (
-        <>
-          <Header
-            sx={{
-              height: '68px',
-              display: 'flex',
-              flexShrink: 0,
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              px: 2,
-              color: '#fff',
-            }}
-          >
-            <Typography variant="h6">Pedido #{order.id}</Typography>
-            <IconButton onClick={closeDrawer} sx={{ color: 'inherit' }}>
-              <CloseIcon />
-            </IconButton>
-          </Header>
-          <Box sx={{ px: 3, py: 4, height: '100%', overflow: 'auto' }}>
-            <Typography variant="h6" sx={{ mb: 3 }}>
-              Detalles
-            </Typography>
-            <OrderDrawerList order={order} />
-            <Divider />
-            <Typography variant="h6" sx={{ my: 3 }}>
-              Articulos
-            </Typography>
-            <OrderDrawerTable order={order} />
-            <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 3 }}>
-              <Link to={['/recibos', order.id, 'detalle'].join('/')}>
-                <Button variant="contained">Ver comprobante</Button>
-              </Link>
-            </Box>
-          </Box>
-        </>
+      {normalizeOrderId(drawer.orderId) && (
+        <OrdersDrawerContent
+          orderId={normalizeOrderId(drawer.orderId)}
+          onClose={closeDrawer}
+        />
       )}
     </Drawer>
   );

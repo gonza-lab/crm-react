@@ -1,5 +1,5 @@
 import { Box, Table, TableBody } from '@mui/material';
-import { useGetOrdersQuery } from '../../../state/orders/slice';
+import { useGetOrdersQuery } from '../../../state/orders/endpoints';
 import InvoiceItem from '../item/Item';
 
 const InvoiceList = () => {
